@@ -1,0 +1,17 @@
+---
+import "../styles/presentation.css";
+import Layout from "../layouts/Layout.astro";
+import PresentationShell from "../components/presentation/PresentationShell.astro";
+
+const title = "VANTAFRAME | Prezentacja dla liderów";
+---
+
+<Layout
+  title={title}
+  canonicalPath="/prezentacja"
+  pageMode="presentation"
+  showCookieBanner={false}
+  robots="noindex, nofollow"
+>
+  <PresentationShell />
+</Layout>

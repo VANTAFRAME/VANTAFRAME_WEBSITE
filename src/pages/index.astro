@@ -1,0 +1,60 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import Services from "../components/Services";
+import Portfolio from "../components/Portfolio";
+import Process from "../components/Process";
+import Pricing from "../components/Pricing";
+import About from "../components/About";
+import Technologies from "../components/Technologies";
+import FAQ from "../components/FAQ";
+import Contact from "../components/Contact";
+
+import { languages } from "../i18n/translations";
+
+const description =
+  "VANTAFRAME projektuje strony internetowe, dedykowane systemy, CRM-y i automatyzacje AI dla firm, które chcą sprzedawać, obsługiwać klientów i pracować sprawniej.";
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "VANTAFRAME",
+  url: "https://vantaframe.pl",
+  description,
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: languages.pl.faq.questions.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
+  })),
+};
+---
+
+<Layout
+  title="VANTAFRAME - Strony, systemy i automatyzacje dla firm | Software House & Agencja Kraków"
+  description={description}
+  canonicalPath="/"
+  structuredData={[websiteJsonLd, faqJsonLd]}
+>
+  <Navbar client:load pathname={Astro.url.pathname} />
+
+  <main>
+    <Hero client:load />
+    <About client:visible />
+    <Services client:visible />
+    <Portfolio client:visible />
+    <Process client:visible />
+    <Technologies client:visible />
+    <FAQ client:visible />
+    <Pricing client:load />
+    <Contact client:load overlapClass="-mt-[96vh] md:-mt-[92vh]" />
+  </main>
+</Layout>

@@ -1,0 +1,18 @@
+---
+interface Props {
+  class?: string;
+  tone?: "silver" | "cyan";
+}
+
+const { class: className, tone = "silver" } = Astro.props;
+---
+
+<div
+  class:list={[
+    "presentation-corner-frame",
+    tone === "cyan" && "presentation-corner-frame--cyan",
+    className,
+  ]}
+>
+  <slot />
+</div>

@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(lsof -iTCP -sTCP:LISTEN -P -n)",
+      "Bash(kill 28226 42039 81367)",
+      "Bash(npx --no-install playwright --version)",
+      "Bash(npm ls *)",
+      "Bash(node -e \"require.resolve\\('playwright'\\)\")",
+      "Bash(npm init *)",
+      "Bash(npx playwright *)",
+      "Bash(node check-services.js)",
+      "Bash(curl -sf http://localhost:4321)",
+      "Bash(open http://localhost:4321)",
+      "Bash(node check-modal2.js)",
+      "Bash(rm -f \"/private/tmp/claude-501/-Users-dawidok-Desktop-vantaframe-12-07-2926/53a7580d-a5dc-4dd4-b0f2-e0c5e99c2ad7/scratchpad\"/*.png \"/private/tmp/claude-501/-Users-dawidok-Desktop-vantaframe-12-07-2926/53a7580d-a5dc-4dd4-b0f2-e0c5e99c2ad7/scratchpad\"/check-*.js)",
+      "Bash(node check3.js)",
+      "Bash(rm -f \"/private/tmp/claude-501/-Users-dawidok-Desktop-vantaframe-12-07-2926/53a7580d-a5dc-4dd4-b0f2-e0c5e99c2ad7/scratchpad\"/*.png \"/private/tmp/claude-501/-Users-dawidok-Desktop-vantaframe-12-07-2926/53a7580d-a5dc-4dd4-b0f2-e0c5e99c2ad7/scratchpad\"/check3.js)",
+      "Bash(lsof -iTCP:4321 -sTCP:LISTEN -P -n)",
+      "Bash(node diag-scroll.js)",
+      "Bash(node check-final.js)",
+      "Bash(rm -f \"/private/tmp/claude-501/-Users-dawidok-Desktop-vantaframe-12-07-2926/53a7580d-a5dc-4dd4-b0f2-e0c5e99c2ad7/scratchpad\"/*.png \"/private/tmp/claude-501/-Users-dawidok-Desktop-vantaframe-12-07-2926/53a7580d-a5dc-4dd4-b0f2-e0c5e99c2ad7/scratchpad\"/diag-scroll.js \"/private/tmp/claude-501/-Users-dawidok-Desktop-vantaframe-12-07-2926/53a7580d-a5dc-4dd4-b0f2-e0c5e99c2ad7/scratchpad\"/check-final.js)",
+      "Bash(node check-bigger.js)",
+      "Bash(sips -g pixelWidth -g pixelHeight -g hasAlpha vf-logo-lines.png)",
+      "Bash(node check-demo.js)",
+      "Bash(rm -f \"/private/tmp/claude-501/-Users-dawidok-Desktop-vantaframe-12-07-2926/53a7580d-a5dc-4dd4-b0f2-e0c5e99c2ad7/scratchpad\"/*.png \"/private/tmp/claude-501/-Users-dawidok-Desktop-vantaframe-12-07-2926/53a7580d-a5dc-4dd4-b0f2-e0c5e99c2ad7/scratchpad\"/check-demo.js)"
+    ],
+    "additionalDirectories": [
+      "/private/tmp/claude-501/-Users-dawidok-Desktop-vantaframe-12-07-2926/53a7580d-a5dc-4dd4-b0f2-e0c5e99c2ad7/scratchpad"
+    ]
+  }
+}

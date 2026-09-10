@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import VFWireframeLogo from "../components/VFWireframeLogo";
+---
+
+<Layout title="VANTAFRAME Wireframe Logo Demo" robots="noindex, nofollow">
+    <div class="logo-demo-container">
+        <VFWireframeLogo client:load autoPlay={true} duration={3500} />
+    </div>
+</Layout>
+
+<style>
+    .logo-demo-container {
+        width: 100vw;
+        height: 100vh;
+        background: #000000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+</style>

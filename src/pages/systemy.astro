@@ -1,0 +1,63 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar";
+import Contact from "../components/Contact";
+import ScrollReveal from "../components/ScrollReveal.astro";
+import Process from "../components/shared/Process";
+import HeroSystems from "../components/systemy/Hero";
+import SituationIndex from "../components/systemy/SituationIndex";
+import Manifesto from "../components/systemy/Manifesto";
+import SystemsShowcase from "../components/systemy/SystemsShowcase";
+import Architecture from "../components/systemy/Architecture";
+import FinalStatement from "../components/systemy/FinalStatement";
+
+const title = "Dedykowane systemy CRM i aplikacje dla firm | VANTAFRAME";
+const description =
+  "Budujemy dedykowane systemy, CRM-y, panele klienta i aplikacje webowe dopasowane do procesów, zespołów i modelu działania firmy.";
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: "Dedykowane systemy, CRM i aplikacje webowe",
+  name: title,
+  description,
+  provider: { "@type": "ProfessionalService", "@id": "https://vantaframe.pl/#organization" },
+  areaServed: [
+    { "@type": "City", name: "Kraków" },
+    { "@type": "Country", name: "Polska" },
+  ],
+  url: "https://vantaframe.pl/systemy",
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
+    { "@type": "ListItem", position: 2, name: "Dedykowane systemy i CRM", item: "https://vantaframe.pl/systemy" },
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath="/systemy"
+  structuredData={[serviceJsonLd, breadcrumbJsonLd]}
+>
+  <Navbar client:load pathname="/systemy" />
+
+  <main class="bg-brand-black text-white">
+    <HeroSystems client:load />
+    <SituationIndex client:visible />
+    <Manifesto client:visible />
+    <SystemsShowcase client:visible />
+    <Architecture client:visible />
+    <Process client:visible variant="systemy" />
+    <FinalStatement client:visible />
+
+    <Contact client:load overlapClass="-mt-[96vh] md:-mt-[92vh]" />
+  </main>
+
+  <ScrollReveal />
+</Layout>

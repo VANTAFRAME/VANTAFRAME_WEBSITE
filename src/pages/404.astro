@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="404: Strona nie znaleziona | VANTAFRAME" robots="noindex, nofollow">
+  <main class="h-screen w-full flex flex-col items-center justify-center bg-black text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-cyan-900/20 to-transparent pointer-events-none"></div>
+
+    <h1 class="text-[12rem] md:text-[20rem] font-bold leading-none opacity-10 select-none">404</h1>
+
+    <div class="absolute inset-0 flex flex-col items-center justify-center z-10">
+      <h2 class="text-3xl md:text-5xl font-light mb-6 tracking-wide text-center">Strona nie istnieje</h2>
+      <p class="text-white/60 mb-10 text-center max-w-md px-4">
+        Wygląda na to, że zabłądziłeś w cyfrowej przestrzeni. Strona, której szukasz, została przeniesiona albo nigdy nie istniała.
+      </p>
+
+      <a href="/" class="px-8 py-3 bg-white text-black font-bold uppercase tracking-widest text-sm hover:bg-gray-200 transition-colors rounded-full">
+        Wróć na start
+      </a>
+    </div>
+  </main>
+</Layout>

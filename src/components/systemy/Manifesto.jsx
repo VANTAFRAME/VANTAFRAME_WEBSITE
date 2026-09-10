@@ -1,0 +1,13 @@
+import React from "react";
+import { useStore } from "../../lib/useStore";
+import { currentLang } from "../../i18n/store";
+import { languages } from "../../i18n/translations";
+import ManifestoBase from "../shared/Manifesto";
+
+const Manifesto = () => {
+  const lang = useStore(currentLang, () => "pl");
+  const t = languages[lang].systemyPage.manifesto;
+  return <ManifestoBase t={t} />;
+};
+
+export default Manifesto;

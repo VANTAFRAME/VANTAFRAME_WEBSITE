@@ -1,0 +1,119 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+  layout?: "default" | "centered" | "split" | "title";
+  class?: string;
+}
+
+const { title, subtitle, layout = "default", class: className } = Astro.props;
+---
+
+<!-- 
+  Slide Container 
+  Aspect Ratio: 16:9
+  Print: Force page break after
+-->
+<div
+  class:list={[
+    "relative w-full h-screen max-h-[1080px] aspect-video bg-[#030303] text-slate-200 p-20 flex flex-col overflow-hidden break-after-always print:h-[100vh] print:max-h-none font-sans",
+    className,
+  ]}
+>
+  <!-- Background: Micro-Grid (Cyan Tinted, Very Subtle) -->
+  <div class="absolute inset-0 bg-[linear-gradient(to_right,#06b6d405_1px,transparent_1px),linear-gradient(to_bottom,#06b6d405_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+
+  <!-- Ambient Glow (Cinematic/Silver) -->
+  <div class="absolute top-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-slate-100/3 blur-[120px] rounded-full pointer-events-none mix-blend-overlay"></div>
+
+  <!-- Logo Mark (Top Right - Silver/Cyan) -->
+  <div class="absolute top-12 right-12 opacity-80 z-20">
+    <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+      <path
+        d="M20 20 L50 80 L80 20"
+        stroke="#22d3ee"
+        stroke-width="2"
+        stroke-linecap="square"
+        stroke-linejoin="miter"
+        class="drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]"></path>
+    </svg>
+  </div>
+
+  <!-- Footer (Minimal Silver) -->
+  <div
+    class="absolute bottom-10 left-20 right-20 flex justify-between items-end border-t border-slate-800 pt-6 text-[10px] tracking-[0.3em] text-slate-500 uppercase font-light z-20"
+  >
+    <span>Vantaframe System</span>
+    <span class="text-cyan-500/50">2026 // v2.0</span>
+  </div>
+
+  <!-- Content Wrapper -->
+  <div 
+    class:list={[
+      "z-10 w-full max-w-[1700px] mx-auto h-full flex flex-col relative",
+      {
+        "justify-center items-center text-center": layout === "title" || layout === "centered",
+        "justify-start pt-12": layout === "default",
+      }
+    ]}
+  >
+    {
+      layout === "title" ? (
+        <div class="flex flex-col items-center justify-center gap-12 max-w-6xl">
+           <div class="mb-8 opacity-90 scale-125 text-cyan-400">
+              <slot name="graphic" />
+           </div>
+          
+           <div class="space-y-8">
+            <h1 class="text-7xl md:text-9xl font-bold tracking-tighter text-white leading-[0.85] text-balance drop-shadow-2xl">
+              <slot name="title">{title}</slot>
+            </h1>
+            {subtitle && (
+              <p class="text-xl md:text-2xl text-cyan-400 font-light tracking-[0.2em] uppercase max-w-4xl mx-auto text-balance mt-8 border-t border-cyan-500/20 pt-8 inline-block shadow-[0_-1px_0_0_rgba(34,211,238,0.1)]">
+                {subtitle}
+              </p>
+            )}
+          </div>
+          <div class="pt-20 w-full flex justify-center text-slate-300">
+             <slot />
+          </div>
+        </div>
+      ) : (
+        <>
+          <header class="mb-20 w-full flex justify-between items-end">
+            <div>
+                {title && (
+                  <h2 class="text-7xl font-bold tracking-tighter text-white leading-none">
+                    {title}
+                  </h2>
+                )}
+                 {subtitle && (
+                  <p class="text-xs text-cyan-400 font-mono uppercase tracking-[0.2em] mt-4 ml-1 flex items-center gap-2">
+                    <span class="w-2 h-px bg-cyan-400"></span> {subtitle}
+                  </p>
+                )}
+            </div>
+            <!-- Header visual line -->
+            <div class="h-px w-32 bg-gradient-to-l from-cyan-500/50 to-transparent"></div>
+          </header>
+          <div class="flex-grow w-full h-full relative text-slate-300 text-xl leading-relaxed font-light">
+            <slot />
+          </div>
+        </>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  @media print {
+    body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .break-after-always {
+      break-after: always;
+      page-break-after: always;
+    }
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar";
+import PortfolioGrid from "../components/PortfolioGrid.astro";
+import Contact from "../components/Contact";
+
+const title = "Portfolio stron, systemów i automatyzacji | VANTAFRAME";
+const description =
+  "Zobacz realizacje VANTAFRAME: strony internetowe, sklepy, landing pages, dedykowane systemy, automatyzacje i projekty AI dla firm.";
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
+    { "@type": "ListItem", position: 2, name: "Portfolio", item: "https://vantaframe.pl/portfolio" },
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath="/portfolio"
+  structuredData={[breadcrumbJsonLd]}
+>
+  <Navbar client:load pathname={Astro.url.pathname} />
+
+  <main>
+    <PortfolioGrid />
+    <Contact client:load overlap={true} footerOnTop={true} />
+  </main>
+</Layout>

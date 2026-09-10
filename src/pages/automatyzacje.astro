@@ -1,0 +1,63 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar";
+import Contact from "../components/Contact";
+import ScrollReveal from "../components/ScrollReveal.astro";
+import Process from "../components/shared/Process";
+import AutomationHero from "../components/automatyzacje/Hero";
+import ScenarioIndex from "../components/automatyzacje/ScenarioIndex";
+import ManualToAutomated from "../components/automatyzacje/ManualToAutomated";
+import AutomationShowcase from "../components/automatyzacje/AutomationShowcase";
+import AISection from "../components/automatyzacje/AISection";
+import FinalStatement from "../components/automatyzacje/FinalStatement";
+
+const title = "Automatyzacje procesów i AI dla firm | VANTAFRAME";
+const description =
+  "Automatyzujemy powtarzalne procesy biznesowe, integrujemy narzędzia i wdrażamy rozwiązania AI, które ograniczają ręczną pracę zespołu.";
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: "Automatyzacje procesów biznesowych i integracje AI",
+  name: title,
+  description,
+  provider: { "@type": "ProfessionalService", "@id": "https://vantaframe.pl/#organization" },
+  areaServed: [
+    { "@type": "City", name: "Kraków" },
+    { "@type": "Country", name: "Polska" },
+  ],
+  url: "https://vantaframe.pl/automatyzacje",
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
+    { "@type": "ListItem", position: 2, name: "Automatyzacje procesów i AI", item: "https://vantaframe.pl/automatyzacje" },
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath="/automatyzacje"
+  structuredData={[serviceJsonLd, breadcrumbJsonLd]}
+>
+  <Navbar client:load pathname="/automatyzacje" />
+
+  <main class="bg-brand-black text-white">
+    <AutomationHero client:load />
+    <ScenarioIndex client:visible />
+    <ManualToAutomated client:visible />
+    <AutomationShowcase client:visible />
+    <AISection client:visible />
+    <Process client:visible variant="automatyzacje" />
+    <FinalStatement client:visible />
+
+    <Contact client:load overlapClass="-mt-[96vh] md:-mt-[92vh]" />
+  </main>
+
+  <ScrollReveal />
+</Layout>

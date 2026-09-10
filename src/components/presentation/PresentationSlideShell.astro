@@ -1,0 +1,61 @@
+---
+import PresentationCornerFrame from "./PresentationCornerFrame.astro";
+
+interface Props {
+  index: number;
+  mode?: "standard" | "scrubbed";
+  scrollSpan?: number;
+  eyebrow?: string;
+  title?: string;
+  class?: string;
+}
+
+const {
+  index,
+  mode = "standard",
+  scrollSpan = 1,
+  eyebrow,
+  title,
+  class: className,
+} = Astro.props;
+
+const slideHeight =
+  mode === "scrubbed"
+    ? `calc(100dvh * ${scrollSpan})`
+    : "100dvh";
+const formattedIndex = String(index).padStart(2, "0");
+---
+
+<section
+  class:list={["presentation-slide", className]}
+  data-presentation-slide
+  data-presentation-mode={mode}
+  data-presentation-index={index}
+  data-presentation-eyebrow={eyebrow}
+  style={`--presentation-slide-height:${slideHeight};--presentation-slide-span:${scrollSpan};--presentation-progress:0;`}
+  aria-labelledby={`presentation-slide-title-${index}`}
+>
+  <div class="presentation-slide__viewport">
+    <div class="presentation-slide__surface mx-auto w-full max-w-[1400px] px-4 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 xl:px-10">
+      <div class="presentation-slide__rail flex items-start justify-between gap-3 pb-3 sm:gap-5 md:pb-5">
+        <PresentationCornerFrame class="presentation-ornament-frame flex h-[2.75rem] w-36 sm:h-12 sm:w-44 items-center justify-center">
+          <p class="presentation-stat-label text-white/65 m-0 uppercase leading-none text-center">{eyebrow}</p>
+          {title && (
+            <span id={`presentation-slide-title-${index}`} class="sr-only">{title}</span>
+          )}
+        </PresentationCornerFrame>
+
+        <PresentationCornerFrame class="presentation-ornament-frame flex h-[2.75rem] w-36 sm:h-12 sm:w-44 items-center justify-center">
+          <p class="presentation-stat-label m-0 leading-none text-center inline-flex items-center">
+            <span class="text-cyan-300/90">{formattedIndex}</span>
+            <span class="text-white/45 ml-[0.3ch]">/10</span>
+          </p>
+        </PresentationCornerFrame>
+      </div>
+
+      <div class="presentation-slide__content">
+        <slot />
+      </div>
+    </div>
+  </div>
+</section>

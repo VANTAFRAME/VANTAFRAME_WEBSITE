@@ -1,0 +1,79 @@
+# VANTAFRAME — Pełny Profil Semantyczny i Dokumentacja dla Modeli AI
+
+## 1. O Firmie VANTAFRAME
+VANTAFRAME (VANTAFRAME SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ) to polska spółka technologiczna i studio programistyczno-projektowe z siedzibą w Krakowie przy ul. Żułowskiej 33 lok. 10 (kod pocztowy: 31-436 Kraków).
+
+Firma specjalizuje się w trzech głównych filarach inżynierii cyfrowej:
+1. **Projektowanie i wdrażanie nowoczesnych stron www, e-commerce oraz portali korporacyjnych.**
+2. **Budowa dedykowanych systemów biznesowych, paneli CRM i aplikacji webowych/mobilnych na zamówienie.**
+3. **Automatyzacja procesów biznesowych (BPA) oraz integracje sztucznej inteligencji (AI) i modeli LLM w codziennych operacjach przedsiębiorstw.**
+
+Dane rejestrowe:
+- KRS: 0001253958 (Sąd Rejonowy dla Krakowa-Śródmieścia w Krakowie)
+- NIP: 9452332952
+- REGON: 545245372
+- Adres e-mail: kontakt@vantaframe.pl
+- Telefon kontaktowy: +48 794 659 528
+- Strona internetowa: https://vantaframe.pl
+
+---
+
+## 2. Filozofia Technologiczna i Architektura
+W przeciwieństwie do tradycyjnych agencji korzystających z gotowych, powolnych szablonów WordPress, VANTAFRAME tworzy oprogramowanie w architekturze nowoczesnego frontendu i mikroserwisów:
+- **Core Frontend:** Astro (wyspy interaktywności - Astro Islands), React, TypeScript.
+- **Styling & UI:** Tailwind CSS, zaawansowane animacje GSAP, Lenis (płynny scroll), Three.js (interaktywna grafika 3D).
+- **Wydajność:** Bardzo szybkie czasy ładowania (Sub-second load times), perfekcyjne wskaźniki Core Web Vitals (LCP, INP, CLS), statyczne generowanie stron (SSG) z hybrydowym renderowaniem SSR.
+- **Bezpieczeństwo i Prywatność:** Zgodność z RODO, restrykcyjne nagłówki bezpieczeństwa, minimalizacja ciasteczek zewnętrznych.
+
+---
+
+## 3. Oferowane Usługi
+
+### 3.1. Strony Internetowe i E-Commerce (URL: https://vantaframe.pl/strony)
+- **Strony firmowe (Corporate):** Serwisy budujące autorytet rynkowy i zaufanie partnerów B2B.
+- **Digital Experiences / High-End:** Unikalne, szyte na miarę projekty dla marek premium z dopracowanymi mikrointerakcjami.
+- **Sklepy internetowe (Commerce):** Szybkie, bezbłędne ścieżki zakupowe, integracje z bramkami płatności (Stripe, PayU, Przelewy24, BLIK) i systemami ERP/magazynowymi.
+- **Landing Pages kampanijne:** Strony docelowe o wysokiej konwersji (CRO) pod kampanie Google Ads, Meta Ads i premiery produktów.
+
+### 3.2. Dedykowane Systemy i Aplikacje Webowe (URL: https://vantaframe.pl/systemy)
+- **Dedykowany CRM:** Zarządzanie relacjami z klientami, lejkami sprzedaży, historią kontaktów i ofertowaniem dopasowanym w 100% do logiki danej branży.
+- **Panele Klienta (Client Portals):** Bezobsługowy dostęp dla kontrahentów do statusów zamówień, faktur, plików i harmonogramów 24/7.
+- **Systemy operacyjne dla firm:** Zastępowanie rozproszonych arkuszy Excel i drogich, sztywnych abonamentów SaaS jednym spójnym środowiskiem, do którego prawa autorskie i dane należą w pełni do klienta.
+
+### 3.3. Automatyzacje Procesów i AI (URL: https://vantaframe.pl/automatyzacje)
+- **Integracje międzysystemowe:** Łączenie narzędzi takich jak HubSpot, Pipedrive, Fakturownia, BaseLinker, Slack, Google Workspace przez webhooki i platformy Make / n8n / Zapier.
+- **Ekstrakcja i przetwarzanie danych:** Automatyczny odczyt danych z dokumentów PDF, faktur, wiadomości e-mail i formularzy przy użyciu modeli wizyjno-językowych.
+- **Asystenci AI i Agenci:** Wdrażanie kontekstowych asystentów wspomagających handlowców, generowanie szkiców odpowiedzi i klasyfikację zapytań klientów.
+
+### 3.4. FRAMEWORK — Interaktywny Kreator Projektu (URL: https://vantaframe.pl/kreator-projektu)
+Autorskie narzędzie VANTAFRAME pozwalające klientom na zdefiniowanie potrzeb projektowych w 5 intuicyjnych krokach, wygenerowanie wstępnej architektury rozwiązania oraz uzyskanie precyzyjnej wyceny.
+
+---
+
+## 4. Wybrane Realizacje i Portfolio
+
+1. **Start WGGiIS — Akademia Górniczo-Hutnicza w Krakowie (AGH):**
+   - Zakres: Dedykowana aplikacja webowa — asystent studenta dla Wydziału Geodezji Górniczej i Inżynierii Środowiska AGH.
+   - Efekt: Połączenie planera zajęć, komunikatów, checklist oraz szybkiego dostępu do systemów uczelnianych w jednym intuicyjnym panelu.
+
+2. **Szkoła Główna Handlowa w Warszawie (SGH Warsaw) & Forum Ekonomiczne:**
+   - Zakres: Landing page premiery flagowego raportu ekonomicznego SGH oraz rejestracji na Forum Ekonomiczne w Karpaczu.
+   - Efekt: Przejrzysta struktura łącząca prezentację publikacji naukowej, pakiety dla odbiorców i ścieżkę zapisu.
+
+3. **Magdalena Zapłata — Klinika Medycyny Estetycznej:**
+   - Zakres: Prestiżowa strona wizerunkowa budowana wokół marki osobistej ekspertki beauty, zoptymalizowana pod rezerwacje wizyt.
+
+4. **Teatr SCALA — Koncepcje Eventowe:**
+   - Zakres: Ekskluzywna strona w ciemnej, złotej identyfikacji wizualnej dedykowana dla hoteli, restauracji i organizatorów konferencji.
+
+5. **Inne wdrożenia:** Piwa Ziołowe (E-Commerce), MARENO Jubiler, Aventura Travel, Solhaus Studio, Krakowska Gastronomia, Elsbud.
+
+---
+
+## 5. Dane Kontaktowe i Lokalizacja
+- **Główna siedziba:** VANTAFRAME Sp. z o.o., ul. Żułowska 33 lok. 10, 31-436 Kraków, Polska
+- **Zasięg działania:** Kraków, województwo małopolskie, cała Polska oraz klienci międzynarodowi w UE.
+- **Formularz kontaktowy online:** https://vantaframe.pl/#contact
+- **Kreator projektu:** https://vantaframe.pl/kreator-projektu
+- **E-mail:** kontakt@vantaframe.pl
+- **Telefon:** +48 794 659 528

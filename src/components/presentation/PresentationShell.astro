@@ -1,0 +1,139 @@
+---
+import PresentationRouteController from "./PresentationRouteController";
+import PresentationSlideShell from "./PresentationSlideShell.astro";
+import { presentationSlides } from "./presentationConfig";
+import PresentationHeroIntro from "./slides/PresentationHeroIntro";
+import PresentationWordPressTrap from "./slides/PresentationWordPressTrap";
+import PresentationParadigm from "./slides/PresentationParadigm";
+import SlidePerformance from "./slides/SlidePerformance";
+import SlideSecurity from "./slides/SlideSecurity";
+import SlideSeo from "./slides/SlideSeo";
+import SlideWorkflow from "./slides/SlideWorkflow";
+import SlideComparison from "./slides/SlideComparison";
+import SlideROI from "./slides/SlideROI";
+import SlideCTA from "./slides/SlideCTA";
+
+const [
+  slideOne,
+  slideTwo,
+  slideThree,
+  slideFour,
+  slideFive,
+  slideSix,
+  slideSeven,
+  slideEight,
+  slideNine,
+  slideTen,
+] = presentationSlides;
+---
+
+<section class="presentation-route" data-presentation-route>
+  <PresentationRouteController client:load />
+
+  <div
+    class="presentation-scroller"
+    data-presentation-scroller
+    tabindex="0"
+    aria-label="Prezentacja sprzedażowa Vantaframe"
+  >
+    <PresentationSlideShell
+      index={slideOne.index}
+      eyebrow={slideOne.eyebrow}
+      title={slideOne.title}
+      mode={slideOne.mode}
+      scrollSpan={slideOne.scrollSpan}
+    >
+      <PresentationHeroIntro client:load />
+    </PresentationSlideShell>
+
+    <PresentationSlideShell
+      index={slideTwo.index}
+      eyebrow={slideTwo.eyebrow}
+      title={slideTwo.title}
+      mode={slideTwo.mode}
+      scrollSpan={slideTwo.scrollSpan}
+    >
+      <PresentationWordPressTrap client:visible />
+    </PresentationSlideShell>
+
+    <PresentationSlideShell
+      index={slideThree.index}
+      eyebrow={slideThree.eyebrow}
+      title={slideThree.title}
+      mode={slideThree.mode}
+      scrollSpan={slideThree.scrollSpan}
+    >
+      <PresentationParadigm client:visible />
+    </PresentationSlideShell>
+
+    <PresentationSlideShell
+      index={slideFour.index}
+      eyebrow={slideFour.eyebrow}
+      title={slideFour.title}
+      mode={slideFour.mode}
+      scrollSpan={slideFour.scrollSpan}
+    >
+      <SlidePerformance client:visible />
+    </PresentationSlideShell>
+
+    <PresentationSlideShell
+      index={slideFive.index}
+      eyebrow={slideFive.eyebrow}
+      title={slideFive.title}
+      mode={slideFive.mode}
+      scrollSpan={slideFive.scrollSpan}
+    >
+      <SlideSecurity client:visible />
+    </PresentationSlideShell>
+
+    <PresentationSlideShell
+      index={slideSix.index}
+      eyebrow={slideSix.eyebrow}
+      title={slideSix.title}
+      mode={slideSix.mode}
+      scrollSpan={slideSix.scrollSpan}
+    >
+      <SlideSeo client:visible />
+    </PresentationSlideShell>
+
+    <PresentationSlideShell
+      index={slideSeven.index}
+      eyebrow={slideSeven.eyebrow}
+      title={slideSeven.title}
+      mode={slideSeven.mode}
+      scrollSpan={slideSeven.scrollSpan}
+    >
+      <SlideWorkflow client:visible />
+    </PresentationSlideShell>
+
+    <PresentationSlideShell
+      index={slideEight.index}
+      eyebrow={slideEight.eyebrow}
+      title={slideEight.title}
+      mode={slideEight.mode}
+      scrollSpan={slideEight.scrollSpan}
+    >
+      <SlideComparison client:visible />
+    </PresentationSlideShell>
+
+    <PresentationSlideShell
+      index={slideNine.index}
+      eyebrow={slideNine.eyebrow}
+      title={slideNine.title}
+      mode={slideNine.mode}
+      scrollSpan={slideNine.scrollSpan}
+    >
+      <SlideROI client:visible />
+    </PresentationSlideShell>
+
+    <PresentationSlideShell
+      index={slideTen.index}
+      eyebrow={slideTen.eyebrow}
+      title={slideTen.title}
+      mode={slideTen.mode}
+      scrollSpan={slideTen.scrollSpan}
+    >
+      <SlideCTA client:visible />
+    </PresentationSlideShell>
+  </div>
+</section>

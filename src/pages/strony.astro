@@ -1,0 +1,70 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar";
+import Contact from "../components/Contact";
+import ScrollReveal from "../components/ScrollReveal.astro";
+import HeroWebsites from "../components/strony/Hero";
+import Manifesto from "../components/strony/Manifesto";
+import ServiceIndex from "../components/strony/ServiceIndex";
+import Technology from "../components/strony/Technology";
+import PortfolioShowcase from "../components/strony/PortfolioShowcase";
+import Process from "../components/shared/Process";
+
+const title = "Strony internetowe i sklepy dla firm | VANTAFRAME";
+const description =
+  "Projektujemy nowoczesne strony internetowe, sklepy i landing pages dla firm, które chcą budować zaufanie, sprzedawać skuteczniej i wyróżnić się jakością.";
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: "Projektowanie stron internetowych i sklepów online",
+  name: title,
+  description,
+  provider: { "@type": "ProfessionalService", "@id": "https://vantaframe.pl/#organization" },
+  areaServed: [
+    { "@type": "City", name: "Kraków" },
+    { "@type": "Country", name: "Polska" },
+  ],
+  url: "https://vantaframe.pl/strony",
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
+    { "@type": "ListItem", position: 2, name: "Strony internetowe i sklepy", item: "https://vantaframe.pl/strony" },
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath="/strony"
+  structuredData={[serviceJsonLd, breadcrumbJsonLd]}
+>
+  <Navbar client:load pathname="/strony" />
+
+  <main class="bg-brand-black text-white">
+    <HeroWebsites client:load />
+    <ServiceIndex client:visible />
+    <Manifesto client:visible />
+    <section id="work">
+      <PortfolioShowcase client:visible />
+    </section>
+    <Technology client:visible />
+    <Process client:visible variant="strony" />
+
+    <!-- FINAL STATEMENT -->
+    <section class="min-h-[100svh] flex items-center justify-center px-6 text-center bg-brand-black">
+      <h2 class="text-[clamp(2.6rem,9vw,7rem)] font-black tracking-tight leading-[0.95]" data-reveal>
+        HAVE SOMETHING<br />WORTH BUILDING?
+      </h2>
+    </section>
+
+    <Contact client:load overlapClass="-mt-[96vh] md:-mt-[92vh]" />
+  </main>
+
+  <ScrollReveal />
+</Layout>

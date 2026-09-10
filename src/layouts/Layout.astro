@@ -1,0 +1,282 @@
+---
+import "../styles/global.css";
+import Cursor from "../components/Cursor";
+import CornerBrackets from "../components/CornerBrackets";
+import LegalModals from "../components/LegalModals";
+import CookieBanner from "../components/CookieBanner";
+import PartnerModal from "../components/PartnerModal";
+import LangSync from "../components/LangSync";
+
+const DEFAULT_DESCRIPTION =
+  "VANTAFRAME projektuje strony internetowe, dedykowane systemy, CRM-y i automatyzacje AI dla firm, które chcą sprzedawać, obsługiwać klientów i pracować sprawniej.";
+
+interface Props {
+  title: string;
+  canonicalPath?: string;
+  pageMode?: "default" | "presentation" | "framework";
+  showCookieBanner?: boolean;
+  description?: string;
+  robots?: string;
+  structuredData?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  canonicalPath = "/",
+  pageMode = "default",
+  showCookieBanner = true,
+  description = DEFAULT_DESCRIPTION,
+  robots = "index, follow",
+  structuredData = [],
+} = Astro.props;
+
+const siteUrl = "https://vantaframe.pl";
+const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#050505" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <title>{title}</title>
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "@id": `${siteUrl}/#organization`,
+      name: "VANTAFRAME",
+      legalName: "VANTAFRAME SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ",
+      url: siteUrl,
+      logo: `${siteUrl}/icon-512.png`,
+      image: `${siteUrl}/og-image.png`,
+      description: DEFAULT_DESCRIPTION,
+      telephone: "+48794659528",
+      email: "kontakt@vantaframe.pl",
+      vatID: "PL9452332952",
+      taxID: "9452332952",
+      priceRange: "$$",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "ul. Żułowska 33 lok. 10",
+        addressLocality: "Kraków",
+        postalCode: "31-436",
+        addressRegion: "Małopolskie",
+        addressCountry: "PL",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 50.0867,
+        longitude: 19.9612,
+      },
+      areaServed: [
+        { "@type": "City", name: "Kraków" },
+        { "@type": "AdministrativeArea", name: "Województwo Małopolskie" },
+        { "@type": "Country", name: "Polska" },
+      ],
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          opens: "09:00",
+          closes: "17:00",
+        },
+      ],
+      sameAs: [
+        "https://www.linkedin.com/company/vantaframe",
+        "https://www.instagram.com/",
+      ],
+    })} />
+    {structuredData.map((entry) => (
+      <script type="application/ld+json" set:html={JSON.stringify(entry)} />
+    ))}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteUrl}/og-image.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="VANTAFRAME — strony, systemy i automatyzacje dla firm" />
+    <meta property="og:site_name" content="VANTAFRAME" />
+    <meta property="og:locale" content="pl_PL" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalUrl} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={`${siteUrl}/og-image.png`} />
+    <meta property="twitter:image:alt" content="VANTAFRAME — strony, systemy i automatyzacje dla firm" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class:list={[
+      "bg-[#050505] text-white overflow-x-hidden antialiased selection:bg-white selection:text-black",
+      pageMode === "presentation" && "presentation-body",
+    ]}
+    data-page-mode={pageMode}
+  >
+    <LangSync client:load />
+    <Cursor client:media="(hover: hover) and (pointer: fine)" />
+    <CornerBrackets client:media="(min-width: 768px)" />
+    <LegalModals client:load />
+    {showCookieBanner && <CookieBanner client:load />}
+    <PartnerModal client:load pathname={canonicalPath} />
+    <slot />
+
+    <script>
+      import Lenis from "lenis";
+      import gsap from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      const LENIS_CONTROLLER_KEY = "__vfLenisController";
+
+      const LENIS_DISABLED_MODES = ["presentation", "framework"];
+
+      const shouldEnableLenis = () =>
+        !LENIS_DISABLED_MODES.includes(document.body.dataset.pageMode || "");
+
+      const createLenisController = () => {
+        let lenis = null;
+        let tickerCallback = null;
+
+        const destroy = () => {
+          if (tickerCallback) {
+            gsap.ticker.remove(tickerCallback);
+            tickerCallback = null;
+          }
+
+          if (lenis) {
+            lenis.destroy();
+            lenis = null;
+          }
+
+          delete window.lenis;
+        };
+
+        const init = () => {
+          destroy();
+
+          if (!shouldEnableLenis()) {
+            return null;
+          }
+
+          lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            wheelMultiplier: 0.9,
+            touchMultiplier: 1.5,
+          });
+
+          tickerCallback = (time) => {
+            lenis?.raf(time * 1000);
+          };
+
+          gsap.ticker.add(tickerCallback);
+          gsap.ticker.lagSmoothing(0);
+          lenis.on("scroll", ScrollTrigger.update);
+
+          // Nav-driven scrollTo() calls can pass straight through the 40%
+          // depth that auto-opens the partner popup (see PartnerModal.jsx).
+          // If that fires mid-flight it locks body scroll and cuts the
+          // animation short, so a link to a deep section silently lands
+          // short of its target. Flag programmatic scrolls on `window` so
+          // the popup's own scroll listener can ignore them until the
+          // animation completes.
+          const originalScrollTo = lenis.scrollTo.bind(lenis);
+          lenis.scrollTo = (target, options = {}) => {
+            window.__vfProgrammaticScroll = true;
+            const { onComplete, ...rest } = options;
+            return originalScrollTo(target, {
+              ...rest,
+              onComplete: (...args) => {
+                window.__vfProgrammaticScroll = false;
+                onComplete?.(...args);
+              },
+            });
+          };
+
+          window.lenis = lenis;
+
+          return lenis;
+        };
+
+        return {
+          init,
+          destroy,
+          get instance() {
+            return lenis;
+          },
+        };
+      };
+
+      const ensureLenisController = () => {
+        if (window[LENIS_CONTROLLER_KEY]) {
+          return window[LENIS_CONTROLLER_KEY];
+        }
+
+        const controller = createLenisController();
+        window[LENIS_CONTROLLER_KEY] = controller;
+        return controller;
+      };
+
+      const initLenis = () => {
+        ensureLenisController().init();
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initLenis);
+      } else {
+        initLenis();
+      }
+
+      document.addEventListener("astro:page-load", () => {
+        initLenis();
+      });
+
+      // Plain `<a href="#id">` in-page anchors rely on the browser's native
+      // hash-jump, which Lenis fights on the very next animation frame
+      // (Lenis re-asserts its own tracked scroll position, so the native
+      // jump gets silently overridden and the click appears to do nothing).
+      // Route same-page anchor clicks through Lenis's own `scrollTo` instead,
+      // so it knows about — and animates — the change itself.
+      document.addEventListener("click", (event) => {
+        if (event.defaultPrevented) return;
+        const link = event.target.closest('a[href^="#"]');
+        if (!link) return;
+        const hash = link.getAttribute("href");
+        if (!hash || hash === "#") return;
+        const id = decodeURIComponent(hash.slice(1));
+        const target = document.getElementById(id);
+        if (!target) return;
+
+        event.preventDefault();
+        if (window.lenis) {
+          window.lenis.scrollTo(target);
+        } else {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    </script>
+  </body>
+</html>

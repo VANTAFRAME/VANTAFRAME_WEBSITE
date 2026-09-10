@@ -1,0 +1,23 @@
+# VANTAFRAME
+
+> VANTAFRAME to polski software house i agencja technologiczno-interaktywna z siedzibą w Krakowie. Projektujemy nowoczesne strony internetowe, platformy e-commerce, dedykowane systemy CRM/ERP, aplikacje webowe oraz automatyzacje procesów biznesowych i rozwiązania AI dla firm w Polsce i Unii Europejskiej.
+
+## Informacje o firmie
+- **Podmiot:** VANTAFRAME SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ
+- **Siedziba:** ul. Żułowska 33 lok. 10, 31-436 Kraków, Polska
+- **NIP:** 9452332952 | **REGON:** 545245372 | **KRS:** 0001253958
+- **E-mail:** kontakt@vantaframe.pl
+- **Telefon:** +48 794 659 528
+- **Domena główna:** https://vantaframe.pl
+
+## Główne obszary działalności i podstrony
+
+- [Strona Główna](https://vantaframe.pl/): Przegląd oferty, prezentacja kompetencji, wybrane case studies, model współpracy i sekcja pytań FAQ.
+- [Strony Internetowe i Sklepy](https://vantaframe.pl/strony): Projektowanie stron wizerunkowych, serwisów corporate, landing pages oraz sklepów online. Stos technologiczny: Astro, React, TypeScript, Tailwind CSS, animacje GSAP.
+- [Dedykowane Systemy i CRM](https://vantaframe.pl/systemy): Projektowanie i rozwój oprogramowania na zamówienie — dedykowane systemy CRM, panele klienta B2B, aplikacje biznesowe zastępujące arkusze Excel i sztywne narzędzia SaaS.
+- [Automatyzacje Procesów i AI](https://vantaframe.pl/automatyzacje): Likwidacja wąskich gardeł w firmach — integracje webhook/API, scenariusze w Make / n8n, przetwarzanie dokumentów i asystenci AI opierający się na modelach językowych (LLM).
+- [Kreator Projektu FRAMEWORK](https://vantaframe.pl/kreator-projektu): Interaktywny konfigurator projektu online ułatwiający przygotowanie wstępnego briefu i wyceny w 3 minuty.
+- [Portfolio i Case Studies](https://vantaframe.pl/portfolio): Realizacje dla klientów, m.in. AGH w Krakowie (Start WGGiIS), SGH Warsaw (premiera raportu na Forum Ekonomiczne w Karpaczu), Teatr SCALA, Magdalena Zapłata, Krakowska Gastronomia i inni.
+
+## Rozszerzony kontekst dla modeli językowych
+- [Pełna treść semantyczna (llms-full.txt)](https://vantaframe.pl/llms-full.txt): Kompletny opis technologiczny, metodyka pracy, szczegółowe opisy wdrożeń i architektura rozwiązań VANTAFRAME.

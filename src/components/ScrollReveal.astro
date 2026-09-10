@@ -1,0 +1,33 @@
+---
+---
+
+<script>
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const targets = document.querySelectorAll("[data-reveal]");
+
+  // Uses a plain data-attribute rather than a class: several `[data-reveal]`
+  // elements now live inside React components (converted for i18n support)
+  // whose `className` is React-controlled. React only reconciles attributes
+  // it was explicitly given via JSX, so an attribute it never set (this one)
+  // survives re-renders untouched — a class added the same way would get
+  // wiped out the next time that component re-renders (e.g. on a language
+  // toggle), silently hiding the section again (`opacity: 0`, forever, since
+  // the observer already unobserved it).
+  if (prefersReducedMotion || targets.length === 0) {
+    targets.forEach((el) => el.setAttribute("data-revealed", ""));
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.setAttribute("data-revealed", "");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" }
+    );
+
+    targets.forEach((el) => observer.observe(el));
+  }
+</script>

@@ -1,0 +1,374 @@
+---
+import PresentationSlide from "./PresentationSlide.astro";
+---
+
+<!-- DECK 1: Od Fundamentu do Wzrostu --><!-- Slajd 1: Tytuł -->
+<PresentationSlide
+    layout="title"
+    title="Od Fundamentu do Wzrostu"
+    subtitle="Jak budujemy strony, które zarabiają i rosną razem z Tobą."
+>
+    <!-- Graphic System -->
+    <div slot="graphic" class="relative w-64 h-64 mx-auto mb-8">
+        <div
+            class="absolute inset-0 border border-white/20 rounded-full animate-spin-slow opacity-30"
+        >
+        </div>
+        <div
+            class="absolute inset-4 border border-white/20 rounded-full animate-reverse-spin opacity-30"
+        >
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center">
+            <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                <path
+                    d="M50 10 L90 90 L10 90 Z"
+                    stroke="white"
+                    stroke-width="2"
+                    class="drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"></path>
+                <circle cx="50" cy="60" r="10" fill="white"></circle>
+            </svg>
+        </div>
+    </div>
+
+    <div class="flex justify-center gap-24 mt-20 opacity-60">
+        <span class="text-xs font-mono tracking-[0.3em] uppercase"
+            >Strategy</span
+        >
+        <span class="text-xs font-mono tracking-[0.3em] uppercase"
+            >Technology</span
+        >
+        <span class="text-xs font-mono tracking-[0.3em] uppercase">Growth</span>
+    </div>
+</PresentationSlide>
+
+<!-- Slajd 2: Problem -->
+<PresentationSlide
+    title="Dlaczego większość stron umiera?"
+    subtitle="STATUS QUO"
+>
+    <div class="grid grid-cols-2 gap-32 h-full items-start pt-12">
+        <div class="space-y-16">
+            <div class="group">
+                <span class="block text-xs font-mono text-gray-600 mb-2"
+                    >01</span
+                >
+                <h3 class="text-4xl font-bold text-white mb-4">
+                    Cyfrowe Pomniki
+                </h3>
+                <p class="text-gray-400 text-xl font-light w-3/4">
+                    80% stron firmowych to statyczne wizytówki. Ładne przez
+                    tydzień, nieaktualne przez lata.
+                </p>
+            </div>
+
+            <div class="group">
+                <span class="block text-xs font-mono text-gray-600 mb-2"
+                    >02</span
+                >
+                <h3 class="text-4xl font-bold text-white mb-4">
+                    Dług Technologiczny
+                </h3>
+                <p class="text-gray-400 text-xl font-light w-3/4">
+                    WordPress, wtyczki, wolne ładowanie. Każda aktualizacja to
+                    ryzyko awarii.
+                </p>
+            </div>
+        </div>
+
+        <!-- Visual Stat -->
+        <div
+            class="h-full flex flex-col justify-center items-center text-center opacity-80"
+        >
+            <p
+                class="text-[12rem] font-bold text-white leading-none tracking-tighter"
+            >
+                -40%
+            </p>
+            <p class="text-sm tracking-[0.2em] uppercase text-gray-500 mt-4">
+                Spadek konwersji (Load > 3s)
+            </p>
+        </div>
+    </div>
+</PresentationSlide>
+
+<!-- Slajd 3: Filozofia -->
+<PresentationSlide
+    title="Architektura Zmienna w Czasie"
+    subtitle="FILOZOFIA VANTAFRAME"
+>
+    <div class="grid grid-cols-3 gap-16 mt-16 h-full items-start">
+        <!-- Card 1 -->
+        <div class="h-full border-l-2 border-white/20 pl-8">
+            <h3 class="text-4xl font-bold text-white mb-6">Modularność</h3>
+            <p class="text-gray-500 text-xl font-light leading-relaxed">
+                Budujemy z niezależnych komponentów. Rozbudowa bez burzenia
+                całości.
+            </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="h-full border-l-2 border-white/20 pl-8">
+            <h3 class="text-4xl font-bold text-white mb-6">Wydajność</h3>
+            <p class="text-gray-500 text-xl font-light leading-relaxed">
+                Szybkość to nie luksus, to wymóg. Nasz standard: 95-100/100 PSI.
+            </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="h-full border-l-2 border-white/20 pl-8">
+            <h3 class="text-4xl font-bold text-white mb-6">Czysty Kod</h3>
+            <p class="text-gray-500 text-xl font-light leading-relaxed">
+                Brak długu technologicznego. Czytelna struktura dla ludzi i
+                botów.
+            </p>
+        </div>
+    </div>
+</PresentationSlide>
+
+<!-- Slajd 4: Stack Technologiczny -->
+<PresentationSlide title="Technologia Enterprise" subtitle="TECH STACK">
+    <div class="flex flex-col h-full justify-center">
+        <div
+            class="grid grid-cols-4 gap-4 mb-20 border-b border-white/10 pb-20"
+        >
+            <!-- Astro -->
+            <div class="text-left">
+                <h4 class="text-5xl font-bold text-white mb-2">Astro</h4>
+                <p
+                    class="text-xs text-gray-600 uppercase tracking-widest font-mono"
+                >
+                    Core Framework
+                </p>
+            </div>
+            <!-- React -->
+            <div class="text-left opacity-80">
+                <h4 class="text-5xl font-bold text-white mb-2">React</h4>
+                <p
+                    class="text-xs text-gray-600 uppercase tracking-widest font-mono"
+                >
+                    Interactive
+                </p>
+            </div>
+            <!-- TS -->
+            <div class="text-left opacity-60">
+                <h4 class="text-5xl font-bold text-white mb-2">TS</h4>
+                <p
+                    class="text-xs text-gray-600 uppercase tracking-widest font-mono"
+                >
+                    Type Safety
+                </p>
+            </div>
+            <!-- Tailwind -->
+            <div class="text-left opacity-40">
+                <h4 class="text-5xl font-bold text-white mb-2">CSS</h4>
+                <p
+                    class="text-xs text-gray-600 uppercase tracking-widest font-mono"
+                >
+                    Utility First
+                </p>
+            </div>
+        </div>
+
+        <div class="max-w-4xl">
+            <p class="text-4xl font-extralight text-white italic leading-tight">
+                "Używamy tych samych technologii, co liderzy rynku. <br />
+                Bezpieczeństwo. Szybkość. Bez kompromisów."
+            </p>
+        </div>
+    </div>
+</PresentationSlide>
+
+<!-- Slajd 5: Proces -->
+<PresentationSlide title="Twój Wzrost w 4 Fazach" subtitle="PROCES WDROŻENIA">
+    <div
+        class="absolute left-[15%] top-40 bottom-32 w-px bg-gradient-to-b from-white/0 via-white/20 to-white/0"
+    >
+    </div>
+
+    <div
+        class="grid grid-cols-1 gap-12 pl-[25%] pr-16 h-full content-center relative"
+    >
+        <!-- Step 1 -->
+        <div class="relative group">
+            <div
+                class="absolute -left-[calc(10%+41px)] top-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#050505] border border-white/20 flex items-center justify-center text-xl font-bold text-gray-500 group-hover:border-white group-hover:text-white transition-all z-10"
+            >
+                01
+            </div>
+            <div class="flex items-center gap-8">
+                <div
+                    class="p-6 bg-white/5 rounded-2xl border border-white/10 w-full group-hover:bg-white/10 transition-colors"
+                >
+                    <h3 class="text-2xl font-bold text-white mb-2">
+                        Fundament <span class="text-gray-500 font-normal"
+                            >(Strategy & UX)</span
+                        >
+                    </h3>
+                    <p class="text-gray-400">
+                        Warsztaty strategiczne, analiza konkurencji, makiety
+                        funkcjonalne. Projektujemy strukturę sprzedaży zanim
+                        napiszemy linijkę kodu.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="relative group">
+            <div
+                class="absolute -left-[calc(10%+41px)] top-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#050505] border border-white/20 flex items-center justify-center text-xl font-bold text-gray-500 group-hover:border-white group-hover:text-white transition-all z-10"
+            >
+                02
+            </div>
+            <div class="flex items-center gap-8">
+                <div
+                    class="p-6 bg-white/5 rounded-2xl border border-white/10 w-full group-hover:bg-white/10 transition-colors"
+                >
+                    <h3 class="text-2xl font-bold text-white mb-2">
+                        Konstrukcja <span class="text-gray-500 font-normal"
+                            >(Dev & UI)</span
+                        >
+                    </h3>
+                    <p class="text-gray-400">
+                        Kodowanie komponentów, wdrażanie designu pixel-perfect,
+                        animacje typu "scrollytelling".
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="relative group">
+            <div
+                class="absolute -left-[calc(10%+41px)] top-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#050505] border border-white/20 flex items-center justify-center text-xl font-bold text-gray-500 group-hover:border-white group-hover:text-white transition-all z-10"
+            >
+                03
+            </div>
+            <div class="flex items-center gap-8">
+                <div
+                    class="p-6 bg-white/5 rounded-2xl border border-white/10 w-full group-hover:bg-white/10 transition-colors"
+                >
+                    <h3 class="text-2xl font-bold text-white mb-2">
+                        Wdrożenie <span class="text-gray-500 font-normal"
+                            >(Launch)</span
+                        >
+                    </h3>
+                    <p class="text-gray-400">
+                        Optymalizacja techniczna SEO, testy wydajności (Core Web
+                        Vitals), konfiguracja domen i analityki (GA4).
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="relative group">
+            <div
+                class="absolute -left-[calc(10%+41px)] top-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-[#050505] border border-blue-500 flex items-center justify-center text-xl font-bold text-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)] z-10"
+            >
+                04
+            </div>
+            <div class="flex items-center gap-8">
+                <div
+                    class="p-6 bg-blue-900/10 rounded-2xl border border-blue-500/30 w-full"
+                >
+                    <h3 class="text-2xl font-bold text-white mb-2">
+                        Ewolucja <span class="text-blue-400 font-normal"
+                            >(Growth)</span
+                        >
+                    </h3>
+                    <p class="text-blue-200/70">
+                        Stała opieka techniczna, rozbudowa o nowe funkcje,
+                        skalowanie ruchu.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</PresentationSlide>
+
+<!-- Slajd 6: Pakiety -->
+<div class="grid grid-cols-3 gap-0 mt-20 h-full border-t border-white/20">
+    <!-- Core -->
+    <div class="pt-12 pr-12 border-r border-white/10">
+        <h3 class="text-5xl font-bold mb-4">Core</h3>
+        <p class="text-gray-500 text-sm tracking-widest uppercase mb-12">
+            Landing Page
+        </p>
+        <ul class="space-y-4 text-gray-400 text-lg">
+            <li>One-Page</li>
+            <li>Mobile-First</li>
+            <li>SEO Base</li>
+            <li>2-3 Weeks</li>
+        </ul>
+    </div>
+
+    <!-- Business -->
+    <div class="pt-12 px-12 border-r border-white/10">
+        <h3 class="text-5xl font-bold mb-4 text-white">Business</h3>
+        <p class="text-blue-500 text-sm tracking-widest uppercase mb-12">
+            Standard
+        </p>
+        <ul class="space-y-4 text-white text-lg">
+            <li>Multi-page</li>
+            <li>CMS / Blog</li>
+            <li>Forms</li>
+            <li>Analytics</li>
+            <li>4-5 Weeks</li>
+        </ul>
+    </div>
+
+    <!-- Pro -->
+    <div class="pt-12 pl-12">
+        <h3 class="text-5xl font-bold mb-4 text-gray-500">Custom</h3>
+        <p class="text-gray-700 text-sm tracking-widest uppercase mb-12">
+            Enterprise
+        </p>
+        <ul class="space-y-4 text-gray-500 text-lg">
+            <li>Web App</li>
+            <li>API / CRM</li>
+            <li>3D / WebGL</li>
+            <li>B2B Store</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Slajd 7: Trust -->
+<div class="grid grid-cols-2 gap-32 h-full items-center">
+    <div>
+        <h3 class="text-7xl font-bold leading-none mb-12 tracking-tight">
+            Biznes,<br />potem kod.
+        </h3>
+        <p class="text-xl text-gray-500 max-w-sm">
+            Ekspercka wiedza. Zielone wyniki Lighthouse. Gwarancja.
+        </p>
+    </div>
+    <!-- Symulacja wyniku Lighthouse: Minimal -->
+    <div class="flex items-center gap-12">
+        <div>
+            <div
+                class="text-[10rem] font-bold text-white leading-none tracking-tighter"
+            >
+                100
+            </div>
+            <p
+                class="text-xs text-center uppercase tracking-[0.5em] text-gray-600 mt-4"
+            >
+                Performance Score
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Slajd 8: CTA -->
+<div class="text-center max-w-5xl mx-auto flex flex-col items-center">
+    <h2 class="text-[8rem] font-bold mb-10 tracking-tighter leading-none">
+        Twój Ruch
+    </h2>
+    <div class="w-px h-20 bg-white/20 mb-10"></div>
+    <div class="flex flex-col items-center gap-8">
+        <span class="text-2xl tracking-[0.2em] font-light"
+            >kontakt@vantaframe.pl</span
+        >
+    </div>
+</div>

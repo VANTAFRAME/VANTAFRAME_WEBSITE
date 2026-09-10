@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+import FrameworkApp from "../components/framework/FrameworkApp.jsx";
+
+const title = "Kreator projektu strony, systemu lub automatyzacji | VANTAFRAME";
+const description =
+  "Opisz swój projekt i otrzymaj wstępny brief, zakres oraz rekomendowany kierunek realizacji strony, systemu lub automatyzacji.";
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
+    { "@type": "ListItem", position: 2, name: "Kreator projektu", item: "https://vantaframe.pl/kreator-projektu" },
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath="/kreator-projektu"
+  pageMode="framework"
+  structuredData={[breadcrumbJsonLd]}
+>
+  <FrameworkApp client:load />
+</Layout>

@@ -1,0 +1,162 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar";
+import Contact from "../../components/Contact";
+import ScrollReveal from "../../components/ScrollReveal.astro";
+import { DeviceFrame, IPhoneFrame } from "../../components/shared/DeviceFrames";
+import { caseStudies } from "../../data/caseStudies";
+
+export function getStaticPaths() {
+  return caseStudies.map((caseStudy) => ({
+    params: { slug: caseStudy.slug },
+    props: { caseStudy },
+  }));
+}
+
+const { caseStudy } = Astro.props;
+const {
+  title,
+  description,
+  h1,
+  projectTitle,
+  industry,
+  projectType,
+  context,
+  problem,
+  scope,
+  solution,
+  effect,
+  desktopImage,
+  desktopAlt,
+  mobileImage,
+  mobileAlt,
+  liveUrl,
+  relatedService,
+  ctaText,
+} = caseStudy;
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath={`/portfolio/${caseStudy.slug}`}
+  robots="index, follow"
+>
+  <Navbar client:load pathname={Astro.url.pathname} />
+
+  <main class="bg-brand-black text-white">
+    <section class="px-6 pt-32 pb-16 md:px-12 md:pt-40 md:pb-20">
+      <div class="mx-auto max-w-[1100px]">
+        <a
+          href="/portfolio"
+          class="mb-10 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-white/40 transition-colors hover:text-white"
+        >
+          ← Wróć do portfolio
+        </a>
+
+        <div class="mb-6 flex flex-wrap items-center gap-2">
+          <span class="rounded-full border border-white/20 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-white/60">
+            {industry}
+          </span>
+          <span class="rounded-full border border-white/20 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-white/60">
+            {projectType}
+          </span>
+        </div>
+
+        <h1 class="max-w-3xl text-4xl font-black leading-[1.05] tracking-tight md:text-6xl">
+          {h1}
+        </h1>
+
+        <p class="mt-6 max-w-2xl text-lg text-white/60 md:text-xl">{context}</p>
+      </div>
+    </section>
+
+    <section class="px-4 pb-20 md:px-12" data-reveal>
+      <div class="relative mx-auto max-w-[1100px] rounded-xl border border-white/10 bg-black px-4 py-6 md:p-10">
+        <DeviceFrame src={desktopImage} alt={desktopAlt} label={projectTitle} className="h-full" />
+        {mobileImage && (
+          <div class="mt-16 mx-auto w-[42%] sm:w-[34%] flex justify-center md:mt-0 md:mx-0 md:absolute md:-bottom-5 md:-right-5 md:block md:w-[24%] lg:w-[21%]">
+            <IPhoneFrame src={mobileImage} alt={mobileAlt} className="w-full" tilt={false} />
+          </div>
+        )}
+      </div>
+    </section>
+
+    <section class="px-6 pb-20 md:px-12">
+      <div class="mx-auto grid max-w-[1100px] gap-14 md:grid-cols-2">
+        <div data-reveal>
+          <h2 class="mb-4 font-mono text-xs uppercase tracking-widest text-white/40">Problem</h2>
+          <p class="text-lg leading-relaxed text-white/75">{problem}</p>
+        </div>
+        <div data-reveal>
+          <h2 class="mb-4 font-mono text-xs uppercase tracking-widest text-white/40">Zakres prac</h2>
+          <ul class="flex flex-col gap-2.5">
+            {scope.map((item) => (
+              <li class="flex items-start gap-3 text-lg leading-relaxed text-white/75">
+                <span class="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-white/30"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div data-reveal>
+          <h2 class="mb-4 font-mono text-xs uppercase tracking-widest text-white/40">Rozwiązanie</h2>
+          <p class="text-lg leading-relaxed text-white/75">{solution}</p>
+        </div>
+        <div data-reveal>
+          <h2 class="mb-4 font-mono text-xs uppercase tracking-widest text-white/40">Efekt</h2>
+          <ul class="flex flex-col gap-2.5">
+            {effect.map((item) => (
+              <li class="flex items-start gap-3 text-lg leading-relaxed text-white/75">
+                <span class="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300/60"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-6 pb-28 md:px-12" data-reveal>
+      <div class="mx-auto flex max-w-[1100px] flex-col gap-8 rounded-2xl border border-white/10 bg-white/[0.03] p-8 md:p-12">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight md:text-3xl">{ctaText}</h2>
+          <p class="mt-3 text-white/55">
+            Potrzebujesz podobnego projektu? Zobacz, jak projektujemy{" "}
+            <a href={relatedService.href} class="underline underline-offset-4 hover:text-white">
+              {relatedService.label}
+            </a>.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-4">
+          <a
+            href="#contact-form"
+            class="group inline-flex items-center gap-3 rounded-full bg-white px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-black transition-colors hover:bg-white/85"
+          >
+            Napisz do nas o swoim projekcie
+            <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-7-7 7 7-7 7" />
+            </svg>
+          </a>
+          {liveUrl && (
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10"
+            >
+              Zobacz stronę live
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M7 7h10v10" />
+              </svg>
+            </a>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <Contact client:load overlap={false} footerOnTop={true} />
+  </main>
+
+  <ScrollReveal />
+</Layout>
