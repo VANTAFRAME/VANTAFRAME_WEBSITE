@@ -5,7 +5,7 @@ export const projects = [
   { id: 10, title: "MARENO Jubiler", category: "Web Design", image: "/projects/test2-vantaframe.png", url: "https://mareno.com.pl/", size: "square" },
   { id: 25, title: "Velvet", category: "3D Website / Demo", image: "/projects/velvet-demo.png", url: "https://velvet-demo-sigma.vercel.app/", size: "square" },
 
-  { id: 29, title: "VantaSignal", category: "AI Visibility / SaaS", image: "/projects/vantasignal.png", url: "https://vantasignal.pl/", size: "wide" },
+  { id: 31, title: "SuperFemka", category: "Travel / Women's Trips", image: "/projects/superfemka.png", url: "https://superfemka.pl/", size: "wide" },
   { id: 12, title: "Solhaus Studio", category: "Architecture / Interior", image: "/projects/solhaus-studio.png", url: "https://solhaus-studio.vercel.app/", size: "square" },
   { id: 1, title: "Teatr Scala", category: "Events / Hospitality", image: "/projects/teatr-scala.png", url: "https://teatrscala.com/", size: "square", caseStudySlug: "teatr-scala" },
   { id: 2, title: "Dla Zwierzat", category: "Charity / NGO", image: "/projects/dla-zwierzat.png", url: "https://dlazwierzat.org/", size: "square" },
@@ -29,6 +29,7 @@ export const projects = [
   { id: 24, title: "KNW Atlas", category: "Industry / Drilling Tools", image: "/projects/knwatlas-mobile.png", url: "https://www.knwatlas.com/", size: "tall" },
   { id: 26, title: "Krakowska Gastronomia", category: "Food & Drink", image: "/projects/krakowska-gastronomia.png", url: "https://krakowskagastronomia.pl/", size: "wide" },
   { id: 27, title: "Arnika", category: "Web Design", image: "/projects/arnika-website.png", url: "https://arnika-website.vercel.app/", size: "square" },
+  { id: 29, title: "VantaSignal", category: "AI Visibility / SaaS", image: "/projects/vantasignal.png", url: "https://vantasignal.pl/", size: "wide" },
   // Appended at the end (not among the first FEATURED_LIMIT entries) so it
   // never reaches the homepage slider — this project has no public live URL,
   // only an internal case study, and the homepage tile component isn't part
