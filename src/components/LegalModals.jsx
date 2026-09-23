@@ -141,13 +141,14 @@ const Modal = ({ isOpen, onClose, title, closeAria, closeLabel, children }) => {
 
 const PolishPrivacyContent = () => (
   <>
-        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Ostatnia aktualizacja: 21 lipca 2026 r.</p>
+        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Ostatnia aktualizacja: 23 września 2026 r.</p>
 
         <p><strong>1. O tej polityce</strong></p>
         <p>
           Ta polityka wyjaśnia, w jaki sposób VANTAFRAME przetwarza dane osobowe użytkowników strony vantaframe.pl,
-          formularza kontaktowego oraz kreatora projektu FRAMEWORK. Opisuje też użycie cookies, localStorage i usług
-          zewnętrznych wykorzystywanych przez stronę.
+          osób korzystających z formularza kontaktowego oraz kreatora projektu FRAMEWORK, a także osób, z którymi
+          VANTAFRAME nawiązuje lub prowadzi kontakt biznesowy. Opisuje również przetwarzanie danych pozyskanych z
+          publicznie dostępnych źródeł, użycie cookies, localStorage i usług zewnętrznych wykorzystywanych przez stronę.
         </p>
 
         <p><strong>2. Administrator danych</strong></p>
@@ -204,7 +205,39 @@ const PolishPrivacyContent = () => (
           danymi osobowymi, jeżeli użytkownik sam wpisze w nich informacje identyfikujące.
         </p>
 
-        <p><strong>6. Cookies i localStorage</strong></p>
+        <p><strong>6. Kontakty biznesowe i dane pozyskane z innych źródeł</strong></p>
+        <p>
+          VANTAFRAME może przetwarzać dane kontaktowe osób reprezentujących przedsiębiorców, potencjalnych klientów,
+          kontrahentów i partnerów biznesowych, pozyskane z publicznie dostępnych źródeł, takich jak strony internetowe
+          przedsiębiorstw, publiczne rejestry, profile zawodowe oraz inne publicznie dostępne źródła biznesowe.
+        </p>
+        <p>
+          Zakres danych może obejmować w szczególności imię i nazwisko, stanowisko lub pełnioną funkcję, nazwę
+          reprezentowanego podmiotu, służbowy adres e-mail, służbowy numer telefonu oraz informacje dotyczące
+          działalności zawodowej.
+        </p>
+        <p>
+          Dane mogą być przetwarzane w celu nawiązania i prowadzenia kontaktu biznesowego, przedstawiania informacji
+          dotyczących działalności VANTAFRAME, prowadzenia marketingu bezpośredniego, identyfikowania potencjalnych
+          możliwości współpracy oraz prowadzenia i dokumentowania korespondencji.
+        </p>
+        <p>
+          Podstawą przetwarzania danych może być art. 6 ust. 1 lit. f RODO - prawnie uzasadniony interes Administratora
+          polegający na rozwijaniu działalności, nawiązywaniu relacji biznesowych i prowadzeniu marketingu bezpośredniego,
+          po uwzględnieniu praw, wolności i interesów osób, których dane dotyczą.
+        </p>
+        <p>
+          Jeżeli dane nie zostały pozyskane bezpośrednio od osoby, której dotyczą, ich źródłem mogą być w szczególności
+          publicznie dostępne strony internetowe przedsiębiorstw, publiczne rejestry, profile zawodowe oraz inne
+          publicznie dostępne źródła biznesowe.
+        </p>
+        <p>
+          Osoba, której dane dotyczą, ma prawo w dowolnym momencie wnieść sprzeciw wobec przetwarzania jej danych na
+          potrzeby marketingu bezpośredniego (art. 21 RODO). Po wniesieniu takiego sprzeciwu dane nie będą dalej
+          wykorzystywane do tego celu. Sprzeciw można przesłać na adres kontakt@vantaframe.pl.
+        </p>
+
+        <p><strong>7. Cookies i localStorage</strong></p>
         <p>Strona nie wdraża obecnie Google Analytics, Google Tag Managera ani cookies marketingowych. Używane mechanizmy to:</p>
         <ul className="list-disc pl-5 space-y-1">
           <li><code>vf_cookie_consent_v1</code> w localStorage - zapisuje wybór w banerze cookies/localStorage oraz datę zapisu.</li>
@@ -214,7 +247,7 @@ const PolishPrivacyContent = () => (
           Zablokowanie cookies lub localStorage może spowodować, że strona nie zapamięta ustawień albo postępu w kreatorze.
         </p>
 
-        <p><strong>7. Hosting, pliki i zewnętrzne zasoby</strong></p>
+        <p><strong>8. Hosting, pliki i zewnętrzne zasoby</strong></p>
         <p>
           Publiczna strona VANTAFRAME jest hostowana w Hostingerze. Kod nie zapisuje leadów ani wiadomości z formularzy
           w żadnej bazie danych.
@@ -225,7 +258,7 @@ const PolishPrivacyContent = () => (
           Na stronie znajdują się zwykłe linki do Instagramu i LinkedIn; kliknięcie przenosi użytkownika do zewnętrznego serwisu.
         </p>
 
-        <p><strong>8. Odbiorcy danych</strong></p>
+        <p><strong>9. Odbiorcy danych</strong></p>
         <p>W zależności od użytej funkcji dane mogą być przekazywane lub udostępniane:</p>
         <ul className="list-disc pl-5 space-y-1">
           <li>Hostinger - hosting publicznej strony i infrastruktura serwerowa,</li>
@@ -237,7 +270,7 @@ const PolishPrivacyContent = () => (
           <li>podmioty uprawnione na podstawie przepisów prawa.</li>
         </ul>
 
-        <p><strong>9. Przekazywanie danych poza EOG</strong></p>
+        <p><strong>10. Przekazywanie danych poza EOG</strong></p>
         <p>
           Niektórzy dostawcy mogą przetwarzać dane w Stanach Zjednoczonych lub innych państwach poza Europejskim Obszarem
           Gospodarczym. Transfer może nastąpić tylko na podstawie mechanizmów przewidzianych w RODO, takich jak decyzja
@@ -245,16 +278,18 @@ const PolishPrivacyContent = () => (
           zabezpieczenia. Informację o stosowanych zabezpieczeniach można uzyskać, pisząc na kontakt@vantaframe.pl.
         </p>
 
-        <p><strong>10. Okresy przechowywania</strong></p>
+        <p><strong>11. Okresy przechowywania</strong></p>
         <ul className="list-disc pl-5 space-y-1">
           <li>dane z formularzy i korespondencji - do 12 miesięcy od zakończenia kontaktu, chyba że kontakt prowadzi do umowy,</li>
           <li>dane związane z umową, ofertą, rozliczeniami lub obowiązkami prawnymi - przez okres wymagany do ich realizacji,</li>
           <li>dane potrzebne do ustalenia, dochodzenia lub obrony roszczeń - do upływu terminów przedawnienia,</li>
           <li>dane przetwarzane na podstawie zgody - do czasu jej wycofania, z zastrzeżeniem danych potrzebnych do innych celów,</li>
-          <li>dane w localStorage - do zmiany ustawień, wyczyszczenia danych strony, nadpisania lub usunięcia wpisu.</li>
+          <li>dane w localStorage - do zmiany ustawień, wyczyszczenia danych strony, nadpisania lub usunięcia wpisu,</li>
+          <li>dane potencjalnych kontaktów biznesowych - przez okres niezbędny do realizacji celu, dla którego zostały pozyskane, z okresową oceną dalszej potrzeby ich przetwarzania,</li>
+          <li>dane niezbędne do respektowania sprzeciwu wobec marketingu bezpośredniego - w minimalnym zakresie potrzebnym do zapewnienia, że dana osoba nie otrzyma kolejnych komunikatów marketingowych.</li>
         </ul>
 
-        <p><strong>11. Prawa użytkownika</strong></p>
+        <p><strong>12. Prawa użytkownika</strong></p>
         <p>Na zasadach określonych w RODO użytkownik ma prawo do:</p>
         <ul className="list-disc pl-5 space-y-1">
           <li>dostępu do danych i otrzymania ich kopii,</li>
@@ -269,21 +304,21 @@ const PolishPrivacyContent = () => (
           Administrator może poprosić o informacje potrzebne do potwierdzenia tożsamości osoby składającej żądanie.
         </p>
 
-        <p><strong>12. Czy podanie danych jest obowiązkowe?</strong></p>
+        <p><strong>13. Czy podanie danych jest obowiązkowe?</strong></p>
         <p>
           Podanie danych jest dobrowolne. Pola wymagane są jednak niezbędne do wysłania formularza, udzielenia odpowiedzi
           albo przygotowania wstępnego podsumowania projektu. Niepodanie wymaganych danych może uniemożliwić obsługę zapytania.
           Zgoda na rekomendację AI jest dobrowolna i nie jest warunkiem wysłania zgłoszenia.
         </p>
 
-        <p><strong>13. Bezpieczeństwo i dane wrażliwe</strong></p>
+        <p><strong>14. Bezpieczeństwo i dane wrażliwe</strong></p>
         <p>
           Administrator stosuje środki techniczne i organizacyjne odpowiednie do ryzyka. Prosimy, aby w formularzach nie
           podawać informacji, które nie są potrzebne do obsługi zapytania, w szczególności danych o zdrowiu, poglądach,
           przekonaniach, pochodzeniu, danych biometrycznych ani informacji o wyrokach i naruszeniach prawa.
         </p>
 
-        <p><strong>14. Zmiany polityki</strong></p>
+        <p><strong>15. Zmiany polityki</strong></p>
         <p>
           Polityka może być aktualizowana, jeżeli zmieni się sposób działania strony, zakres danych, dostawcy albo przepisy.
           Jeżeli w przyszłości zostaną wdrożone narzędzia analityczne lub marketingowe, będą wymagały odpowiedniej informacji
@@ -294,13 +329,14 @@ const PolishPrivacyContent = () => (
 
 const EnglishPrivacyContent = () => (
   <>
-        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Last updated: July 21, 2026</p>
+        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Last updated: September 23, 2026</p>
 
         <p><strong>1. About this policy</strong></p>
         <p>
-          This policy explains how VANTAFRAME processes the personal data of users of the vantaframe.pl website, the
-          contact form, and the FRAMEWORK project creator. It also describes the use of cookies, localStorage, and
-          external services used by the site.
+          This policy explains how VANTAFRAME processes the personal data of users of the vantaframe.pl website,
+          individuals using the contact form and the FRAMEWORK project creator, as well as individuals with whom
+          VANTAFRAME establishes or maintains business contact. It also describes the processing of data obtained
+          from publicly available sources, and the use of cookies, localStorage, and external services used by the site.
         </p>
 
         <p><strong>2. Data controller</strong></p>
@@ -358,7 +394,39 @@ const EnglishPrivacyContent = () => (
           their own answers.
         </p>
 
-        <p><strong>6. Cookies and localStorage</strong></p>
+        <p><strong>6. Business contacts and data obtained from other sources</strong></p>
+        <p>
+          VANTAFRAME may process contact details of individuals representing businesses, potential clients,
+          contractors, and business partners, obtained from publicly available sources such as company websites,
+          public registers, professional profiles, and other publicly available business sources.
+        </p>
+        <p>
+          The scope of data may include, in particular, first and last name, job title or role, the name of the
+          represented entity, business email address, business phone number, and information relating to
+          professional activity.
+        </p>
+        <p>
+          The data may be processed for the purpose of establishing and maintaining business contact, presenting
+          information about VANTAFRAME's activities, conducting direct marketing, identifying potential
+          opportunities for cooperation, and conducting and documenting correspondence.
+        </p>
+        <p>
+          The legal basis for processing may be Article 6(1)(f) GDPR - the controller's legitimate interest in
+          developing its business, establishing business relationships, and conducting direct marketing, having
+          regard to the rights, freedoms, and interests of the data subjects.
+        </p>
+        <p>
+          If the data was not obtained directly from the data subject, its source may include, in particular,
+          publicly available company websites, public registers, professional profiles, and other publicly
+          available business sources.
+        </p>
+        <p>
+          The data subject has the right, at any time, to object to the processing of their data for direct
+          marketing purposes (Article 21 GDPR). After such an objection is raised, the data will no longer be used
+          for that purpose. Objections can be sent to kontakt@vantaframe.pl.
+        </p>
+
+        <p><strong>7. Cookies and localStorage</strong></p>
         <p>The site does not currently implement Google Analytics, Google Tag Manager, or marketing cookies. The mechanisms in use are:</p>
         <ul className="list-disc pl-5 space-y-1">
           <li><code>vf_cookie_consent_v1</code> in localStorage - stores your choice in the cookie banner and the date it was saved.</li>
@@ -368,7 +436,7 @@ const EnglishPrivacyContent = () => (
           Blocking cookies or localStorage may prevent the site from remembering settings or creator progress.
         </p>
 
-        <p><strong>7. Hosting, files, and external resources</strong></p>
+        <p><strong>8. Hosting, files, and external resources</strong></p>
         <p>
           The public VANTAFRAME website is hosted on Hostinger. The code does not store leads or form messages in
           any database.
@@ -380,7 +448,7 @@ const EnglishPrivacyContent = () => (
           LinkedIn; clicking them takes the user to an external service.
         </p>
 
-        <p><strong>8. Data recipients</strong></p>
+        <p><strong>9. Data recipients</strong></p>
         <p>Depending on the feature used, data may be transferred to or shared with:</p>
         <ul className="list-disc pl-5 space-y-1">
           <li>Hostinger - hosting of the public website and server infrastructure,</li>
@@ -392,7 +460,7 @@ const EnglishPrivacyContent = () => (
           <li>entities authorized under applicable law.</li>
         </ul>
 
-        <p><strong>9. Data transfers outside the EEA</strong></p>
+        <p><strong>10. Data transfers outside the EEA</strong></p>
         <p>
           Some providers may process data in the United States or other countries outside the European Economic
           Area. Such transfers may only take place based on mechanisms provided for by the GDPR, such as an
@@ -400,16 +468,18 @@ const EnglishPrivacyContent = () => (
           safeguards. Information about the safeguards applied can be obtained by writing to kontakt@vantaframe.pl.
         </p>
 
-        <p><strong>10. Retention periods</strong></p>
+        <p><strong>11. Retention periods</strong></p>
         <ul className="list-disc pl-5 space-y-1">
           <li>data from forms and correspondence - up to 12 months after the contact ends, unless it leads to a contract,</li>
           <li>data related to a contract, offer, billing, or legal obligations - for the period required to fulfil them,</li>
           <li>data needed to establish, pursue, or defend claims - until the relevant limitation periods expire,</li>
           <li>data processed on the basis of consent - until consent is withdrawn, subject to data needed for other purposes,</li>
-          <li>data in localStorage - until settings are changed, site data is cleared, or the entry is overwritten or deleted.</li>
+          <li>data in localStorage - until settings are changed, site data is cleared, or the entry is overwritten or deleted,</li>
+          <li>data of potential business contacts - for the period necessary to achieve the purpose for which it was obtained, subject to periodic review of the continued need for processing,</li>
+          <li>data necessary to honour an objection to direct marketing - to the minimum extent needed to ensure the individual does not receive further marketing communications.</li>
         </ul>
 
-        <p><strong>11. Your rights</strong></p>
+        <p><strong>12. Your rights</strong></p>
         <p>Under the terms set out in the GDPR, you have the right to:</p>
         <ul className="list-disc pl-5 space-y-1">
           <li>access your data and receive a copy of it,</li>
@@ -425,7 +495,7 @@ const EnglishPrivacyContent = () => (
           request.
         </p>
 
-        <p><strong>12. Is providing data mandatory?</strong></p>
+        <p><strong>13. Is providing data mandatory?</strong></p>
         <p>
           Providing data is voluntary. However, required fields are necessary to submit the form, receive a reply,
           or prepare a preliminary project summary. Failing to provide the required data may make it impossible to
@@ -433,14 +503,14 @@ const EnglishPrivacyContent = () => (
           your request.
         </p>
 
-        <p><strong>13. Security and sensitive data</strong></p>
+        <p><strong>14. Security and sensitive data</strong></p>
         <p>
           The controller applies technical and organizational measures appropriate to the risk. Please do not
           include information in the forms that is not needed to handle your enquiry, in particular data about
           health, opinions, beliefs, origin, biometric data, or information about criminal convictions and offences.
         </p>
 
-        <p><strong>14. Changes to this policy</strong></p>
+        <p><strong>15. Changes to this policy</strong></p>
         <p>
           This policy may be updated if the way the site operates changes, the scope of data changes, providers
           change, or the law changes. If analytics or marketing tools are implemented in the future, they will
