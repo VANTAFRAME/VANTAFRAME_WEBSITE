@@ -43,6 +43,37 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- Google Tag Manager — only loads once the visitor has accepted
+         cookies in the consent banner (vf_cookie_consent_v1 === "accepted"),
+         so no tag inside the container can run before consent is given. -->
+    <script is:inline>
+      (function () {
+        var GTM_ID = "GTM-KVP2NVZ9";
+        var CONSENT_KEY = "vf_cookie_consent_v1";
+
+        window.__vfLoadGTM = function () {
+          if (window.__vfGtmLoaded) return;
+          window.__vfGtmLoaded = true;
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+          var f = document.getElementsByTagName("script")[0];
+          var j = document.createElement("script");
+          j.async = true;
+          j.src = "https://www.googletagmanager.com/gtm.js?id=" + GTM_ID + "&l=dataLayer";
+          f.parentNode.insertBefore(j, f);
+        };
+
+        try {
+          var stored = JSON.parse(localStorage.getItem(CONSENT_KEY) || "null");
+          if (stored && stored.type === "accepted") {
+            window.__vfLoadGTM();
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <!-- End Google Tag Manager -->
+
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
     <meta name="viewport" content="width=device-width" />
@@ -138,6 +169,10 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
     ]}
     data-page-mode={pageMode}
   >
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVP2NVZ9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <LangSync client:load />
     <Cursor client:media="(hover: hover) and (pointer: fine)" />
     <CornerBrackets client:media="(min-width: 768px)" />

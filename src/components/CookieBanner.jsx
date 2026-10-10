@@ -31,6 +31,9 @@ const CookieBanner = () => {
         savedAt: new Date().toISOString(),
       })
     );
+    if (type === "accepted") {
+      window.__vfLoadGTM?.();
+    }
     setIsVisible(false);
   };
 

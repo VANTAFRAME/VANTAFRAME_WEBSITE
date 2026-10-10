@@ -141,7 +141,7 @@ const Modal = ({ isOpen, onClose, title, closeAria, closeLabel, children }) => {
 
 const PolishPrivacyContent = () => (
   <>
-        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Ostatnia aktualizacja: 23 września 2026 r.</p>
+        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Ostatnia aktualizacja: 10 października 2026 r.</p>
 
         <p><strong>1. O tej polityce</strong></p>
         <p>
@@ -238,10 +238,16 @@ const PolishPrivacyContent = () => (
         </p>
 
         <p><strong>7. Cookies i localStorage</strong></p>
-        <p>Strona nie wdraża obecnie Google Analytics, Google Tag Managera ani cookies marketingowych. Używane mechanizmy to:</p>
+        <p>
+          Strona nie wdraża Google Analytics ani cookies marketingowych bez zgody. Po wybraniu „Akceptuję” w banerze
+          cookies ładowany jest Google Tag Manager (GTM) - kontener do zarządzania tagami, który może uruchamiać
+          dodatkowe narzędzia analityczne lub marketingowe. Wybranie „Tylko niezbędne” blokuje załadowanie GTM.
+          Używane mechanizmy to:
+        </p>
         <ul className="list-disc pl-5 space-y-1">
           <li><code>vf_cookie_consent_v1</code> w localStorage - zapisuje wybór w banerze cookies/localStorage oraz datę zapisu.</li>
           <li><code>vf_framework_v1</code> w localStorage - zapisuje postęp kreatora FRAMEWORK bez danych kontaktowych.</li>
+          <li>Google Tag Manager - ładowany wyłącznie po zaakceptowaniu cookies; sam kontener może ustawiać własne cookies techniczne, a dodatkowe cookies pojawią się, jeżeli w przyszłości skonfigurujemy w nim konkretne narzędzia (np. analitykę).</li>
         </ul>
         <p>
           Zablokowanie cookies lub localStorage może spowodować, że strona nie zapamięta ustawień albo postępu w kreatorze.
@@ -253,9 +259,10 @@ const PolishPrivacyContent = () => (
           w żadnej bazie danych.
         </p>
         <p>
-          Strona ładuje font Outfit z Google Fonts przez <code>fonts.googleapis.com</code> i <code>fonts.gstatic.com</code>.
-          W kodzie strony nie znaleziono wdrożonego Google reCAPTCHA, Google Analytics, Google Tag Managera ani Meta Pixel.
-          Na stronie znajdują się zwykłe linki do Instagramu i LinkedIn; kliknięcie przenosi użytkownika do zewnętrznego serwisu.
+          Strona ładuje font Outfit z Google Fonts przez <code>fonts.googleapis.com</code> i <code>fonts.gstatic.com</code>
+          oraz, po zaakceptowaniu cookies, Google Tag Manager z <code>googletagmanager.com</code>. W kodzie strony nie
+          znaleziono wdrożonego Google reCAPTCHA ani Meta Pixel. Na stronie znajdują się zwykłe linki do Instagramu i
+          LinkedIn; kliknięcie przenosi użytkownika do zewnętrznego serwisu.
         </p>
 
         <p><strong>9. Odbiorcy danych</strong></p>
@@ -264,7 +271,7 @@ const PolishPrivacyContent = () => (
           <li>Hostinger - hosting publicznej strony i infrastruktura serwerowa,</li>
           <li>FormSubmit - obsługa wysyłki formularzy,</li>
           <li>Anthropic - wyłącznie opcjonalna rekomendacja AI, w zakresie odpowiedzi projektowych,</li>
-          <li>Google - dostarczenie fontów Google Fonts,</li>
+          <li>Google - dostarczenie fontów Google Fonts oraz, po zaakceptowaniu cookies, Google Tag Manager,</li>
           <li>dostawcy poczty e-mail używanej przez VANTAFRAME,</li>
           <li>dostawcy IT, utrzymania, bezpieczeństwa, doradcy prawni lub księgowi, jeżeli jest to potrzebne,</li>
           <li>podmioty uprawnione na podstawie przepisów prawa.</li>
@@ -329,7 +336,7 @@ const PolishPrivacyContent = () => (
 
 const EnglishPrivacyContent = () => (
   <>
-        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Last updated: September 23, 2026</p>
+        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Last updated: October 10, 2026</p>
 
         <p><strong>1. About this policy</strong></p>
         <p>
@@ -427,10 +434,15 @@ const EnglishPrivacyContent = () => (
         </p>
 
         <p><strong>7. Cookies and localStorage</strong></p>
-        <p>The site does not currently implement Google Analytics, Google Tag Manager, or marketing cookies. The mechanisms in use are:</p>
+        <p>
+          The site does not implement Google Analytics or marketing cookies without consent. Choosing "Accept" in the
+          cookie banner loads Google Tag Manager (GTM) - a tag management container that can run additional
+          analytics or marketing tools. Choosing "Essential only" blocks GTM from loading. The mechanisms in use are:
+        </p>
         <ul className="list-disc pl-5 space-y-1">
           <li><code>vf_cookie_consent_v1</code> in localStorage - stores your choice in the cookie banner and the date it was saved.</li>
           <li><code>vf_framework_v1</code> in localStorage - stores FRAMEWORK creator progress without contact details.</li>
+          <li>Google Tag Manager - loaded only after cookies are accepted; the container itself may set its own technical cookies, and further cookies will appear if we configure specific tools inside it (e.g. analytics) in the future.</li>
         </ul>
         <p>
           Blocking cookies or localStorage may prevent the site from remembering settings or creator progress.
@@ -443,9 +455,10 @@ const EnglishPrivacyContent = () => (
         </p>
         <p>
           The site loads the Outfit font from Google Fonts via <code>fonts.googleapis.com</code> and
-          <code> fonts.gstatic.com</code>. No implementation of Google reCAPTCHA, Google Analytics, Google Tag
-          Manager, or Meta Pixel was found in the site's code. The site contains plain links to Instagram and
-          LinkedIn; clicking them takes the user to an external service.
+          <code> fonts.gstatic.com</code>, and, once cookies are accepted, Google Tag Manager from
+          <code> googletagmanager.com</code>. No implementation of Google reCAPTCHA or Meta Pixel was found in the
+          site's code. The site contains plain links to Instagram and LinkedIn; clicking them takes the user to an
+          external service.
         </p>
 
         <p><strong>9. Data recipients</strong></p>
@@ -454,7 +467,7 @@ const EnglishPrivacyContent = () => (
           <li>Hostinger - hosting of the public website and server infrastructure,</li>
           <li>FormSubmit - handling of form submissions,</li>
           <li>Anthropic - solely for the optional AI recommendation, limited to project answers,</li>
-          <li>Google - delivery of Google Fonts,</li>
+          <li>Google - delivery of Google Fonts and, once cookies are accepted, Google Tag Manager,</li>
           <li>email service providers used by VANTAFRAME,</li>
           <li>IT, maintenance, and security providers, legal or accounting advisors, if needed,</li>
           <li>entities authorized under applicable law.</li>
