@@ -98,6 +98,14 @@ const PartnerModal = ({ pathname = "/" }) => {
       setShowPill(true);
     }
 
+    // Anchors the full popup to the "Rozwiązania" (Services) section instead
+    // of a scrollY/page-height ratio — a fixed percentage of total page
+    // height drifts as the page grows (more sections, lazy-loaded images
+    // pushing scrollHeight up), which had pushed the old 35% mark down to
+    // where the contact form sits instead of where Rozwiązania does. Same
+    // root cause as the subpage auto-peek effect below, same fix shape.
+    const servicesSection = document.querySelector("#services");
+
     const handleScroll = () => {
       // Skip while a nav link is smooth-scrolling the user to a section —
       // opening here would lock body scroll and strand the animation short
@@ -105,14 +113,14 @@ const PartnerModal = ({ pathname = "/" }) => {
       if (window.__vfProgrammaticScroll) return;
 
       const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-      if (scrollTotal <= 0) return;
+      if (scrollTotal > 0) {
+        const scrollProgress = window.scrollY / scrollTotal;
 
-      const scrollProgress = window.scrollY / scrollTotal;
-
-      // The reopen pill only slides in once the visitor has actually engaged
-      // with the page — never present, unannounced, at first paint.
-      if (scrollProgress >= 0.15) {
-        setShowPill(true);
+        // The reopen pill only slides in once the visitor has actually engaged
+        // with the page — never present, unannounced, at first paint.
+        if (scrollProgress >= 0.15) {
+          setShowPill(true);
+        }
       }
 
       if (sessionStorage.getItem(STORAGE_DISMISSED_KEY) || sessionStorage.getItem(STORAGE_TRIGGERED_KEY)) {
@@ -124,8 +132,7 @@ const PartnerModal = ({ pathname = "/" }) => {
       // so there it only ever surfaces as the slide-in pill above.
       if (!isHomePage) return;
 
-      // Trigger at ~35% - 40% scroll
-      if (scrollProgress >= 0.35) {
+      if (servicesSection && servicesSection.getBoundingClientRect().top <= window.innerHeight * 0.5) {
         setIsOpen(true);
         setHasInteracted(true);
         sessionStorage.setItem(STORAGE_TRIGGERED_KEY, "true");
