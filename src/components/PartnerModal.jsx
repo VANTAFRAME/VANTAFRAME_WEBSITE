@@ -98,44 +98,16 @@ const PartnerModal = ({ pathname = "/" }) => {
       setShowPill(true);
     }
 
-    // Anchors the full popup to the "Rozwiązania" (Services) section instead
-    // of a scrollY/page-height ratio — a fixed percentage of total page
-    // height drifts as the page grows (more sections, lazy-loaded images
-    // pushing scrollHeight up), which had pushed the old 35% mark down to
-    // where the contact form sits instead of where Rozwiązania does. Same
-    // root cause as the subpage auto-peek effect below, same fix shape.
-    const servicesSection = document.querySelector("#services");
-
     const handleScroll = () => {
-      // Skip while a nav link is smooth-scrolling the user to a section —
-      // opening here would lock body scroll and strand the animation short
-      // of its target (see Layout.astro's Lenis setup).
-      if (window.__vfProgrammaticScroll) return;
-
       const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-      if (scrollTotal > 0) {
-        const scrollProgress = window.scrollY / scrollTotal;
+      if (scrollTotal <= 0) return;
 
-        // The reopen pill only slides in once the visitor has actually engaged
-        // with the page — never present, unannounced, at first paint.
-        if (scrollProgress >= 0.15) {
-          setShowPill(true);
-        }
-      }
+      const scrollProgress = window.scrollY / scrollTotal;
 
-      if (sessionStorage.getItem(STORAGE_DISMISSED_KEY) || sessionStorage.getItem(STORAGE_TRIGGERED_KEY)) {
-        return;
-      }
-
-      // The full auto-opening popup is a homepage-only introduction; on the
-      // service subpages it would interrupt reading with no added context,
-      // so there it only ever surfaces as the slide-in pill above.
-      if (!isHomePage) return;
-
-      if (servicesSection && servicesSection.getBoundingClientRect().top <= window.innerHeight * 0.5) {
-        setIsOpen(true);
-        setHasInteracted(true);
-        sessionStorage.setItem(STORAGE_TRIGGERED_KEY, "true");
+      // The reopen pill only slides in once the visitor has actually engaged
+      // with the page — never present, unannounced, at first paint.
+      if (scrollProgress >= 0.15) {
+        setShowPill(true);
       }
     };
 
@@ -163,6 +135,44 @@ const PartnerModal = ({ pathname = "/" }) => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen]);
+
+  // Opens the full popup once the visitor reaches the "Rozwiązania"
+  // (Services) section, via IntersectionObserver rather than a derived
+  // "has scrolled past this point" comparison — that kind of check, once
+  // true, stays true for every later scroll tick too. So if it got skipped
+  // even once while a nav-link's Lenis animation was in flight (see the
+  // guard below), the next unblocked tick fired immediately wherever the
+  // visitor had scrolled to by then — which is what pushed the popup down
+  // to the contact form. IntersectionObserver only reports the actual
+  // crossing, so a skipped crossing just means no popup that visit instead
+  // of a late, wrongly-placed one.
+  useEffect(() => {
+    if (!isHomePage) return undefined;
+    if (sessionStorage.getItem(STORAGE_DISMISSED_KEY) || sessionStorage.getItem(STORAGE_TRIGGERED_KEY)) {
+      return undefined;
+    }
+
+    const target = document.querySelector("#services");
+    if (!target) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Skip while a nav link is smooth-scrolling the user through this
+        // section — opening here would lock body scroll and strand the
+        // Lenis animation short of its target (see Layout.astro).
+        if (!entry.isIntersecting || window.__vfProgrammaticScroll) return;
+        setIsOpen(true);
+        setHasInteracted(true);
+        sessionStorage.setItem(STORAGE_TRIGGERED_KEY, "true");
+        observer.disconnect();
+      },
+      { threshold: 0, rootMargin: "0px 0px -50% 0px" }
+    );
+
+    observer.observe(target);
+
+    return () => observer.disconnect();
+  }, [isHomePage]);
 
   // On subpages there's no auto-opening modal to introduce the program, so
   // the collapsed pill gets one unprompted "peek" — briefly expanding itself
@@ -209,6 +219,12 @@ const PartnerModal = ({ pathname = "/" }) => {
     const prevTop = style.top;
     const prevWidth = style.width;
 
+    // Lenis keeps easing scroll on its own rAF loop; if it's still
+    // mid-momentum (or mid nav-link animation) when the popup opens, it
+    // fights the position:fixed lock below and the page visibly snaps/
+    // stutters. Pausing it for the duration of the lock keeps this smooth.
+    window.lenis?.stop();
+
     style.position = "fixed";
     style.top = `-${scrollY}px`;
     style.width = "100%";
@@ -218,6 +234,7 @@ const PartnerModal = ({ pathname = "/" }) => {
       style.top = prevTop;
       style.width = prevWidth;
       window.scrollTo(0, scrollY);
+      window.lenis?.start();
     };
   }, [isOpen]);
 
