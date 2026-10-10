@@ -3,7 +3,6 @@ import { useStore } from "../lib/useStore";
 import { currentLang } from "../i18n/store";
 
 const STORAGE_DISMISSED_KEY = "vf_partner_dismissed_session";
-const STORAGE_TRIGGERED_KEY = "vf_partner_triggered_session";
 
 const translations = {
   pl: {
@@ -79,76 +78,39 @@ const PartnerModal = ({ pathname = "/" }) => {
 
   const isExpanded = isHovering || autoPeek;
 
-  // Check scroll position to trigger popup at halfway down the page
+  // On mount only: in dev mode, clear session storage on every fresh page
+  // load so testing is repeatable, and otherwise restore the "already
+  // dismissed" pill state from earlier this session.
   useEffect(() => {
-    // In dev mode, clear session storage on fresh page load so testing popup on scroll works every time
     if (import.meta.env.DEV) {
       sessionStorage.removeItem(STORAGE_DISMISSED_KEY);
-      sessionStorage.removeItem(STORAGE_TRIGGERED_KEY);
     }
 
-    // Check if dismissed previously in session
-    const isDismissed = sessionStorage.getItem(STORAGE_DISMISSED_KEY);
-    const isTriggered = sessionStorage.getItem(STORAGE_TRIGGERED_KEY);
-
-    if (isDismissed || isTriggered) {
+    if (sessionStorage.getItem(STORAGE_DISMISSED_KEY)) {
       setHasInteracted(true);
       // Returning to a slide-in pill state after a previous visit shouldn't
       // require scrolling again — it was already earned this session.
       setShowPill(true);
     }
+  }, []);
 
-    // Anchors the full popup to the "Rozwiązania" (Services) section instead
-    // of a scrollY/page-height ratio, which drifts as the page grows (more
-    // sections, lazy-loaded images pushing scrollHeight up) and had pushed
-    // the old 35% mark down to the contact form. Driven by the scroll event
-    // rather than an IntersectionObserver: Lenis's own scroll mechanism does
-    // not reliably trigger IntersectionObserver recalculation here (verified
-    // with real wheel-driven scrolling — the observer version never fired at
-    // all), while scroll + getBoundingClientRect tracks it correctly.
-    //
-    // Checks both edges of the section (top AND bottom), not just "has the
-    // top passed the midpoint" — a top-only check stays true for every
-    // scroll tick afterward, so skipping it once while a nav-link's Lenis
-    // animation is in flight (see the guard below) means the very next
-    // unblocked tick fires wherever the visitor has since scrolled to,
-    // which is what caused the open-at-the-contact-form bug. Requiring the
-    // section to still be partly on screen makes the window close again
-    // once the visitor has scrolled well past it.
-    const servicesSection = document.querySelector("#services");
-
+  // There is no auto-opening popup — it previously fought Lenis's own
+  // scroll handling (stuttered, and could reopen more than once per visit)
+  // and reliably triggering it at the right scroll position turned out to
+  // be more trouble than it was worth. The pill below still gets a one-off
+  // "peek" expansion instead (see the effect further down); the full panel
+  // only ever opens when the visitor clicks it.
+  useEffect(() => {
     const handleScroll = () => {
       const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-      if (scrollTotal > 0) {
-        const scrollProgress = window.scrollY / scrollTotal;
+      if (scrollTotal <= 0) return;
 
-        // The reopen pill only slides in once the visitor has actually engaged
-        // with the page — never present, unannounced, at first paint.
-        if (scrollProgress >= 0.15) {
-          setShowPill(true);
-        }
-      }
+      const scrollProgress = window.scrollY / scrollTotal;
 
-      if (sessionStorage.getItem(STORAGE_DISMISSED_KEY) || sessionStorage.getItem(STORAGE_TRIGGERED_KEY)) {
-        return;
-      }
-
-      // The full auto-opening popup is a homepage-only introduction; on the
-      // service subpages it would interrupt reading with no added context,
-      // so there it only ever surfaces as the slide-in pill above.
-      if (!isHomePage || !servicesSection) return;
-
-      // Skip while a nav link is smooth-scrolling the user through this
-      // section — opening here would lock body scroll and strand the
-      // Lenis animation short of its target (see Layout.astro).
-      if (window.__vfProgrammaticScroll) return;
-
-      const rect = servicesSection.getBoundingClientRect();
-      const isNearServices = rect.top <= window.innerHeight * 0.5 && rect.bottom > 0;
-      if (isNearServices) {
-        setIsOpen(true);
-        setHasInteracted(true);
-        sessionStorage.setItem(STORAGE_TRIGGERED_KEY, "true");
+      // The reopen pill only slides in once the visitor has actually engaged
+      // with the page — never present, unannounced, at first paint.
+      if (scrollProgress >= 0.15) {
+        setShowPill(true);
       }
     };
 
@@ -177,38 +139,38 @@ const PartnerModal = ({ pathname = "/" }) => {
     };
   }, [isOpen]);
 
-  // On subpages there's no auto-opening modal to introduce the program, so
-  // the collapsed pill gets one unprompted "peek" — briefly expanding itself
-  // around the middle of the page, then collapsing back down — as a passive
-  // equivalent of the homepage's popup. Anchored to the case-showcase
-  // section (shared across all three subpages, sitting roughly mid-page in
-  // their canonical section order) rather than a scrollY/document-height
-  // ratio: that ratio chases a moving target here, since the showcase's own
-  // `loading="lazy"` screenshots keep growing `scrollHeight` as the visitor
-  // scrolls toward them, which pushed the "50%" mark later and later until
-  // it only ever fired near the real bottom of the page.
+  // There's no auto-opening modal anywhere, so the collapsed pill gets one
+  // unprompted "peek" instead — briefly expanding itself to show its text,
+  // then collapsing back down — once the visitor scrolls near a relevant
+  // section: "Rozwiązania" (Services) on the homepage, the shared
+  // case-showcase section on the service subpages. Driven by the scroll
+  // event + getBoundingClientRect rather than IntersectionObserver: under
+  // this site's Lenis setup, IntersectionObserver does not reliably fire
+  // for real wheel-driven scrolling (verified directly), while this does.
   useEffect(() => {
-    if (isHomePage) return undefined;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    if (hasAutoPeekedRef.current) return undefined;
 
-    const target = document.querySelector(".case-showcase");
+    const target = document.querySelector(isHomePage ? "#services" : ".case-showcase");
     if (!target) return undefined;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting || hasAutoPeekedRef.current) return;
-        hasAutoPeekedRef.current = true;
-        setAutoPeek(true);
-        autoPeekTimeoutRef.current = window.setTimeout(() => setAutoPeek(false), 2600);
-        observer.disconnect();
-      },
-      { threshold: 0, rootMargin: "0px 0px -40% 0px" }
-    );
+    const handlePeekScroll = () => {
+      if (hasAutoPeekedRef.current) return;
 
-    observer.observe(target);
+      const rect = target.getBoundingClientRect();
+      const isNear = rect.top <= window.innerHeight * 0.6 && rect.bottom > 0;
+      if (!isNear) return;
+
+      hasAutoPeekedRef.current = true;
+      setAutoPeek(true);
+      autoPeekTimeoutRef.current = window.setTimeout(() => setAutoPeek(false), 2600);
+      window.removeEventListener("scroll", handlePeekScroll);
+    };
+
+    window.addEventListener("scroll", handlePeekScroll, { passive: true });
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener("scroll", handlePeekScroll);
       window.clearTimeout(autoPeekTimeoutRef.current);
     };
   }, [isHomePage]);
