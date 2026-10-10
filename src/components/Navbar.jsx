@@ -149,8 +149,8 @@ const Navbar = ({ pathname = "/" }) => {
     event.preventDefault();
     const target = document.getElementById(key);
     if (!target) return;
-    if (window.lenis) {
-      window.lenis.scrollTo(target);
+    if (window.__vfLenisScrollTo) {
+      window.__vfLenisScrollTo(target);
     } else {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -165,8 +165,8 @@ const Navbar = ({ pathname = "/" }) => {
       return;
     }
 
-    if (window.lenis) {
-      window.lenis.scrollTo(0);
+    if (window.__vfLenisScrollTo) {
+      window.__vfLenisScrollTo(0);
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }

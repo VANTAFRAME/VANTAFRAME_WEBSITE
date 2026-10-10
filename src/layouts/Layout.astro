@@ -236,18 +236,22 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
           gsap.ticker.lagSmoothing(0);
           lenis.on("scroll", ScrollTrigger.update);
 
-          // Nav-driven scrollTo() calls can pass straight through the 40%
-          // depth that auto-opens the partner popup (see PartnerModal.jsx).
-          // If that fires mid-flight it locks body scroll and cuts the
-          // animation short, so a link to a deep section silently lands
-          // short of its target. Flag programmatic scrolls on `window` so
-          // the popup's own scroll listener can ignore them until the
-          // animation completes.
-          const originalScrollTo = lenis.scrollTo.bind(lenis);
-          lenis.scrollTo = (target, options = {}) => {
+          window.lenis = lenis;
+
+          // Deliberate, click-triggered scrolls (nav links, logo-to-top)
+          // need to be distinguishable from Lenis's OWN internal scrollTo()
+          // calls, which it also uses under the hood to animate ordinary
+          // smooth-wheel scrolling — wrapping lenis.scrollTo itself used to
+          // flag those too, leaving window.__vfProgrammaticScroll true for
+          // almost the entire duration of any regular wheel scroll (see
+          // PartnerModal.jsx, which reads this flag to avoid opening the
+          // partner popup mid-navigation-jump). Call this instead of
+          // window.lenis.scrollTo() for anything triggered by a click, so
+          // only intentional jumps get flagged.
+          window.__vfLenisScrollTo = (target, options = {}) => {
             window.__vfProgrammaticScroll = true;
             const { onComplete, ...rest } = options;
-            return originalScrollTo(target, {
+            return lenis.scrollTo(target, {
               ...rest,
               onComplete: (...args) => {
                 window.__vfProgrammaticScroll = false;
@@ -255,8 +259,6 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
               },
             });
           };
-
-          window.lenis = lenis;
 
           return lenis;
         };
@@ -311,8 +313,8 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
         if (!target) return;
 
         event.preventDefault();
-        if (window.lenis) {
-          window.lenis.scrollTo(target);
+        if (window.__vfLenisScrollTo) {
+          window.__vfLenisScrollTo(target);
         } else {
           target.scrollIntoView({ behavior: "smooth", block: "start" });
         }
