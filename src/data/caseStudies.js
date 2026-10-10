@@ -34,7 +34,7 @@ export const caseStudies = [
     mobileImage: "/1_strony/portfolio/1_SGH_mobile.png",
     mobileAlt: "Landing page raportu SGH i Forum Ekonomicznego — widok na telefonie",
     liveUrl: "http://raportsghforum.pl/",
-    relatedService: { label: "strony i landing page", href: "/strony" },
+    relatedService: { label: "strony i landing page", href: "/strony/" },
     ctaText: "Planujesz premierę publikacji lub wydarzenie branżowe? Porozmawiajmy o Twoim projekcie.",
   },
   {
@@ -68,7 +68,7 @@ export const caseStudies = [
     mobileImage: "/1_strony/portfolio/2_Magdalena_mobile.png",
     mobileAlt: "Strona kliniki Magdalena Zapłata — widok na telefonie",
     liveUrl: "https://magdalenazaplata.pl/",
-    relatedService: { label: "strony wizerunkowe", href: "/strony" },
+    relatedService: { label: "strony wizerunkowe", href: "/strony/" },
     ctaText: "Prowadzisz markę osobistą i potrzebujesz strony na miarę Twojej marki? Porozmawiajmy.",
   },
   {
@@ -102,7 +102,7 @@ export const caseStudies = [
     mobileImage: "/1_strony/portfolio/3_scala_mobile.png",
     mobileAlt: "Strona Teatr SCALA — widok na telefonie",
     liveUrl: "https://teatrscala.com/",
-    relatedService: { label: "strony premium", href: "/strony" },
+    relatedService: { label: "strony premium", href: "/strony/" },
     ctaText: "Twoja marka celuje w klienta premium? Zobacz, jak to robimy.",
   },
   {
@@ -136,7 +136,7 @@ export const caseStudies = [
     mobileImage: "/2_systemy/portfolio/AGH_WGGIIS_mobilna.png",
     mobileAlt: "Aplikacja Start WGGiIS dla studentów AGH — widok na telefonie",
     liveUrl: null,
-    relatedService: { label: "dedykowane systemy i aplikacje", href: "/systemy" },
+    relatedService: { label: "dedykowane systemy i aplikacje", href: "/systemy/" },
     ctaText: "Potrzebujesz dedykowanego systemu dla instytucji lub uczelni? Porozmawiajmy.",
   },
 ];

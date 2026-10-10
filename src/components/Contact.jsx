@@ -173,7 +173,7 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
                 <h4 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">{frameworkT.heading}</h4>
                 <p className="text-black/60 mb-5">{frameworkT.desc}</p>
                 <a
-                  href="/kreator-projektu"
+                  href="/kreator-projektu/"
                   data-cursor-label="START"
                   className="group inline-flex items-center gap-3 px-6 py-3.5 bg-black text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-black/80 transition-colors"
                 >
@@ -368,10 +368,10 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
             >
               {footerT.cookieSettings}
             </button>
-            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className="py-1.5 md:py-0 hover:text-black transition-colors">
+            <a href="https://www.instagram.com/" target="_blank" rel="nofollow noopener noreferrer" className="py-1.5 md:py-0 hover:text-black transition-colors">
               Instagram
             </a>
-            <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" className="py-1.5 md:py-0 hover:text-black transition-colors">
+            <a href="https://www.linkedin.com/" target="_blank" rel="nofollow noopener noreferrer" className="py-1.5 md:py-0 hover:text-black transition-colors">
               LinkedIn
             </a>
           </div>

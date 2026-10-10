@@ -34,6 +34,16 @@ const {
   relatedService,
   ctaText,
 } = caseStudy;
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
+    { "@type": "ListItem", position: 2, name: "Portfolio", item: "https://vantaframe.pl/portfolio/" },
+    { "@type": "ListItem", position: 3, name: projectTitle, item: `https://vantaframe.pl/portfolio/${caseStudy.slug}/` },
+  ],
+};
 ---
 
 <Layout
@@ -41,6 +51,7 @@ const {
   description={description}
   canonicalPath={`/portfolio/${caseStudy.slug}`}
   robots="index, follow"
+  structuredData={[breadcrumbJsonLd]}
 >
   <Navbar client:load pathname={Astro.url.pathname} />
 
@@ -48,7 +59,7 @@ const {
     <section class="px-6 pt-32 pb-16 md:px-12 md:pt-40 md:pb-20">
       <div class="mx-auto max-w-[1100px]">
         <a
-          href="/portfolio"
+          href="/portfolio/"
           class="mb-10 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-white/40 transition-colors hover:text-white"
         >
           ← Wróć do portfolio
@@ -142,7 +153,7 @@ const {
             <a
               href={liveUrl}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="nofollow noopener noreferrer"
               class="inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10"
             >
               Zobacz stronę live

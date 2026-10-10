@@ -152,30 +152,30 @@ export const languages = {
       items: [
         {
           id: "01",
-          slug: "/strony",
+          slug: "/strony/",
           title: "Strony i Sklepy",
           desc: "Strony i sklepy projektowane wokół Twojej marki, klientów i celów biznesowych.",
           tags: ["Strony WWW", "Sklepy Online", "Landing Pages"],
         },
         {
           id: "02",
-          slug: "/systemy",
+          slug: "/systemy/",
           title: "Systemy i Aplikacje",
           desc: "Projektujemy dedykowane systemy i aplikacje dopasowane do procesów, użytkowników i modelu działania Twojego biznesu.",
           tags: ["CRM", "Aplikacje Webowe", "Aplikacje Mobilne"],
         },
         {
           id: "03",
-          slug: "/automatyzacje",
+          slug: "/automatyzacje/",
           title: "Automatyzacje i AI",
           desc: "Automatyzujemy powtarzalne procesy i łączymy narzędzia, żeby Twoja firma wykonywała mniej pracy ręcznie.",
           tags: ["Automatyzacje", "Integracje", "AI"],
         },
       ],
       dropdown: [
-        { id: "01", title: "Strony i Sklepy", desc: "Strony, sklepy, landing pages", href: "/strony" },
-        { id: "02", title: "Systemy i Aplikacje", desc: "CRM, aplikacje webowe i mobilne", href: "/systemy" },
-        { id: "03", title: "Automatyzacje i AI", desc: "Procesy, integracje, AI", href: "/automatyzacje" },
+        { id: "01", title: "Strony i Sklepy", desc: "Strony, sklepy, landing pages", href: "/strony/" },
+        { id: "02", title: "Systemy i Aplikacje", desc: "CRM, aplikacje webowe i mobilne", href: "/systemy/" },
+        { id: "03", title: "Automatyzacje i AI", desc: "Procesy, integracje, AI", href: "/automatyzacje/" },
       ],
     },
     portfolio: {
@@ -194,7 +194,7 @@ export const languages = {
       ],
     },
     processStrony: {
-      heading: ["FROM IDEA", "TO LIVE."],
+      heading: ["PROCES TWORZENIA", "STRONY INTERNETOWEJ"],
       steps: [
         { n: "01", title: "Analiza i cele", tag: "BRIEF / NODES", desc: "Ustalamy profil Twojego klienta, cel serwisu i kluczowe przewagi konkurencyjne." },
         { n: "02", title: "Kierunek i treści", tag: "STRUCTURE", desc: "Układamy strukturę podstron, architekturę informacji oraz główne komunikaty." },
@@ -205,7 +205,7 @@ export const languages = {
       ],
     },
     processSystemy: {
-      heading: ["FROM PROCESS", "TO PLATFORM."],
+      heading: ["PROCES WDROŻENIA", "DEDYKOWANEGO SYSTEMU"],
       steps: [
         { n: "01", title: "Analiza procesów", tag: "MAPA / WORKFLOW", desc: "Mapujemy obecny przepływ pracy, role w zespole i wąskie gardła." },
         { n: "02", title: "Architektura i bezpieczeństwo", tag: "SCHEMA / ACCESS", desc: "Projektujemy strukturę bazy danych, uprawnienia i logikę biznesową." },
@@ -881,7 +881,7 @@ export const languages = {
       },
     },
     processAutomatyzacje: {
-      heading: ["FROM TASK", "TO FLOW."],
+      heading: ["PROCES WDROŻENIA", "AUTOMATYZACJI I AI"],
       steps: [
         { n: "01", title: "Audyt procesu", tag: "AUDIT / MAP", desc: "Mapujemy obecny proces, jego kroki, uczestników i miejsca powstawania opóźnień." },
         { n: "02", title: "Mapa workflow", tag: "WORKFLOW", desc: "Projektujemy docelowy przepływ danych i decyzji pomiędzy systemami." },
@@ -1044,30 +1044,30 @@ export const languages = {
       items: [
         {
           id: "01",
-          slug: "/strony",
+          slug: "/strony/",
           title: "Websites & Stores",
           desc: "Websites and stores designed around your brand, your customers, and your business goals.",
           tags: ["Websites", "Online Stores", "Landing Pages"],
         },
         {
           id: "02",
-          slug: "/systemy",
+          slug: "/systemy/",
           title: "Systems & Applications",
           desc: "We design custom systems and applications tailored to the processes, users, and operational model of your business.",
           tags: ["CRM", "Web Apps", "Mobile Apps"],
         },
         {
           id: "03",
-          slug: "/automatyzacje",
+          slug: "/automatyzacje/",
           title: "Automation & AI",
           desc: "We automate repetitive processes and connect tools so your team does less manual work.",
           tags: ["Automations", "Integrations", "AI"],
         },
       ],
       dropdown: [
-        { id: "01", title: "Websites & Stores", desc: "Websites, stores, landing pages", href: "/strony" },
-        { id: "02", title: "Systems & Applications", desc: "CRM, web & mobile apps", href: "/systemy" },
-        { id: "03", title: "Automation & AI", desc: "Processes, integrations, AI", href: "/automatyzacje" },
+        { id: "01", title: "Websites & Stores", desc: "Websites, stores, landing pages", href: "/strony/" },
+        { id: "02", title: "Systems & Applications", desc: "CRM, web & mobile apps", href: "/systemy/" },
+        { id: "03", title: "Automation & AI", desc: "Processes, integrations, AI", href: "/automatyzacje/" },
       ],
     },
     portfolio: {
@@ -1086,7 +1086,7 @@ export const languages = {
       ],
     },
     processStrony: {
-      heading: ["FROM IDEA", "TO LIVE."],
+      heading: ["OUR WEBSITE", "DESIGN PROCESS"],
       steps: [
         { n: "01", title: "Analysis & goals", tag: "BRIEF / NODES", desc: "We define your client profile, the site's goal, and key competitive advantages." },
         { n: "02", title: "Direction & content", tag: "STRUCTURE", desc: "We map out the page structure, information architecture, and core messaging." },
@@ -1097,7 +1097,7 @@ export const languages = {
       ],
     },
     processSystemy: {
-      heading: ["FROM PROCESS", "TO PLATFORM."],
+      heading: ["OUR SYSTEM", "DEVELOPMENT PROCESS"],
       steps: [
         { n: "01", title: "Process analysis", tag: "MAP / WORKFLOW", desc: "We map your current workflow, team roles, and bottlenecks." },
         { n: "02", title: "Architecture & security", tag: "SCHEMA / ACCESS", desc: "We design the database structure, permissions, and business logic." },
@@ -1773,7 +1773,7 @@ export const languages = {
       },
     },
     processAutomatyzacje: {
-      heading: ["FROM TASK", "TO FLOW."],
+      heading: ["OUR AUTOMATION", "& AI PROCESS"],
       steps: [
         { n: "01", title: "Process audit", tag: "AUDIT / MAP", desc: "We map the current process, its steps, participants, and where delays happen." },
         { n: "02", title: "Workflow map", tag: "WORKFLOW", desc: "We design the target flow of data and decisions between systems." },

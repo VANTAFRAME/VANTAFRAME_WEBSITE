@@ -67,7 +67,7 @@ const PortfolioGridClient = () => {
                 key={project.id}
                 href={href}
                 target={isExternal ? "_blank" : undefined}
-                rel={isExternal ? "noopener noreferrer" : undefined}
+                rel={isExternal ? "nofollow noopener noreferrer" : undefined}
                 className={`group relative block w-full break-inside-avoid overflow-hidden rounded-xl bg-neutral-900 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)] ${spanClass}`}
               >
                 <div className="absolute inset-0 h-full w-full">

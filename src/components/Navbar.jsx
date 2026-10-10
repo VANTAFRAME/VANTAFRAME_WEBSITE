@@ -7,9 +7,9 @@ const Navbar = ({ pathname = "/" }) => {
   const lang = useStore(currentLang, () => "pl");
   const t = languages[lang].nav;
   const servicesDropdown = languages[lang].services.dropdown || [
-    { id: "01", title: "Strony i Sklepy", desc: "Strony, sklepy, landing pages", href: "/strony" },
-    { id: "02", title: "Systemy dla Firm", desc: "CRM, panele, systemy dedykowane", href: "/systemy" },
-    { id: "03", title: "Automatyzacje i AI", desc: "Procesy, integracje, AI", href: "/automatyzacje" },
+    { id: "01", title: "Strony i Sklepy", desc: "Strony, sklepy, landing pages", href: "/strony/" },
+    { id: "02", title: "Systemy dla Firm", desc: "CRM, panele, systemy dedykowane", href: "/systemy/" },
+    { id: "03", title: "Automatyzacje i AI", desc: "Procesy, integracje, AI", href: "/automatyzacje/" },
   ];
 
   const [isDocked, setIsDocked] = useState(false);

@@ -181,7 +181,7 @@ const Portfolio = () => {
       <div className="absolute top-6 inset-x-4 md:top-8 md:inset-x-12 z-20 flex items-center justify-between gap-4 pointer-events-none">
         <h2 className="text-sm font-bold tracking-widest uppercase text-white/40 mix-blend-difference">{t.title}</h2>
         <a
-          href="/portfolio"
+          href="/portfolio/"
           className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/6 px-4 py-2 text-[10px] md:text-xs font-semibold uppercase tracking-[0.18em] text-white/85 backdrop-blur-md transition-colors hover:border-white/35 hover:bg-white/12 hover:text-white"
         >
           <span>{t.viewAll}</span>
@@ -212,7 +212,7 @@ const Portfolio = () => {
             href={project.url}
             onClick={handleLinkClick}
             target={project.url.startsWith("http") ? "_blank" : undefined}
-            rel={project.url.startsWith("http") ? "noopener noreferrer" : undefined}
+            rel={project.url.startsWith("http") ? "nofollow noopener noreferrer" : undefined}
             draggable="false"
             className={`
               group project-card relative flex-shrink-0 w-[96vw] sm:w-[72vw] md:w-[22vw] h-[30vh] md:h-[60vh]

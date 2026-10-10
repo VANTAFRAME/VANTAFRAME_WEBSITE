@@ -31,7 +31,12 @@ const {
 } = Astro.props;
 
 const siteUrl = "https://vantaframe.pl";
-const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+// Normalize to a trailing slash so the canonical/OG URL always matches the
+// directory-style URLs Astro actually serves (/strony/, not /strony) —
+// keeps crawlers from treating the two forms as separate pages.
+const normalizedCanonicalPath =
+  canonicalPath === "/" || canonicalPath.endsWith("/") ? canonicalPath : `${canonicalPath}/`;
+const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
 ---
 
 <!doctype html>
