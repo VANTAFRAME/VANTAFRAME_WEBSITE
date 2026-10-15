@@ -141,7 +141,7 @@ const Modal = ({ isOpen, onClose, title, closeAria, closeLabel, children }) => {
 
 const PolishPrivacyContent = () => (
   <>
-        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Ostatnia aktualizacja: 10 października 2026 r.</p>
+        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Ostatnia aktualizacja: 15 października 2026 r.</p>
 
         <p><strong>1. O tej polityce</strong></p>
         <p>
@@ -240,14 +240,16 @@ const PolishPrivacyContent = () => (
         <p><strong>7. Cookies i localStorage</strong></p>
         <p>
           Strona nie wdraża Google Analytics ani cookies marketingowych bez zgody. Po wybraniu „Akceptuję” w banerze
-          cookies ładowany jest Google Tag Manager (GTM) - kontener do zarządzania tagami, który może uruchamiać
-          dodatkowe narzędzia analityczne lub marketingowe. Wybranie „Tylko niezbędne” blokuje załadowanie GTM.
+          cookies ładowany jest Google Tag Manager (GTM) - kontener do zarządzania tagami, przez który uruchamiamy
+          Google Analytics 4 (GA4) do zbierania statystyk odwiedzin strony (liczba użytkowników, odwiedzane
+          podstrony, ogólne źródło ruchu). Wybranie „Tylko niezbędne” blokuje załadowanie GTM i GA4.
           Używane mechanizmy to:
         </p>
         <ul className="list-disc pl-5 space-y-1">
           <li><code>vf_cookie_consent_v1</code> w localStorage - zapisuje wybór w banerze cookies/localStorage oraz datę zapisu.</li>
           <li><code>vf_framework_v1</code> w localStorage - zapisuje postęp kreatora FRAMEWORK bez danych kontaktowych.</li>
-          <li>Google Tag Manager - ładowany wyłącznie po zaakceptowaniu cookies; sam kontener może ustawiać własne cookies techniczne, a dodatkowe cookies pojawią się, jeżeli w przyszłości skonfigurujemy w nim konkretne narzędzia (np. analitykę).</li>
+          <li>Google Tag Manager - ładowany wyłącznie po zaakceptowaniu cookies; sam kontener może ustawiać własne cookies techniczne.</li>
+          <li>Google Analytics 4 (przez Google Tag Manager) - ładowany wyłącznie po zaakceptowaniu cookies; zapisuje cookies <code>_ga</code> (do 2 lat) i <code>_ga_*</code> (do 2 lat) służące do rozróżniania użytkowników i sesji w statystykach odwiedzin, bez bezpośredniej identyfikacji tożsamości.</li>
         </ul>
         <p>
           Zablokowanie cookies lub localStorage może spowodować, że strona nie zapamięta ustawień albo postępu w kreatorze.
@@ -260,9 +262,10 @@ const PolishPrivacyContent = () => (
         </p>
         <p>
           Strona ładuje font Outfit z Google Fonts przez <code>fonts.googleapis.com</code> i <code>fonts.gstatic.com</code>
-          oraz, po zaakceptowaniu cookies, Google Tag Manager z <code>googletagmanager.com</code>. W kodzie strony nie
-          znaleziono wdrożonego Google reCAPTCHA ani Meta Pixel. Na stronie znajdują się zwykłe linki do Instagramu i
-          LinkedIn; kliknięcie przenosi użytkownika do zewnętrznego serwisu.
+          oraz, po zaakceptowaniu cookies, Google Tag Manager z <code>googletagmanager.com</code> i Google Analytics 4
+          z <code>google-analytics.com</code>. W kodzie strony nie znaleziono wdrożonego Google reCAPTCHA ani Meta
+          Pixel. Na stronie znajdują się zwykłe linki do Instagramu i LinkedIn; kliknięcie przenosi użytkownika do
+          zewnętrznego serwisu.
         </p>
 
         <p><strong>9. Odbiorcy danych</strong></p>
@@ -271,7 +274,7 @@ const PolishPrivacyContent = () => (
           <li>Hostinger - hosting publicznej strony i infrastruktura serwerowa,</li>
           <li>FormSubmit - obsługa wysyłki formularzy,</li>
           <li>Anthropic - wyłącznie opcjonalna rekomendacja AI, w zakresie odpowiedzi projektowych,</li>
-          <li>Google - dostarczenie fontów Google Fonts oraz, po zaakceptowaniu cookies, Google Tag Manager,</li>
+          <li>Google - dostarczenie fontów Google Fonts oraz, po zaakceptowaniu cookies, Google Tag Manager i Google Analytics 4 (statystyki odwiedzin),</li>
           <li>dostawcy poczty e-mail używanej przez VANTAFRAME,</li>
           <li>dostawcy IT, utrzymania, bezpieczeństwa, doradcy prawni lub księgowi, jeżeli jest to potrzebne,</li>
           <li>podmioty uprawnione na podstawie przepisów prawa.</li>
@@ -292,6 +295,7 @@ const PolishPrivacyContent = () => (
           <li>dane potrzebne do ustalenia, dochodzenia lub obrony roszczeń - do upływu terminów przedawnienia,</li>
           <li>dane przetwarzane na podstawie zgody - do czasu jej wycofania, z zastrzeżeniem danych potrzebnych do innych celów,</li>
           <li>dane w localStorage - do zmiany ustawień, wyczyszczenia danych strony, nadpisania lub usunięcia wpisu,</li>
+          <li>cookies Google Analytics 4 - zgodnie z ustawieniami Google, standardowo do 2 lat (<code>_ga</code>, <code>_ga_*</code>), z możliwością wcześniejszego wygaśnięcia zgodnie z polityką Google,</li>
           <li>dane potencjalnych kontaktów biznesowych - przez okres niezbędny do realizacji celu, dla którego zostały pozyskane, z okresową oceną dalszej potrzeby ich przetwarzania,</li>
           <li>dane niezbędne do respektowania sprzeciwu wobec marketingu bezpośredniego - w minimalnym zakresie potrzebnym do zapewnienia, że dana osoba nie otrzyma kolejnych komunikatów marketingowych.</li>
         </ul>
@@ -336,7 +340,7 @@ const PolishPrivacyContent = () => (
 
 const EnglishPrivacyContent = () => (
   <>
-        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Last updated: October 10, 2026</p>
+        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Last updated: October 15, 2026</p>
 
         <p><strong>1. About this policy</strong></p>
         <p>
@@ -436,13 +440,15 @@ const EnglishPrivacyContent = () => (
         <p><strong>7. Cookies and localStorage</strong></p>
         <p>
           The site does not implement Google Analytics or marketing cookies without consent. Choosing "Accept" in the
-          cookie banner loads Google Tag Manager (GTM) - a tag management container that can run additional
-          analytics or marketing tools. Choosing "Essential only" blocks GTM from loading. The mechanisms in use are:
+          cookie banner loads Google Tag Manager (GTM) - a tag management container through which we run Google
+          Analytics 4 (GA4) to collect visit statistics (number of users, pages visited, general traffic source).
+          Choosing "Essential only" blocks GTM and GA4 from loading. The mechanisms in use are:
         </p>
         <ul className="list-disc pl-5 space-y-1">
           <li><code>vf_cookie_consent_v1</code> in localStorage - stores your choice in the cookie banner and the date it was saved.</li>
           <li><code>vf_framework_v1</code> in localStorage - stores FRAMEWORK creator progress without contact details.</li>
-          <li>Google Tag Manager - loaded only after cookies are accepted; the container itself may set its own technical cookies, and further cookies will appear if we configure specific tools inside it (e.g. analytics) in the future.</li>
+          <li>Google Tag Manager - loaded only after cookies are accepted; the container itself may set its own technical cookies.</li>
+          <li>Google Analytics 4 (via Google Tag Manager) - loaded only after cookies are accepted; sets the <code>_ga</code> (up to 2 years) and <code>_ga_*</code> (up to 2 years) cookies used to distinguish users and sessions in visit statistics, without directly identifying you.</li>
         </ul>
         <p>
           Blocking cookies or localStorage may prevent the site from remembering settings or creator progress.
@@ -456,9 +462,9 @@ const EnglishPrivacyContent = () => (
         <p>
           The site loads the Outfit font from Google Fonts via <code>fonts.googleapis.com</code> and
           <code> fonts.gstatic.com</code>, and, once cookies are accepted, Google Tag Manager from
-          <code> googletagmanager.com</code>. No implementation of Google reCAPTCHA or Meta Pixel was found in the
-          site's code. The site contains plain links to Instagram and LinkedIn; clicking them takes the user to an
-          external service.
+          <code> googletagmanager.com</code> and Google Analytics 4 from <code>google-analytics.com</code>. No
+          implementation of Google reCAPTCHA or Meta Pixel was found in the site's code. The site contains plain
+          links to Instagram and LinkedIn; clicking them takes the user to an external service.
         </p>
 
         <p><strong>9. Data recipients</strong></p>
@@ -467,7 +473,7 @@ const EnglishPrivacyContent = () => (
           <li>Hostinger - hosting of the public website and server infrastructure,</li>
           <li>FormSubmit - handling of form submissions,</li>
           <li>Anthropic - solely for the optional AI recommendation, limited to project answers,</li>
-          <li>Google - delivery of Google Fonts and, once cookies are accepted, Google Tag Manager,</li>
+          <li>Google - delivery of Google Fonts and, once cookies are accepted, Google Tag Manager and Google Analytics 4 (visit statistics),</li>
           <li>email service providers used by VANTAFRAME,</li>
           <li>IT, maintenance, and security providers, legal or accounting advisors, if needed,</li>
           <li>entities authorized under applicable law.</li>
@@ -488,6 +494,7 @@ const EnglishPrivacyContent = () => (
           <li>data needed to establish, pursue, or defend claims - until the relevant limitation periods expire,</li>
           <li>data processed on the basis of consent - until consent is withdrawn, subject to data needed for other purposes,</li>
           <li>data in localStorage - until settings are changed, site data is cleared, or the entry is overwritten or deleted,</li>
+          <li>Google Analytics 4 cookies - per Google's settings, typically up to 2 years (<code>_ga</code>, <code>_ga_*</code>), and may expire earlier under Google's own policy,</li>
           <li>data of potential business contacts - for the period necessary to achieve the purpose for which it was obtained, subject to periodic review of the continued need for processing,</li>
           <li>data necessary to honour an objection to direct marketing - to the minimum extent needed to ensure the individual does not receive further marketing communications.</li>
         </ul>
