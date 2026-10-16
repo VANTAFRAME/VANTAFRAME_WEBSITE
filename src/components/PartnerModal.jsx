@@ -210,6 +210,14 @@ const PartnerModal = ({ pathname = "/" }) => {
 
   const openModal = () => {
     setIsOpen(true);
+
+    if (typeof window !== "undefined") {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "partner_modal_open",
+        source: "pill",
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
