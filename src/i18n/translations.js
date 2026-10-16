@@ -894,15 +894,15 @@ export const languages = {
   en: {
     nav: {
       services: "Services",
-      work: "Work",
-      process: "Process",
+      work: "Results",
+      process: "Collaboration",
       pricing: "Quote",
       framework: "Framework",
       contact: "Contact",
     },
     hero: {
-      subtitle: "Digital Architect",
-      cta: "View Projects",
+      subtitle: "Your visual support",
+      cta: "See what we can do",
       scroll: "Scroll",
     },
     stronyPage: {
@@ -1031,14 +1031,14 @@ export const languages = {
       },
     },
     about: {
-      heading: "Web design company crafting",
-      headingHighlight: "experiences",
-      headingEnd: "with passion, purpose, and a vision for success.",
-      desc: "VantaFrame is an intuitive and excellent web design company. With reputation built over years, we outshine top-end digital agencies by providing premium services with result-driven strategies. We offer an extensive range of services such as website development, mobile apps and SEO.",
-      cta: "More about us",
+      heading: "Websites, systems, and automations,",
+      headingHighlight: "that grow",
+      headingEnd: "your business.",
+      desc: "We design modern websites, dedicated business systems, and automation and AI solutions. From idea and strategy, through implementation, to ongoing growth.",
+      cta: "Let's talk about your project",
     },
     services: {
-      title: "Our Expertise",
+      title: "What We Help With",
       heading: "Solutions for",
       headingAccent: "Your Business",
       items: [
@@ -1237,7 +1237,7 @@ export const languages = {
       reasons: [
         "we analyze scope, goals, and priorities",
         "we match the solution to budget and timeline",
-        "you get a clear plan and fast response"
+        "we come back with a clear plan and an answer"
       ],
       cta: "Go to contact form",
     },
@@ -1261,12 +1261,12 @@ export const languages = {
         {
           id: "03",
           q: "How much does a project cost?",
-          a: "Every project is quoted individually after defining its scope. Cost depends on complexity, features, and required scope of work. You receive a clear, fixed quote before we start.",
+          a: "Every project is quoted individually after defining its scope. Cost depends on complexity, features, and required scope of work. Before we start, you receive a clear, specific quote and scope of work.",
         },
         {
           id: "04",
           q: "How long does delivery take?",
-          a: "Timeline depends on the type and scale of the project. A high-end website requires a different process than a custom business system. Once the scope is set, we provide a clear roadmap and schedule.",
+          a: "Timeline depends on the type and scale of the project. A simple website requires a very different process than a custom system or application. Once the scope is set, we provide a clear roadmap and schedule.",
         },
         {
           id: "05",
@@ -1293,25 +1293,25 @@ export const languages = {
     technologies: {
       title: "Tech Stack",
       subtitle: "Tools",
-      desc: "We use cutting-edge technologies to ensure speed, scalability, and security.",
+      desc: "We use modern, proven technologies to keep your website fast and secure.",
     },
     contact: {
       pinLabel: "Contact",
       locationBadge: "Krakow, Poland",
-      addressLine1: "33 Żułowska St., Apt 10",
+      addressLine1: "33 Żułowska St., Unit 10",
       addressLine2: "31-436 Krakow, Poland",
-      addressScope: "HQ in Krakow • Projects across Poland & Europe",
-      heading: "Let's build",
-      heading2: "something unreal.",
-      desc: "Ready to elevate your digital presence? Schedule a consultation.",
+      addressScope: "HQ in Krakow • Projects across Poland & the EU",
+      heading: "Let's do this",
+      heading2: "together.",
+      desc: "Got questions? Want a quote? Just write.",
       form: {
         name: "Name",
         email: "Email",
-        details: "Project Details",
+        details: "What would you like to ask?",
         placeholderName: "John Doe",
         placeholderEmail: "john@example.com",
-        placeholderDetails: "Tell us about your next big thing...",
-        submit: "Send Request",
+        placeholderDetails: "Briefly describe what you need...",
+        submit: "Send Message",
         submitting: "Sending...",
         privacyAckPrefix: "I have read the",
         privacyAckLink: "Privacy Policy",
