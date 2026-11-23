@@ -4,9 +4,10 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/export-static-dist.mjs",
-    "build:vercel": "astro build",
+    "build": "astro build && node scripts/vercel-redirects.mjs",
+    "build:hostinger": "astro build && node scripts/export-static-dist.mjs",
     "preview": "astro preview",
+    "preview:local": "node scripts/preview-local.mjs",
     "astro": "astro"
   },
   "dependencies": {

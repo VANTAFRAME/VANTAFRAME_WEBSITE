@@ -21,4 +21,4 @@ const SlideComparison = () => (
   </div>
 );
 
-export default SlideComparison;
+export default SlideComparison;

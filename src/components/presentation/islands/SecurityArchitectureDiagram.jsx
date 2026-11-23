@@ -167,4 +167,4 @@ const SecurityArchitectureDiagram = () => {
   );
 };
 
-export default SecurityArchitectureDiagram;
+export default SecurityArchitectureDiagram;

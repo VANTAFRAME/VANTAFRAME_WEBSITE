@@ -107,4 +107,4 @@ const InteractiveLogo = () => {
     );
 };
 
-export default InteractiveLogo;
+export default InteractiveLogo;

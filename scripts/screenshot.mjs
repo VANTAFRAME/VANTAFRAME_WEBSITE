@@ -1,12 +1,10 @@
 import puppeteer from 'puppeteer';
-
 async function main() {
   const browser = await puppeteer.launch({
     headless: true,
     executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
-
   const capture = async (url, outputPath) => {
     console.log(`Starting capture for ${url}...`);
     const page = await browser.newPage();
@@ -17,10 +15,9 @@ async function main() {
     await page.close();
     console.log(`Saved screenshot to ${outputPath}`);
   };
-
   try {
-    await capture('https://vantavision.pl/', 'public/projects/vantavision.png');
-    await capture('https://vantasignal.pl/', 'public/projects/vantasignal.png');
+    await capture('https://vantavision.pl/', 'assets-source/projects/vantavision.png');
+    await capture('https://vantasignal.pl/', 'assets-source/projects/vantasignal.png');
     console.log('ALL SCREENSHOTS CAPTURED SUCCESSFULLY');
   } catch (err) {
     console.error('Error during capture:', err);
@@ -28,5 +25,4 @@ async function main() {
     await browser.close();
   }
 }
-
 main();

@@ -2,172 +2,215 @@
 import Layout from "../../layouts/Layout.astro";
 import Navbar from "../../components/Navbar";
 import Contact from "../../components/Contact";
-import ScrollReveal from "../../components/ScrollReveal.astro";
-import { DeviceFrame, IPhoneFrame } from "../../components/shared/DeviceFrames";
+import ContactDrawer from "../../components/automatyzacje/ContactDrawer";
+import AutomationTracking from "../../components/automatyzacje/AutomationTracking";
+import ReferenceQuote from "../../components/shared/ReferenceQuote";
+import CaseStudyPreview from "../../components/casestudy/CaseStudyPreview";
+import CaseStudyDetails from "../../components/casestudy/CaseStudyDetails";
+import CaseStudyFlow from "../../components/casestudy/CaseStudyFlow.astro";
 import { caseStudies } from "../../data/caseStudies";
-
+import imageSizes from "../../data/projectImageSizes.json";
+import { getReferenceForCase } from "../../data/references";
 export function getStaticPaths() {
-  return caseStudies.map((caseStudy) => ({
+  return caseStudies.map((caseStudy, index) => ({
     params: { slug: caseStudy.slug },
-    props: { caseStudy },
+    props: { caseStudy, index },
   }));
 }
-
-const { caseStudy } = Astro.props;
+const { caseStudy, index } = Astro.props;
 const {
-  title,
-  description,
-  h1,
-  projectTitle,
-  industry,
-  projectType,
-  context,
-  problem,
-  scope,
-  solution,
-  effect,
-  desktopImage,
-  desktopAlt,
-  mobileImage,
-  mobileAlt,
-  liveUrl,
-  relatedService,
-  ctaText,
+  slug, title, description, h1, projectTitle, industry, projectType, context, problem, scope, solution, effect,
+  desktopImage, desktopAlt, liveUrl, relatedService, ctaText,
+  kind = "web", anonymized = false, flow, detailFrames = [],
 } = caseStudy;
-
+const clientName = anonymized ? caseStudy.clientLabel : caseStudy.clientLabel ?? caseStudy.client ?? projectTitle;
+const showLink = liveUrl && !anonymized;
+const number = String(index + 1).padStart(2, "0");
+const reference = getReferenceForCase(slug);
+const prev = caseStudies[(index - 1 + caseStudies.length) % caseStudies.length];
+const next = caseStudies[(index + 1) % caseStudies.length];
+// Preview: the full-page capture when there is one, otherwise the existing desktop image (no scrolling).
+const fullSrc = `/case-studies/${slug}/full.webp`;
+const hasFull = !!imageSizes[fullSrc];
+const previewSrc = hasFull ? fullSrc : desktopImage;
+const previewSize = imageSizes[previewSrc] ?? {};
+const detailSizes = Object.fromEntries(detailFrames.map((f) => [f.src, imageSizes[f.src] ?? {}]));
+const hostname = liveUrl ? new URL(liveUrl).hostname : undefined;
+const metaItems = [
+  ["KLIENT", clientName],
+  ["BRANŻA", industry],
+  ["TYP PROJEKTU", projectType],
+  ["ZAKRES", scope.slice(0, 2).join(" · ")],
+];
+const url = `https://vantaframe.pl/portfolio/${slug}/`;
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
-    { "@type": "ListItem", position: 2, name: "Portfolio", item: "https://vantaframe.pl/portfolio/" },
-    { "@type": "ListItem", position: 3, name: projectTitle, item: `https://vantaframe.pl/portfolio/${caseStudy.slug}/` },
+    { "@type": "ListItem", position: 2, name: "Realizacje", item: "https://vantaframe.pl/portfolio/" },
+    { "@type": "ListItem", position: 3, name: projectTitle, item: url },
   ],
 };
+const creativeWorkJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: h1,
+  description,
+  url,
+  image: `https://vantaframe.pl${hasFull ? fullSrc : desktopImage}`,
+  creator: { "@id": "https://vantaframe.pl/#organization" },
+  about: industry,
+};
 ---
-
 <Layout
   title={title}
   description={description}
-  canonicalPath={`/portfolio/${caseStudy.slug}`}
+  canonicalPath={`/portfolio/${slug}`}
   robots="index, follow"
-  structuredData={[breadcrumbJsonLd]}
+  structuredData={[breadcrumbJsonLd, creativeWorkJsonLd]}
 >
   <Navbar client:load pathname={Astro.url.pathname} />
-
   <main class="bg-brand-black text-white">
-    <section class="px-6 pt-32 pb-16 md:px-12 md:pt-40 md:pb-20">
+    <!-- HERO -->
+    <section class="px-6 pt-32 pb-12 md:px-12 md:pt-40 md:pb-16">
       <div class="mx-auto max-w-[1100px]">
-        <a
-          href="/portfolio/"
-          class="mb-10 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-white/40 transition-colors hover:text-white"
-        >
-          ← Wróć do portfolio
-        </a>
-
-        <div class="mb-6 flex flex-wrap items-center gap-2">
-          <span class="rounded-full border border-white/20 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-white/60">
-            {industry}
-          </span>
-          <span class="rounded-full border border-white/20 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-white/60">
-            {projectType}
-          </span>
-        </div>
-
-        <h1 class="max-w-3xl text-4xl font-black leading-[1.05] tracking-tight md:text-6xl">
-          {h1}
-        </h1>
-
-        <p class="mt-6 max-w-2xl text-lg text-white/60 md:text-xl">{context}</p>
-      </div>
-    </section>
-
-    <section class="px-4 pb-20 md:px-12" data-reveal>
-      <div class="relative mx-auto max-w-[1100px] rounded-xl border border-white/10 bg-black px-4 py-6 md:p-10">
-        <DeviceFrame src={desktopImage} alt={desktopAlt} label={projectTitle} className="h-full" />
-        {mobileImage && (
-          <div class="mt-16 mx-auto w-[42%] sm:w-[34%] flex justify-center md:mt-0 md:mx-0 md:absolute md:-bottom-5 md:-right-5 md:block md:w-[24%] lg:w-[21%]">
-            <IPhoneFrame src={mobileImage} alt={mobileAlt} className="w-full" tilt={false} />
-          </div>
-        )}
-      </div>
-    </section>
-
-    <section class="px-6 pb-20 md:px-12">
-      <div class="mx-auto grid max-w-[1100px] gap-14 md:grid-cols-2">
-        <div data-reveal>
-          <h2 class="mb-4 font-mono text-xs uppercase tracking-widest text-white/40">Problem</h2>
-          <p class="text-lg leading-relaxed text-white/75">{problem}</p>
-        </div>
-        <div data-reveal>
-          <h2 class="mb-4 font-mono text-xs uppercase tracking-widest text-white/40">Zakres prac</h2>
-          <ul class="flex flex-col gap-2.5">
-            {scope.map((item) => (
-              <li class="flex items-start gap-3 text-lg leading-relaxed text-white/75">
-                <span class="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-white/30"></span>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div data-reveal>
-          <h2 class="mb-4 font-mono text-xs uppercase tracking-widest text-white/40">Rozwiązanie</h2>
-          <p class="text-lg leading-relaxed text-white/75">{solution}</p>
-        </div>
-        <div data-reveal>
-          <h2 class="mb-4 font-mono text-xs uppercase tracking-widest text-white/40">Efekt</h2>
-          <ul class="flex flex-col gap-2.5">
-            {effect.map((item) => (
-              <li class="flex items-start gap-3 text-lg leading-relaxed text-white/75">
-                <span class="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300/60"></span>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="px-6 pb-28 md:px-12" data-reveal>
-      <div class="mx-auto flex max-w-[1100px] flex-col gap-8 rounded-2xl border border-white/10 bg-white/[0.03] p-8 md:p-12">
-        <div>
-          <h2 class="text-2xl font-bold tracking-tight md:text-3xl">{ctaText}</h2>
-          <p class="mt-3 text-white/55">
-            Potrzebujesz podobnego projektu? Zobacz, jak projektujemy{" "}
-            <a href={relatedService.href} class="underline underline-offset-4 hover:text-white">
-              {relatedService.label}
-            </a>.
-          </p>
-        </div>
-        <div class="flex flex-wrap items-center gap-4">
-          <a
-            href="#contact-form"
-            class="group inline-flex items-center gap-3 rounded-full bg-white px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-black transition-colors hover:bg-white/85"
-          >
-            Napisz do nas o swoim projekcie
-            <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-7-7 7 7-7 7" />
-            </svg>
-          </a>
-          {liveUrl && (
-            <a
-              href={liveUrl}
-              target="_blank"
-              rel="nofollow noopener noreferrer"
-              class="inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10"
-            >
-              Zobacz stronę live
-              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M7 7h10v10" />
-              </svg>
-            </a>
+        <nav aria-label="Breadcrumb" class="mb-10 font-mono text-[11px] uppercase tracking-widest text-white/40">
+          <a href="/portfolio/" class="transition-colors hover:text-white">Realizacje</a>
+          <span class="mx-2" aria-hidden="true">/</span>
+          <span class="text-white/70" aria-current="page">{projectTitle}</span>
+        </nav>
+        <p class="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">CASE STUDY · {number}</p>
+        <h1 class="max-w-4xl text-[clamp(2.2rem,6vw,4.5rem)] font-black uppercase leading-[1.02] tracking-tight">{h1}</h1>
+        <p class="mt-8 max-w-2xl text-lg text-white/60 md:text-xl">{context}</p>
+        <dl class="mt-14 grid grid-cols-1 gap-x-8 gap-y-6 border-t border-white/10 pt-8 sm:grid-cols-2 lg:grid-cols-[repeat(4,minmax(0,1fr))_auto]">
+          {metaItems.map(([label, value]) => (
+            <div>
+              <dt class="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">{label}</dt>
+              <dd class="text-sm leading-snug text-white/85">{value}</dd>
+            </div>
+          ))}
+          {showLink && (
+            <div>
+              <dt class="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">STRONA</dt>
+              <dd class="text-sm">
+                <a href={liveUrl} target="_blank" rel="nofollow noopener noreferrer" class="inline-flex items-center gap-1.5 text-white underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-white">
+                  {hostname}
+                  <span aria-hidden="true">↗</span>
+                  <span class="sr-only">(otwiera się w nowej karcie)</span>
+                </a>
+              </dd>
+            </div>
           )}
-        </div>
+        </dl>
       </div>
     </section>
-
-    <Contact client:load overlap={false} footerOnTop={true} />
+    <!-- PREVIEW / FLOW -->
+    {kind === "ai" && flow ? (
+      <CaseStudyFlow flow={flow} />
+    ) : (
+      <CaseStudyPreview
+        client:load
+        src={previewSrc}
+        width={previewSize.width}
+        height={previewSize.height}
+        alt={desktopAlt}
+        label={`Podgląd strony: ${projectTitle}`}
+        fit={hasFull ? "scroll" : "cover"}
+        url={anonymized ? undefined : hostname}
+      />
+    )}
+    <!-- WYZWANIE -->
+    <section class="px-6 py-24 md:px-12 md:py-32">
+      <div class="mx-auto max-w-[1100px]">
+        <h2 class="mb-10 font-mono text-xs uppercase tracking-[0.2em] text-white/40" data-reveal>WYZWANIE</h2>
+        <p class="max-w-4xl text-[clamp(1.5rem,3.4vw,2.75rem)] font-bold leading-[1.2] tracking-tight" data-reveal>{problem}</p>
+      </div>
+    </section>
+    <!-- CO ZROBILIŚMY -->
+    <section class="px-6 py-16 md:px-12 md:py-24">
+      <div class="mx-auto max-w-[1100px]">
+        <h2 class="mb-10 font-mono text-xs uppercase tracking-[0.2em] text-white/40" data-reveal>CO ZROBILIŚMY</h2>
+        <ol>
+          {scope.map((item, i) => (
+            <li class="flex items-baseline gap-6 border-t border-white/10 py-6 md:gap-10 md:py-8" data-reveal style={`transition-delay:${i * 90}ms`}>
+              <span class="font-mono text-xs text-white/35">{String(i + 1).padStart(2, "0")}</span>
+              <span class="text-xl font-bold leading-snug tracking-tight md:text-3xl">{item}</span>
+            </li>
+          ))}
+          <li class="border-t border-white/10" aria-hidden="true"></li>
+        </ol>
+      </div>
+    </section>
+    <!-- ROZWIĄZANIE -->
+    <section class="px-6 py-24 md:px-12 md:py-32">
+      <div class="mx-auto max-w-[1100px]">
+        <h2 class="mb-10 font-mono text-xs uppercase tracking-[0.2em] text-white/40" data-reveal>ROZWIĄZANIE</h2>
+        <p class="mb-16 max-w-3xl text-lg leading-relaxed text-white/70 md:mb-20 md:text-xl" data-reveal>{solution}</p>
+        {detailFrames.length > 0 && <CaseStudyDetails client:visible frames={detailFrames} sizes={detailSizes} />}
+      </div>
+    </section>
+    <!-- EFEKT -->
+    <section class="px-6 py-16 md:px-12 md:py-24">
+      <div class="mx-auto max-w-[1100px]">
+        <h2 class="mb-10 font-mono text-xs uppercase tracking-[0.2em] text-white/40" data-reveal>EFEKT</h2>
+        <ol>
+          {effect.map((item, i) => (
+            <li class="border-t border-white/10 py-8 md:py-10" data-reveal style={`transition-delay:${i * 90}ms`}>
+              <span class="mb-4 block font-mono text-xs text-white/35">{String(i + 1).padStart(2, "0")}</span>
+              <p class="max-w-4xl text-[clamp(1.4rem,3vw,2.4rem)] font-bold leading-[1.2] tracking-tight">{item}</p>
+            </li>
+          ))}
+          <li class="border-t border-white/10" aria-hidden="true"></li>
+        </ol>
+      </div>
+    </section>
+    {reference && (
+      <section class="px-6 pb-16 md:px-12">
+        <div class="mx-auto max-w-[1100px]">
+          <ReferenceQuote client:visible id={reference.id} variant="full" heading embedded />
+        </div>
+      </section>
+    )}
+    <!-- PREV / NEXT -->
+    <nav aria-label="Inne case studies" class="px-6 py-16 md:px-12">
+      <div class="mx-auto grid max-w-[1100px] gap-px border-y border-white/10 md:grid-cols-2 md:gap-0">
+        {[["POPRZEDNI", prev, "←"], ["NASTĘPNY", next, "→"]].map(([label, item, arrow], i) => (
+          <a
+            href={`/portfolio/${item.slug}/`}
+            class={`group flex items-center justify-between gap-6 py-8 transition-colors hover:bg-white/[0.02] md:py-10 ${i === 1 ? "border-t border-white/10 md:border-l md:border-t-0 md:pl-10" : "md:pr-10"}`}
+          >
+            <span class="min-w-0">
+              <span class="mb-3 block font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">{label}</span>
+              <span class="block text-2xl font-black uppercase leading-tight tracking-tight md:text-3xl">{item.projectTitle}</span>
+              <span class="mt-2 block font-mono text-[11px] uppercase tracking-widest text-white/45">{item.projectType}</span>
+            </span>
+            <span class="text-2xl text-white/50 transition-transform group-hover:translate-x-1" aria-hidden="true">{arrow}</span>
+          </a>
+        ))}
+      </div>
+    </nav>
+    <!-- CTA -->
+    <section class="flex flex-col items-center gap-8 px-6 py-24 text-center md:px-12 md:py-32">
+      <h2 class="max-w-4xl text-[clamp(1.8rem,5vw,3.75rem)] font-black leading-[1.08] tracking-tight" data-reveal>{ctaText}</h2>
+      <a
+        href="#contact"
+        data-open-contact-drawer
+        data-cta-location="case_study_cta"
+        class="group inline-flex w-fit items-center gap-3 border-b-2 border-white/60 pb-1 text-sm font-bold uppercase tracking-widest text-white outline-none transition-colors hover:border-white focus-visible:border-cyan-300"
+        data-reveal
+      >
+        Porozmawiajmy o projekcie
+        <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M5 12h14m-7-7l7 7-7 7" />
+        </svg>
+      </a>
+      <a href={relatedService.href} class="font-mono text-[11px] uppercase tracking-[0.2em] text-white/60 transition-colors hover:text-white focus-visible:text-white" data-reveal>
+        Zobacz: {relatedService.label} →
+      </a>
+    </section>
+    <Contact client:load variant="automatyzacje" overlapClass="-mt-10 md:-mt-14" currentPath={Astro.url.pathname} />
   </main>
-
-  <ScrollReveal />
+  <ContactDrawer client:load />
+  <AutomationTracking client:idle />
 </Layout>

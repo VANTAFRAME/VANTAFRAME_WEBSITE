@@ -1,11 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import FrameworkApp from "../components/framework/FrameworkApp.jsx";
-
 const title = "Kreator projektu strony, systemu lub automatyzacji | VANTAFRAME";
 const description =
   "Opisz swój projekt i otrzymaj wstępny brief, zakres oraz rekomendowany kierunek realizacji strony, systemu lub automatyzacji.";
-
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -15,12 +13,12 @@ const breadcrumbJsonLd = {
   ],
 };
 ---
-
 <Layout
   title={title}
   description={description}
   canonicalPath="/kreator-projektu"
   pageMode="framework"
+  robots="noindex, follow"
   structuredData={[breadcrumbJsonLd]}
 >
   <FrameworkApp client:load />

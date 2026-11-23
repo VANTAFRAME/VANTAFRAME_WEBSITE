@@ -3,11 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar";
 import PortfolioGrid from "../components/PortfolioGrid.astro";
 import Contact from "../components/Contact";
-
-const title = "Portfolio stron, systemów i automatyzacji | VANTAFRAME";
+const title = "Realizacje: strony, sklepy i aplikacje | VANTAFRAME";
 const description =
-  "Zobacz realizacje VANTAFRAME: strony internetowe, sklepy, landing pages, dedykowane systemy, automatyzacje i projekty AI dla firm.";
-
+  "Wybrane realizacje VANTAFRAME: strony internetowe, sklepy, landing pages i aplikacje webowe dla firm i instytucji, m.in. SGH, AGH i Teatru SCALA.";
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -17,7 +15,6 @@ const breadcrumbJsonLd = {
   ],
 };
 ---
-
 <Layout
   title={title}
   description={description}
@@ -25,7 +22,6 @@ const breadcrumbJsonLd = {
   structuredData={[breadcrumbJsonLd]}
 >
   <Navbar client:load pathname={Astro.url.pathname} />
-
   <main>
     <PortfolioGrid />
     <Contact client:load overlap={true} footerOnTop={true} />

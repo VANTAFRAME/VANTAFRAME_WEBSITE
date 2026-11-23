@@ -83,4 +83,4 @@ export const presentationCopy = {
     secondaryText: "kontakt@vantaframe.pl",
   },
   bespokeProject,
-};
+};

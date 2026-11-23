@@ -27,3 +27,21 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+# local backups and build archives
+_backup/
+# environment variables (all variants; the example file is committed)
+.env.*
+!.env.example
+# prompts and working notes
+_prompty/
+# Claude Code local settings and scratch
+.claude/
+# dokumenty robocze (audyty, teksty, instrukcje; nie są częścią strony)
+AUDYT_*.md
+AUTOMATYZACJE_*.md
+KREATOR_AI_*.md
+Polityka_prywatnosci_*.md
+HOSTINGER_*.htaccess
+DEPLOY_INSTRUCTIONS.md
+# originals (PNG screenshots etc.) — kept only locally, see README "Źródła obrazów i wideo"
+assets-source/

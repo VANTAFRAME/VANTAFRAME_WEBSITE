@@ -27,4 +27,4 @@ const LangSync = () => {
   return null;
 };
 
-export default LangSync;
+export default LangSync;

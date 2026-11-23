@@ -84,4 +84,4 @@ const MetricCounter = ({
   );
 };
 
-export default MetricCounter;
+export default MetricCounter;

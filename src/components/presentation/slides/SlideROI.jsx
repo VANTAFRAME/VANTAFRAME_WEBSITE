@@ -43,4 +43,4 @@ const SlideROI = () => (
   </div>
 );
 
-export default SlideROI;
+export default SlideROI;

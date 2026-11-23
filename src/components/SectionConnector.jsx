@@ -73,4 +73,4 @@ const SectionConnector = ({ position = 'left' }) => {
     );
 };
 
-export default SectionConnector;
+export default SectionConnector;

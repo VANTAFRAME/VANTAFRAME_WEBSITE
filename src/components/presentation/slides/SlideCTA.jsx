@@ -1,29 +1,25 @@
 import React from "react";
-
 const nextSteps = [
   "Krok 1: zakres",
   "Krok 2: harmonogram i wycena",
   "Krok 3: start projektu",
 ];
-
 const SlideCTA = () => (
   <div className="relative flex h-full min-h-0 flex-col justify-center overflow-hidden">
     <div className="presentation-wire-mark opacity-[0.035]">
       <img src="/vf-logo-wireframe.png" alt="" aria-hidden="true" />
     </div>
-
     <div className="relative z-10 max-w-[62rem]">
       <p className="presentation-stat-label text-cyan-300/78">Closing Slide</p>
       <h2 className="presentation-focus-text mt-5 text-[clamp(2.8rem,10vw,7rem)] font-black leading-[0.88] text-white">
         Jeśli to ma sens
-        <br />
+        {" "}<br />
         przejdźmy dalej.
       </h2>
       <p className="mt-6 max-w-[40rem] text-base leading-relaxed text-white/62 md:text-lg">
         Następny krok jest prosty. Doprecyzowanie zakresu, harmonogram i wycena, a potem start
         projektu bez zbędnego przeciągania decyzji.
       </p>
-
       <div className="mt-8 flex flex-wrap gap-3">
         {nextSteps.map((step) => (
           <span
@@ -35,7 +31,6 @@ const SlideCTA = () => (
         ))}
       </div>
     </div>
-
     <div className="relative z-10 mt-12 flex flex-col items-start gap-4">
       <a
         href="/#contact-form"
@@ -55,11 +50,9 @@ const SlideCTA = () => (
           <path d="M13 5l7 7-7 7" />
         </svg>
       </a>
-
       <p className="text-[0.72rem] uppercase tracking-[0.28em] text-white/36">
         Decyzja należy do Państwa.
       </p>
-
       <a
         href="mailto:kontakt@vantaframe.pl"
         className="cursor-hover text-[0.72rem] uppercase tracking-[0.28em] text-white/48 transition-colors duration-300 hover:text-white/72"
@@ -70,5 +63,4 @@ const SlideCTA = () => (
     </div>
   </div>
 );
-
 export default SlideCTA;

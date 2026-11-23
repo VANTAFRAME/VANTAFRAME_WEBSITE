@@ -74,4 +74,4 @@ const CornerBrackets = () => {
     );
 };
 
-export default CornerBrackets;
+export default CornerBrackets;

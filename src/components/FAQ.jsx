@@ -5,9 +5,8 @@ import { useStore } from '../lib/useStore';
 import { currentLang } from '../i18n/store';
 import { languages } from '../i18n/translations';
 import SectionConnector from './SectionConnector';
-
+import LinkedText from './LinkedText';
 gsap.registerPlugin(ScrollTrigger);
-
 const FAQItem = ({ item, isOpen, onToggle }) => {
     return (
         <div className="border-t border-white/10 transition-colors">
@@ -26,7 +25,6 @@ const FAQItem = ({ item, isOpen, onToggle }) => {
                         {item.q}
                     </h3>
                 </div>
-
                 <div className="shrink-0 pt-1">
                     <div className="w-7 h-7 flex items-center justify-center rounded-full border border-white/10 group-hover:border-white/30 transition-colors">
                         <svg
@@ -41,33 +39,42 @@ const FAQItem = ({ item, isOpen, onToggle }) => {
                     </div>
                 </div>
             </button>
-
             <div
                 id={`faq-answer-${item.id}`}
                 role="region"
                 aria-labelledby={`faq-question-${item.id}`}
+                inert={!isOpen}
                 className={`grid transition-all duration-300 ease-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 pointer-events-none'}`}
             >
                 <div className="overflow-hidden pl-8 sm:pl-10 md:pl-14 pr-4 md:pr-12 pb-8">
                     <p className="text-sm md:text-base lg:text-lg text-white/70 leading-relaxed font-normal">
                         {item.a}
                     </p>
+                    {item.links && (
+                        <p className="mt-4 text-sm md:text-base text-white/60 leading-relaxed">
+                            {item.links.lead}{' '}
+                            {item.links.items.map((link, i) => (
+                                <React.Fragment key={link.href}>
+                                    {i > 0 && ', '}
+                                    <LinkedText text={`[${link.text}](${link.href})`} />
+                                </React.Fragment>
+                            ))}
+                            .
+                        </p>
+                    )}
                 </div>
             </div>
         </div>
     );
 };
-
 const FAQ = () => {
     const lang = useStore(currentLang, () => "pl");
     const t = languages[lang].faq;
     const sectionRef = useRef(null);
     const [openIndex, setOpenIndex] = useState(null);
-
     const toggleItem = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
-
     useEffect(() => {
         const ctx = gsap.context(() => {
             gsap.fromTo('.faq-left-block',
@@ -84,7 +91,6 @@ const FAQ = () => {
                     }
                 }
             );
-
             gsap.fromTo('.faq-list-container',
                 { opacity: 0, y: 40 },
                 {
@@ -100,15 +106,12 @@ const FAQ = () => {
                 }
             );
         }, sectionRef);
-
         return () => ctx.revert();
     }, [lang]);
-
     return (
         <section id="faq" ref={sectionRef} className="py-24 md:py-36 px-6 md:px-12 bg-brand-black text-white relative z-10">
             <SectionConnector position="left" />
             <SectionConnector position="right" />
-
             <div className="max-w-[1700px] mx-auto">
                 <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-20 relative">
                     
@@ -119,19 +122,16 @@ const FAQ = () => {
                                 {t.label || "FAQ / NAJCZĘŚCIEJ PYTACIE"}
                             </span>
                         </div>
-
                         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] mb-6">
-                            {t.titleLine1 || "Pytania, które"} <br />
+                            {t.titleLine1 || "Pytania, które"} {" "}<br />
                             <span className="text-white/40 font-normal">
                                 {t.titleLine2 || "warto zadać."}
                             </span>
                         </h2>
-
                         <p className="text-sm md:text-base text-white/60 leading-relaxed max-w-md hidden lg:block">
                             {t.subDesc}
                         </p>
                     </div>
-
                     {/* PRAWA KOLUMNA: Accordion List */}
                     <div className="faq-list-container lg:w-[65%] w-full flex flex-col">
                         <div className="flex flex-col">
@@ -146,11 +146,9 @@ const FAQ = () => {
                             <div className="border-t border-white/10" />
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
     );
 };
-
 export default FAQ;

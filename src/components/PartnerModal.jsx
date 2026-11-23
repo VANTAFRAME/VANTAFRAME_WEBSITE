@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useStore } from "../lib/useStore";
 import { currentLang } from "../i18n/store";
-
+import { pushDataLayer } from "../lib/tracking";
 const STORAGE_DISMISSED_KEY = "vf_partner_dismissed_session";
-
 const translations = {
   pl: {
     badge: "PROGRAM PARTNERSKI",
@@ -56,12 +55,14 @@ const translations = {
     callAria: "Call VANTAFRAME",
   },
 };
-
 const PartnerModal = ({ pathname = "/" }) => {
   const lang = useStore(currentLang, () => "pl");
   const t = translations[lang] || translations.pl;
   const isHomePage = pathname === "/";
-
+  // /wdrozenia-ai (formerly /automatyzacje) is a Google Ads landing page: its goal is a client enquiry,
+  // so the partner pill must not pop open on its own there. It is still
+  // available (collapsed) and opens on click.
+  const suppressAutoPeek = pathname.replace(/\/$/, "") === "/wdrozenia-ai";
   const [isOpen, setIsOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [showPill, setShowPill] = useState(false);
@@ -70,14 +71,11 @@ const PartnerModal = ({ pathname = "/" }) => {
   const [contactValue, setContactValue] = useState("");
   const [submitStatus, setSubmitStatus] = useState("idle"); // 'idle' | 'submitting' | 'success' | 'error'
   const [errorMessage, setErrorMessage] = useState("");
-
   const modalRef = useRef(null);
   const hasAutoPeekedRef = useRef(false);
   const isHoveringRef = useRef(false);
   const autoPeekTimeoutRef = useRef(null);
-
   const isExpanded = isHovering || autoPeek;
-
   // On mount only: in dev mode, clear session storage on every fresh page
   // load so testing is repeatable, and otherwise restore the "already
   // dismissed" pill state from earlier this session.
@@ -85,7 +83,6 @@ const PartnerModal = ({ pathname = "/" }) => {
     if (import.meta.env.DEV) {
       sessionStorage.removeItem(STORAGE_DISMISSED_KEY);
     }
-
     if (sessionStorage.getItem(STORAGE_DISMISSED_KEY)) {
       setHasInteracted(true);
       // Returning to a slide-in pill state after a previous visit shouldn't
@@ -93,7 +90,6 @@ const PartnerModal = ({ pathname = "/" }) => {
       setShowPill(true);
     }
   }, []);
-
   // There is no auto-opening popup — it previously fought Lenis's own
   // scroll handling (stuttered, and could reopen more than once per visit)
   // and reliably triggering it at the right scroll position turned out to
@@ -104,26 +100,20 @@ const PartnerModal = ({ pathname = "/" }) => {
     const handleScroll = () => {
       const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
       if (scrollTotal <= 0) return;
-
       const scrollProgress = window.scrollY / scrollTotal;
-
       // The reopen pill only slides in once the visitor has actually engaged
       // with the page — never present, unannounced, at first paint.
       if (scrollProgress >= 0.15) {
         setShowPill(true);
       }
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
-
     // Custom event to manually open from anywhere
     const handleCustomOpen = () => {
       setIsOpen(true);
       setHasInteracted(true);
     };
-
     window.addEventListener("open-partner-modal", handleCustomOpen);
-
     // Close on Escape key
     const handleKeyDown = (e) => {
       if (e.key === "Escape" && isOpen) {
@@ -131,14 +121,12 @@ const PartnerModal = ({ pathname = "/" }) => {
       }
     };
     window.addEventListener("keydown", handleKeyDown);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("open-partner-modal", handleCustomOpen);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen]);
-
   // There's no auto-opening modal anywhere, so the collapsed pill gets one
   // unprompted "peek" instead — briefly expanding itself to show its text,
   // then collapsing back down — once the visitor scrolls near a relevant
@@ -150,31 +138,25 @@ const PartnerModal = ({ pathname = "/" }) => {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
     if (hasAutoPeekedRef.current) return undefined;
-
+    if (suppressAutoPeek) return undefined;
     const target = document.querySelector(isHomePage ? "#services" : ".case-showcase");
     if (!target) return undefined;
-
     const handlePeekScroll = () => {
       if (hasAutoPeekedRef.current) return;
-
       const rect = target.getBoundingClientRect();
       const isNear = rect.top <= window.innerHeight * 0.6 && rect.bottom > 0;
       if (!isNear) return;
-
       hasAutoPeekedRef.current = true;
       setAutoPeek(true);
       autoPeekTimeoutRef.current = window.setTimeout(() => setAutoPeek(false), 2600);
       window.removeEventListener("scroll", handlePeekScroll);
     };
-
     window.addEventListener("scroll", handlePeekScroll, { passive: true });
-
     return () => {
       window.removeEventListener("scroll", handlePeekScroll);
       window.clearTimeout(autoPeekTimeoutRef.current);
     };
-  }, [isHomePage]);
-
+  }, [isHomePage, suppressAutoPeek]);
   // Lock background scroll while the panel is open
   useEffect(() => {
     if (!isOpen) return;
@@ -183,17 +165,14 @@ const PartnerModal = ({ pathname = "/" }) => {
     const prevPosition = style.position;
     const prevTop = style.top;
     const prevWidth = style.width;
-
     // Lenis keeps easing scroll on its own rAF loop; if it's still
     // mid-momentum (or mid nav-link animation) when the popup opens, it
     // fights the position:fixed lock below and the page visibly snaps/
     // stutters. Pausing it for the duration of the lock keeps this smooth.
     window.lenis?.stop();
-
     style.position = "fixed";
     style.top = `-${scrollY}px`;
     style.width = "100%";
-
     return () => {
       style.position = prevPosition;
       style.top = prevTop;
@@ -202,31 +181,19 @@ const PartnerModal = ({ pathname = "/" }) => {
       window.lenis?.start();
     };
   }, [isOpen]);
-
   const closeModal = () => {
     setIsOpen(false);
     sessionStorage.setItem(STORAGE_DISMISSED_KEY, "true");
   };
-
   const openModal = () => {
     setIsOpen(true);
-
-    if (typeof window !== "undefined") {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "partner_modal_open",
-        source: "pill",
-      });
-    }
+    pushDataLayer("partner_modal_open", { source: "pill" });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!contactValue.trim()) return;
-
     setSubmitStatus("submitting");
     setErrorMessage("");
-
     try {
       const response = await fetch("https://formsubmit.co/ajax/kontakt@vantaframe.pl", {
         method: "POST",
@@ -242,7 +209,6 @@ const PartnerModal = ({ pathname = "/" }) => {
           submittedAt: new Date().toISOString(),
         }),
       });
-
       if (response.ok) {
         setSubmitStatus("success");
       } else {
@@ -254,7 +220,6 @@ const PartnerModal = ({ pathname = "/" }) => {
       setSubmitStatus("success");
     }
   };
-
   return (
     <>
       {/* Lightbox / Popup Modal */}
@@ -294,18 +259,15 @@ const PartnerModal = ({ pathname = "/" }) => {
                   </svg>
                 </button>
               </div>
-
               {/* Bold Typography Title */}
               <h3 id="partner-modal-title" className="text-3xl sm:text-4xl font-extrabold tracking-tighter text-black leading-[1.08] mb-3">
                 {t.headline}
-                <br />
+                {" "}<br />
                 <span className="text-black/80">{t.headlineSecond}</span>
               </h3>
-
               <p className="text-xs sm:text-sm text-black/65 font-normal leading-relaxed mb-6">
                 {t.desc}
               </p>
-
               {/* Steps (How it works) */}
               <div className="space-y-3 mb-6 bg-black/[0.03] p-4 rounded-2xl border border-black/5">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/45 mb-2">
@@ -320,7 +282,6 @@ const PartnerModal = ({ pathname = "/" }) => {
                     <p className="text-[11px] text-black/60 leading-tight mt-0.5">{t.step1Desc}</p>
                   </div>
                 </div>
-
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-black text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                     2
@@ -330,7 +291,6 @@ const PartnerModal = ({ pathname = "/" }) => {
                     <p className="text-[11px] text-black/60 leading-tight mt-0.5">{t.step2Desc}</p>
                   </div>
                 </div>
-
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-black text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                     3
@@ -342,7 +302,6 @@ const PartnerModal = ({ pathname = "/" }) => {
                 </div>
               </div>
             </div>
-
             {/* Actions: Direct Call & Quick Contact Form */}
             <div className="space-y-4">
               {/* Click to Call Card */}
@@ -373,7 +332,6 @@ const PartnerModal = ({ pathname = "/" }) => {
                   </svg>
                 </div>
               </a>
-
               {/* Form / Success State */}
               {submitStatus === "success" ? (
                 <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-center animate-fadeIn">
@@ -423,7 +381,6 @@ const PartnerModal = ({ pathname = "/" }) => {
           </div>
         </div>
       )}
-
       {/* Floating Reopen Pill in Bottom-Left Corner — hidden until the visitor
           has actually scrolled (see `showPill`), then fades in already
           collapsed to just the icon; it only expands to show its text on
@@ -467,7 +424,6 @@ const PartnerModal = ({ pathname = "/" }) => {
               <circle cx="16.5" cy="16.5" r="2.5" />
             </svg>
           </span>
-
           <span
             className={[
               "flex flex-col items-start leading-none overflow-hidden transition-all duration-300 ease-out",
@@ -486,5 +442,4 @@ const PartnerModal = ({ pathname = "/" }) => {
     </>
   );
 };
-
 export default PartnerModal;

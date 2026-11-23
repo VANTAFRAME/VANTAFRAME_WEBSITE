@@ -4,26 +4,27 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Services from "../components/Services";
 import Portfolio from "../components/Portfolio";
+import VantaSignal from "../components/VantaSignal";
 import Process from "../components/Process";
 import Pricing from "../components/Pricing";
 import About from "../components/About";
 import Technologies from "../components/Technologies";
 import FAQ from "../components/FAQ";
+import { caseStudies } from "../data/caseStudies";
 import Contact from "../components/Contact";
-
+import ReferenceQuote from "../components/shared/ReferenceQuote";
 import { languages } from "../i18n/translations";
-
 const description =
-  "VANTAFRAME projektuje strony internetowe, dedykowane systemy, CRM-y i automatyzacje AI dla firm, które chcą sprzedawać, obsługiwać klientów i pracować sprawniej.";
-
+  "VANTAFRAME wdraża AI i automatyzacje w firmach, buduje systemy i integracje oraz tworzy strony, sklepy i aplikacje. Studio z Krakowa.";
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "VANTAFRAME",
   url: "https://vantaframe.pl",
   description,
+  inLanguage: "pl-PL",
+  publisher: { "@id": "https://vantaframe.pl/#organization" },
 };
-
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -36,25 +37,28 @@ const faqJsonLd = {
     },
   })),
 };
+const caseOrder = caseStudies.map((cs) => ({ slug: cs.slug, liveUrl: cs.liveUrl }));
 ---
-
 <Layout
-  title="VANTAFRAME - Strony, systemy i automatyzacje dla firm | Software House & Agencja Kraków"
+  title="Wdrożenia AI, systemy i strony dla firm | VANTAFRAME"
   description={description}
   canonicalPath="/"
   structuredData={[websiteJsonLd, faqJsonLd]}
 >
   <Navbar client:load pathname={Astro.url.pathname} />
-
   <main>
     <Hero client:load />
     <About client:visible />
     <Services client:visible />
-    <Portfolio client:visible />
+    <Portfolio client:visible caseOrder={caseOrder} />
+    <div class="relative z-10 bg-brand-black">
+      <ReferenceQuote client:visible id="forum-ekonomiczne" variant="short" showRating />
+    </div>
+    <VantaSignal client:visible />
     <Process client:visible />
     <Technologies client:visible />
     <FAQ client:visible />
     <Pricing client:load />
-    <Contact client:load overlapClass="-mt-[96vh] md:-mt-[92vh]" />
+    <Contact client:idle overlapClass="-mt-[96vh] md:-mt-[92vh]" />
   </main>
 </Layout>

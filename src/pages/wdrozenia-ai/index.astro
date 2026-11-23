@@ -1,0 +1,12 @@
+---
+// Pillar page of the "Wdrożenia AI" offer: the AI-service template in pillar mode (hero visual
+// in the "visual" slot). Section order and copy: src/data/aiServices/wdrozenia-ai.js and
+// AiServicePage.astro.
+import AiServicePage from "../../components/aiservice/AiServicePage.astro";
+import VisualDeploy from "../../components/aiservice/VisualDeploy";
+import service from "../../data/aiServices/wdrozenia-ai";
+import { pickData, VISUAL_SPEC } from "../../data/aiServices/pick";
+---
+<AiServicePage slug="wdrozenia-ai" pillar>
+  <VisualDeploy client:visible slot="visual" data={pickData(service, VISUAL_SPEC)} />
+</AiServicePage>

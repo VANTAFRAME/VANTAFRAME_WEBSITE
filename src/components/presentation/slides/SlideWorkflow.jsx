@@ -38,4 +38,4 @@ const SlideWorkflow = () => (
   </div>
 );
 
-export default SlideWorkflow;
+export default SlideWorkflow;

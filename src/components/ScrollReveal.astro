@@ -1,33 +1,55 @@
 ---
 ---
-
 <script>
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const targets = document.querySelectorAll("[data-reveal]");
-
   // Uses a plain data-attribute rather than a class: several `[data-reveal]`
-  // elements now live inside React components (converted for i18n support)
+  // elements live inside React components (converted for i18n support)
   // whose `className` is React-controlled. React only reconciles attributes
   // it was explicitly given via JSX, so an attribute it never set (this one)
   // survives re-renders untouched — a class added the same way would get
   // wiped out the next time that component re-renders (e.g. on a language
-  // toggle), silently hiding the section again (`opacity: 0`, forever, since
-  // the observer already unobserved it).
-  if (prefersReducedMotion || targets.length === 0) {
-    targets.forEach((el) => el.setAttribute("data-revealed", ""));
+  // toggle), silently hiding the section again.
+  //
+  // Elements are hidden by CSS only when JavaScript runs (`.js` class on <html>, see Layout.astro and
+  // global.css), so without JavaScript everything is visible.
+  const reveal = (el: Element) => el.setAttribute("data-revealed", "");
+  if (prefersReducedMotion) {
+    document.querySelectorAll("[data-reveal]").forEach(reveal);
   } else {
+    // threshold 0: an element is revealed as soon as any part of it enters the area (viewport minus 10% at the
+    // bottom), so very tall elements (e.g. a long FAQ list on a phone) can never stay hidden.
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.setAttribute("data-revealed", "");
+            reveal(entry.target);
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" }
+      { threshold: 0, rootMargin: "0px 0px -10% 0px" }
     );
-
-    targets.forEach((el) => observer.observe(el));
+    const watch = (el: Element) => {
+      if (el.hasAttribute("data-revealed") || (el as any).__vfWatched) return;
+      (el as any).__vfWatched = true;
+      // Above the viewport at start (page reloaded half-way down): reveal at once. Elements in view are revealed
+      // by the observer's first callback, so their fade-in still plays.
+      if (el.getBoundingClientRect().bottom < 0) reveal(el);
+      else observer.observe(el);
+    };
+    document.querySelectorAll("[data-reveal]").forEach(watch);
+    // Elements added later (islands hydrated after this script, dialogs, language switch). One observer for the
+    // whole page and never disconnected, so late additions (dialogs, language switch) are covered too. It is cheap:
+    // the callback only looks at added element nodes and skips anything already watched or revealed.
+    const mo = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        m.addedNodes.forEach((node) => {
+          if (!(node instanceof Element)) return;
+          if (node.matches("[data-reveal]")) watch(node);
+          node.querySelectorAll("[data-reveal]").forEach(watch);
+        });
+      }
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
   }
 </script>

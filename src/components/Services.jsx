@@ -5,18 +5,14 @@ import { useStore } from '../lib/useStore';
 import { currentLang } from '../i18n/store';
 import { languages } from '../i18n/translations';
 import SectionConnector from './SectionConnector';
-
 gsap.registerPlugin(ScrollTrigger);
-
 const Services = () => {
     const lang = useStore(currentLang, () => "pl");
     const t = languages[lang].services;
     const sectionRef = useRef(null);
-
     useEffect(() => {
         const ctx = gsap.context(() => {
             const items = sectionRef.current?.querySelectorAll('.service-item') || [];
-
             items.forEach((item) => {
                 gsap.fromTo(item,
                     { y: 50, opacity: 0 },
@@ -35,23 +31,20 @@ const Services = () => {
                 );
             });
         }, sectionRef);
-
         return () => ctx.revert();
     }, [lang]);
-
     return (
         <section id="services" ref={sectionRef} className="py-24 md:py-32 px-6 md:px-12 bg-brand-black relative z-10">
             <SectionConnector position="left" />
             <SectionConnector position="right" />
             <div className="max-w-[1800px] mx-auto">
                 <div className="mb-20">
-                    <h2 className="text-sm md:text-base font-bold tracking-widest uppercase text-white/40">{t.title}</h2>
-                    <h3 className="text-4xl md:text-6xl font-extralight text-white leading-tight">
-                        {t.heading} <br />
+                    <p className="text-sm md:text-base font-bold tracking-widest uppercase text-white/40">{t.title}</p>
+                    <h2 className="text-4xl md:text-6xl font-extralight text-white leading-tight">
+                        {t.heading} {" "}<br />
                         <span className="italic font-serif bg-gradient-to-r from-white to-white/40 bg-clip-text text-transparent">{t.headingAccent}</span>.
-                    </h3>
+                    </h2>
                 </div>
-
                 <div className="flex flex-col">
                     {t.items.map((service) => (
                         <a
@@ -61,14 +54,14 @@ const Services = () => {
                             className="service-item cursor-hover group block border-t border-white/10 hover:border-white/25 transition-all duration-500 py-14 md:py-20 hover:bg-white/[0.03] relative"
                         >
                             <span className="pointer-events-none absolute right-6 md:right-8 top-1/2 -translate-y-1/2 text-[clamp(4rem,10vw,8rem)] font-black text-white/[0.035] group-hover:text-white/[0.06] leading-none select-none transition-colors duration-500">
-                                {service.id}
+                                {service.displayId || service.id}
                             </span>
                             <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-8 md:gap-0">
                                 <div className="flex items-baseline gap-6 md:w-1/3">
-                                    <span className="text-sm font-mono text-white/40 group-hover:text-white/80 transition-colors">{service.id}</span>
-                                    <h4 className="text-3xl md:text-5xl font-medium text-white group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-3">
+                                    <span className="text-sm font-mono text-white/40 group-hover:text-white/80 transition-colors">{service.displayId || service.id}</span>
+                                    <h3 className="text-3xl md:text-5xl font-medium text-white group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-3">
                                         {service.title}
-                                    </h4>
+                                    </h3>
                                 </div>
                                 <div className="md:w-1/3">
                                     <p className="text-lg text-white/60 group-hover:text-white transition-colors duration-300 max-w-xl">{service.desc}</p>
@@ -90,5 +83,4 @@ const Services = () => {
         </section>
     );
 };
-
 export default Services;

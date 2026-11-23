@@ -21,4 +21,4 @@ const SlideSeo = () => (
   </div>
 );
 
-export default SlideSeo;
+export default SlideSeo;

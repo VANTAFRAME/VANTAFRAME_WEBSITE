@@ -1,10 +1,9 @@
 import React from "react";
-
 // Desktop screenshot inside the same minimal device chrome used across the
 // site's hero panels — a real product, not a mockup, framed consistently.
 // `contain` (not `cover`) so a dashboard's own UI is never cropped — the
 // surrounding frame does the "large, confident" scale work instead.
-export const DeviceFrame = ({ src, alt, label, className = "" }) => (
+export const DeviceFrame = ({ src, alt, label, className = "", width, height, loading = "lazy" }) => (
   <div className={`h-full flex flex-col rounded-xl border border-white/12 bg-[#050505] overflow-hidden ${className}`}>
     <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/8 bg-white/[0.02] shrink-0">
       <span className="w-2 h-2 rounded-full bg-white/15" />
@@ -13,16 +12,15 @@ export const DeviceFrame = ({ src, alt, label, className = "" }) => (
       {label && <span className="ml-2 text-[10px] font-mono text-white/30 tracking-wider truncate">{label}</span>}
     </div>
     <div className="flex-1 min-h-0 flex items-center justify-center p-3 md:p-5">
-      <img src={src} alt={alt} loading="lazy" className="max-w-full max-h-full w-auto h-auto object-contain" />
+      <img src={src} alt={alt} width={width} height={height} loading={loading} className="max-w-full max-h-full w-auto h-auto object-contain" />
     </div>
   </div>
 );
-
 // A real iPhone mockup — thick rounded bezel, dynamic island, side buttons —
 // slightly tilted so it reads as a deliberate product shot next to the
 // desktop frame, not a second flat rectangle. Large enough to actually read
 // the screen, and never clipped: the tilt is applied with room to spare.
-export const IPhoneFrame = ({ src, alt, className = "", tilt = true }) => (
+export const IPhoneFrame = ({ src, alt, className = "", tilt = true, width, height }) => (
   <div className={`relative ${className}`} style={{ aspectRatio: "9 / 19.5" }}>
     <div
       className="absolute inset-0 origin-bottom transition-transform duration-500"
@@ -34,9 +32,8 @@ export const IPhoneFrame = ({ src, alt, className = "", tilt = true }) => (
         <span className="absolute -left-[12px] top-[24%] h-11 w-[4px] rounded-l-sm bg-[#1a1a1a]" />
         <span className="absolute -left-[12px] top-[36%] h-11 w-[4px] rounded-l-sm bg-[#1a1a1a]" />
         <span className="absolute -right-[12px] top-[20%] h-16 w-[4px] rounded-r-sm bg-[#1a1a1a]" />
-
         <div className="relative h-full w-full rounded-[2rem] overflow-hidden bg-black">
-          <img src={src} alt={alt} loading="lazy" className="h-full w-full object-cover object-top" />
+          <img src={src} alt={alt} width={width} height={height} loading="lazy" className="h-full w-full object-cover object-top" />
           {/* Faux iOS status bar — grounds the screenshot as "a phone", not a
               flat crop pasted at the very top edge of the bezel. */}
           <div className="absolute top-0 inset-x-0 h-[6%] min-h-[22px] flex items-center justify-between px-5 pointer-events-none bg-gradient-to-b from-black/55 to-transparent">

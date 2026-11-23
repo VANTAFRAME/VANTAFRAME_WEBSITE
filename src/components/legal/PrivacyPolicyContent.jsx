@@ -1,0 +1,389 @@
+import React from "react";
+export const PolishPrivacyContent = () => (
+  <>
+        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Ostatnia aktualizacja: 23 listopada 2026 r.</p>
+        <p><strong>1. O tej polityce</strong></p>
+        <p>
+          Ta polityka wyjaśnia, w jaki sposób VANTAFRAME przetwarza dane osobowe użytkowników strony vantaframe.pl,
+          osób korzystających z formularza kontaktowego oraz kreatora projektu FRAMEWORK, a także osób, z którymi
+          VANTAFRAME nawiązuje lub prowadzi kontakt biznesowy. Opisuje również przetwarzanie danych pozyskanych z
+          publicznie dostępnych źródeł, użycie cookies, localStorage i usług zewnętrznych wykorzystywanych przez stronę.
+        </p>
+        <p><strong>2. Administrator danych</strong></p>
+        <p>
+          Administratorem danych jest VANTAFRAME SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ z siedzibą w Krakowie,
+          ul. Żułowska 33 lok. 10, 31-436 Kraków, Polska, wpisana do KRS pod numerem 0001253958, NIP 9452332952,
+          REGON 545245372. Kontakt: kontakt@vantaframe.pl, tel. +48 794 659 528.
+        </p>
+        <p>
+          Administrator nie wyznaczył inspektora ochrony danych. W sprawach dotyczących prywatności i realizacji praw
+          można kontaktować się bezpośrednio z Administratorem.
+        </p>
+        <p><strong>3. Formularz kontaktowy i formularz partnerski</strong></p>
+        <p>W zwykłym formularzu kontaktowym przetwarzamy dane podane przez użytkownika:</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>imię i nazwisko,</li>
+          <li>adres e-mail,</li>
+          <li>treść wiadomości,</li>
+          <li>techniczne dane wysłania formularza, jeżeli są rejestrowane przez infrastrukturę lub FormSubmit.</li>
+        </ul>
+        <p>
+          Na stronach w sekcji /wdrozenia-ai/ formularz (panel kontaktowy i formularz na końcu strony) może dodatkowo
+          przesyłać nazwę firmy, jeżeli została podana, adres podstrony, z której wysłano formularz, oznaczenie formularza
+          oraz parametry kampanii UTM (utm_source, utm_medium, utm_campaign, utm_term, utm_content), jeżeli były w adresie
+          strony albo - po zaakceptowaniu cookies - zostały zapamiętane w trakcie wizyty.
+        </p>
+        <p>
+          FormSubmit jest zewnętrznym operatorem obsługi formularzy, należącym do Devro LABS. Formularze strony wysyłają dane do FormSubmit, który przekazuje je na adres kontakt@vantaframe.pl. Według własnej dokumentacji FormSubmit przechowuje niepotwierdzone zgłoszenia do 30 dni. Główne formularze zawierają ukryte pole antyspamowe (<code>_honey</code>), a FormSubmit stosuje również własne mechanizmy antyspamowe. Podstawą przetwarzania jest art. 6 ust. 1 lit. b RODO, gdy kontakt zmierza
+          do zawarcia umowy lub działań przed jej zawarciem, a w pozostałych przypadkach art. 6 ust. 1 lit. f RODO.
+          Uzasadnionym interesem jest obsługa zapytań i prowadzenie korespondencji biznesowej.
+        </p>
+        <p>
+          Formularz partnerski (okno programu partnerskiego) zbiera jedno pole kontaktowe: adres e-mail lub numer telefonu
+          wpisany przez użytkownika, a wraz z nim oznaczenie źródła zgłoszenia i datę wysłania. Dane służą do obsługi
+          zgłoszenia dotyczącego współpracy lub programu partnerskiego i trafiają przez FormSubmit na adres
+          kontakt@vantaframe.pl. W konfiguracji tego formularza CAPTCHA jest wyłączona.
+        </p>
+        <p><strong>4. Kreator projektu FRAMEWORK</strong></p>
+        <p>
+          W formularzu leadowym FRAMEWORK przetwarzamy imię, adres e-mail, opcjonalnie nazwę firmy i numer telefonu,
+          odpowiedzi projektowe oraz podsumowanie zgłoszenia. Zgłoszenie jest wysyłane przez FormSubmit AJAX.
+        </p>
+        <p>
+          Checkbox przy formularzu potwierdza wyłącznie zapoznanie się z tą polityką. Nie jest zgodą na przetwarzanie
+          danych i nie stanowi podstawy prawnej obsługi zapytania.
+        </p>
+        <p>
+          FRAMEWORK zapisuje postęp lokalnie w przeglądarce pod kluczem localStorage <code>vf_framework_v1</code>.
+          Zapis obejmuje odpowiedzi projektowe, aktualny krok i czas zapisu. Nie obejmuje imienia, firmy, e-maila ani telefonu.
+          Dane pozostają w urządzeniu użytkownika do czasu usunięcia danych strony, nadpisania zapisu albo wysłania projektu,
+          po którym aplikacja czyści zapisany postęp.
+        </p>
+        <p><strong>5. Rekomendacja w kreatorze FRAMEWORK</strong></p>
+        <p>
+          Podsumowanie i rekomendacja w kreatorze są przygotowywane lokalnie w przeglądarce użytkownika, na podstawie reguł
+          zapisanych w kodzie strony. Odpowiedzi projektowe nie są w tym celu wysyłane do zewnętrznych usług AI. Rekomendacja
+          ma charakter pomocniczy i niewiążący, nie jest ofertą VANTAFRAME i nie wywołuje skutków prawnych wobec użytkownika.
+          Dane z formularza kreatora — w tym imię, firma, e-mail, telefon i treść podsumowania — trafiają do VANTAFRAME dopiero
+          po wysłaniu projektu, przez usługę FormSubmit.
+        </p>
+        <p><strong>6. Kontakty biznesowe i dane pozyskane z innych źródeł</strong></p>
+        <p>
+          VANTAFRAME może przetwarzać dane kontaktowe osób reprezentujących przedsiębiorców, potencjalnych klientów,
+          kontrahentów i partnerów biznesowych, pozyskane z publicznie dostępnych źródeł, takich jak strony internetowe
+          przedsiębiorstw, publiczne rejestry, profile zawodowe oraz inne publicznie dostępne źródła biznesowe.
+        </p>
+        <p>
+          Zakres danych może obejmować w szczególności imię i nazwisko, stanowisko lub pełnioną funkcję, nazwę
+          reprezentowanego podmiotu, służbowy adres e-mail, służbowy numer telefonu oraz informacje dotyczące
+          działalności zawodowej.
+        </p>
+        <p>
+          Dane mogą być przetwarzane w celu nawiązania i prowadzenia kontaktu biznesowego, przedstawiania informacji
+          dotyczących działalności VANTAFRAME, prowadzenia marketingu bezpośredniego, identyfikowania potencjalnych
+          możliwości współpracy oraz prowadzenia i dokumentowania korespondencji.
+        </p>
+        <p>
+          Podstawą przetwarzania danych może być art. 6 ust. 1 lit. f RODO - prawnie uzasadniony interes Administratora
+          polegający na rozwijaniu działalności, nawiązywaniu relacji biznesowych i prowadzeniu marketingu bezpośredniego,
+          po uwzględnieniu praw, wolności i interesów osób, których dane dotyczą.
+        </p>
+        <p>
+          Jeżeli dane nie zostały pozyskane bezpośrednio od osoby, której dotyczą, ich źródłem mogą być w szczególności
+          publicznie dostępne strony internetowe przedsiębiorstw, publiczne rejestry, profile zawodowe oraz inne
+          publicznie dostępne źródła biznesowe.
+        </p>
+        <p>
+          Osoba, której dane dotyczą, ma prawo w dowolnym momencie wnieść sprzeciw wobec przetwarzania jej danych na
+          potrzeby marketingu bezpośredniego (art. 21 RODO). Po wniesieniu takiego sprzeciwu dane nie będą dalej
+          wykorzystywane do tego celu. Sprzeciw można przesłać na adres kontakt@vantaframe.pl.
+        </p>
+        <p><strong>7. Cookies i localStorage</strong></p>
+        <p>
+          Strona nie wdraża Google Analytics ani cookies marketingowych bez zgody. Po wybraniu „Akceptuję” w banerze
+          cookies ładowany jest Google Tag Manager (GTM) - kontener do zarządzania tagami, przez który uruchamiamy
+          Google Analytics 4 (GA4) do zbierania statystyk odwiedzin strony (liczba użytkowników, odwiedzane
+          podstrony, ogólne źródło ruchu). Wybranie „Tylko niezbędne” blokuje załadowanie GTM i GA4.
+          Używane mechanizmy to:
+        </p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li><code>vf_cookie_consent_v1</code> w localStorage - zapisuje wybór w banerze cookies/localStorage oraz datę zapisu.</li>
+          <li><code>vf_framework_v1</code> w localStorage - zapisuje postęp kreatora FRAMEWORK bez danych kontaktowych.</li>
+          <li><code>vf_lang</code> w localStorage - zapisuje wybór języka strony.</li>
+          <li><code>vf_inquiry_draft_v1</code> w sessionStorage - przechowuje wersję roboczą panelu kontaktowego (imię, e-mail, firma, treść) do zamknięcia karty przeglądarki albo do wysłania formularza; nie jest wysyłana do VANTAFRAME.</li>
+          <li><code>vf_attribution_v1</code> w sessionStorage - po zaakceptowaniu cookies zapamiętuje na czas wizyty parametry kampanii UTM z adresu strony, aby dołączyć je do formularza.</li>
+          <li><code>vf_framework_origin</code> w sessionStorage - znacznik, że kreator został otwarty ze stron /wdrozenia-ai/; usuwany po wysłaniu projektu.</li>
+          <li><code>vf_partner_dismissed_session</code> w sessionStorage - zapamiętuje na czas wizyty zamknięcie okna programu partnerskiego.</li>
+          <li>Google Tag Manager - ładowany wyłącznie po zaakceptowaniu cookies; sam kontener może ustawiać własne cookies techniczne.</li>
+          <li>Google Analytics 4 (przez Google Tag Manager) - ładowany wyłącznie po zaakceptowaniu cookies; może zapisywać własne cookies służące do rozróżniania użytkowników i sesji w statystykach odwiedzin. Okres ich ważności zależy od konfiguracji Google Analytics.</li>
+        </ul>
+        <p>
+          Zablokowanie cookies lub localStorage może spowodować, że strona nie zapamięta ustawień albo postępu w kreatorze.
+        </p>
+        <p><strong>8. Hosting, pliki i zewnętrzne zasoby</strong></p>
+        <p>
+          Publiczna strona VANTAFRAME jest hostowana na platformie Vercel (Vercel Inc., Stany Zjednoczone). Jako dostawca infrastruktury technicznej Vercel może rejestrować techniczne logi (np. adres IP, czas i adres żądania); ich zakres i okres przechowywania zależą od konfiguracji usługi. Serwer pocztowy dla kontakt@vantaframe.pl zapewnia Hostinger. Kod strony nie zapisuje leadów ani wiadomości z formularzy w żadnej bazie danych.
+        </p>
+        
+        <p>
+          Po zaakceptowaniu cookies strona ładuje Google Tag Manager z <code>googletagmanager.com</code> oraz Google Analytics 4. W kodzie strony nie znaleziono wdrożonego Google reCAPTCHA ani Meta
+          Pixel. Na stronie znajdują się zwykłe linki do serwisów zewnętrznych (m.in. Instagram, LinkedIn, Facebook, Mapy Google); kliknięcie przenosi użytkownika do
+          zewnętrznego serwisu.
+        </p>
+        <p><strong>9. Odbiorcy danych</strong></p>
+        <p>W zależności od użytej funkcji dane mogą być przekazywane lub udostępniane:</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Vercel Inc. (Stany Zjednoczone) - hosting strony i infrastruktura techniczna; przekazanie danych do USA na podstawie standardowych klauzul umownych Komisji Europejskiej zawartych w umowie powierzenia przetwarzania danych (Data Processing Addendum),</li>
+          <li>Hostinger (HOSTINGER INTERNATIONAL LIMITED, 61 Lordou Vironos Street, 17. Lumiel Building, 4th floor, 6023 Larnaca, Cyprus) - serwer pocztowy dla kontakt@vantaframe.pl,</li>
+          <li>FormSubmit (Devro LABS) - zewnętrzny operator obsługi formularzy, przekazujący zgłoszenia na adres kontakt@vantaframe.pl,</li>
+          <li>Google - po zaakceptowaniu cookies, Google Tag Manager i Google Analytics 4 (statystyki odwiedzin),</li>
+          <li>dostawcy IT, utrzymania, bezpieczeństwa, doradcy prawni lub księgowi, jeżeli jest to potrzebne,</li>
+          <li>podmioty uprawnione na podstawie przepisów prawa.</li>
+        </ul>
+        <p><strong>10. Przekazywanie danych poza EOG</strong></p>
+        <p>
+          Niektórzy dostawcy mogą przetwarzać dane w Stanach Zjednoczonych lub innych państwach poza Europejskim Obszarem
+          Gospodarczym. Transfer może nastąpić tylko na podstawie mechanizmów przewidzianych w RODO, takich jak decyzja
+          Komisji Europejskiej stwierdzająca odpowiedni stopień ochrony, standardowe klauzule umowne albo inne właściwe
+          zabezpieczenia. Dotyczy to m.in. Vercel Inc. (Stany Zjednoczone), hostingu strony: transfer odbywa się na podstawie standardowych klauzul umownych Komisji Europejskiej zawartych w umowie powierzenia przetwarzania danych (Data Processing Addendum). Informację o stosowanych zabezpieczeniach można uzyskać, pisząc na kontakt@vantaframe.pl.
+        </p>
+        <p><strong>11. Okresy przechowywania</strong></p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>dane z formularzy i korespondencji - do 12 miesięcy od zakończenia kontaktu, chyba że kontakt prowadzi do umowy,</li>
+          <li>dane związane z umową, ofertą, rozliczeniami lub obowiązkami prawnymi - przez okres wymagany do ich realizacji,</li>
+          <li>dane potrzebne do ustalenia, dochodzenia lub obrony roszczeń - do upływu terminów przedawnienia,</li>
+          <li>dane przetwarzane na podstawie zgody - do czasu jej wycofania, z zastrzeżeniem danych potrzebnych do innych celów,</li>
+          <li>dane w localStorage i sessionStorage - do zmiany ustawień, wyczyszczenia danych strony, nadpisania lub usunięcia wpisu, a w sessionStorage także do zamknięcia karty przeglądarki,</li>
+          <li>cookies Google Analytics 4 - przez okres wynikający z konfiguracji Google Analytics i ustawień przeglądarki,</li>
+          <li>dane potencjalnych kontaktów biznesowych - przez okres niezbędny do realizacji celu, dla którego zostały pozyskane, z okresową oceną dalszej potrzeby ich przetwarzania,</li>
+          <li>dane niezbędne do respektowania sprzeciwu wobec marketingu bezpośredniego - w minimalnym zakresie potrzebnym do zapewnienia, że dana osoba nie otrzyma kolejnych komunikatów marketingowych.</li>
+        </ul>
+        <p><strong>12. Prawa użytkownika</strong></p>
+        <p>Na zasadach określonych w RODO użytkownik ma prawo do:</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>dostępu do danych i otrzymania ich kopii,</li>
+          <li>sprostowania, usunięcia lub ograniczenia przetwarzania danych,</li>
+          <li>przenoszenia danych, gdy przetwarzanie odbywa się automatycznie na podstawie zgody lub umowy,</li>
+          <li>wniesienia sprzeciwu wobec przetwarzania opartego na art. 6 ust. 1 lit. f RODO,</li>
+          <li>cofnięcia zgody w dowolnym momencie, jeżeli przetwarzanie odbywa się na podstawie zgody,</li>
+          <li>wniesienia skargi do Prezesa Urzędu Ochrony Danych Osobowych.</li>
+        </ul>
+        <p>
+          Żądanie można przesłać na kontakt@vantaframe.pl albo listownie na adres Administratora. Dla ochrony danych
+          Administrator może poprosić o informacje potrzebne do potwierdzenia tożsamości osoby składającej żądanie.
+        </p>
+        <p><strong>13. Czy podanie danych jest obowiązkowe?</strong></p>
+        <p>
+          Podanie danych jest dobrowolne. Pola wymagane są jednak niezbędne do wysłania formularza, udzielenia odpowiedzi
+          albo przygotowania wstępnego podsumowania projektu. Niepodanie wymaganych danych może uniemożliwić obsługę zapytania.
+        </p>
+        <p><strong>14. Bezpieczeństwo i dane wrażliwe</strong></p>
+        <p>
+          Administrator stosuje środki techniczne i organizacyjne odpowiednie do ryzyka. Prosimy, aby w formularzach nie
+          podawać informacji, które nie są potrzebne do obsługi zapytania, w szczególności danych o zdrowiu, poglądach,
+          przekonaniach, pochodzeniu, danych biometrycznych ani informacji o wyrokach i naruszeniach prawa.
+        </p>
+        <p><strong>15. Zmiany polityki</strong></p>
+        <p>
+          Polityka może być aktualizowana, jeżeli zmieni się sposób działania strony, zakres danych, dostawcy albo przepisy.
+          Jeżeli w przyszłości zostaną wdrożone narzędzia analityczne lub marketingowe, będą wymagały odpowiedniej informacji
+          i, jeżeli przepisy tego wymagają, uprzedniej zgody użytkownika.
+        </p>
+  </>
+);
+export const EnglishPrivacyContent = () => (
+  <>
+        <p className="text-xs uppercase tracking-[0.22em] text-white/40">Last updated: November 23, 2026</p>
+        <p><strong>1. About this policy</strong></p>
+        <p>
+          This policy explains how VANTAFRAME processes the personal data of users of the vantaframe.pl website,
+          individuals using the contact form and the FRAMEWORK project creator, as well as individuals with whom
+          VANTAFRAME establishes or maintains business contact. It also describes the processing of data obtained
+          from publicly available sources, and the use of cookies, localStorage, and external services used by the site.
+        </p>
+        <p><strong>2. Data controller</strong></p>
+        <p>
+          The data controller is VANTAFRAME SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ, based in Kraków,
+          ul. Żułowska 33 lok. 10, 31-436 Kraków, Poland, registered in the National Court Register (KRS) under
+          number 0001253958, NIP 9452332952, REGON 545245372. Contact: kontakt@vantaframe.pl, phone +48 794 659 528.
+        </p>
+        <p>
+          The controller has not appointed a data protection officer. For matters concerning privacy and the exercise
+          of your rights, you can contact the controller directly.
+        </p>
+        <p><strong>3. Contact form and partner form</strong></p>
+        <p>Through the standard contact form we process the data provided by the user:</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>first and last name,</li>
+          <li>email address,</li>
+          <li>message content,</li>
+          <li>technical data of the form submission, if recorded by the infrastructure or FormSubmit.</li>
+        </ul>
+        <p>
+          On the pages in the /wdrozenia-ai/ section the form (the contact panel and the form at the end of the page)
+          may additionally send the company name, if provided, the address of the page the form was sent from, an
+          identifier of the form, and UTM campaign parameters (utm_source, utm_medium, utm_campaign, utm_term,
+          utm_content) if they were in the page address or, once cookies are accepted, were remembered during the visit.
+        </p>
+        <p>
+          FormSubmit is an external form-handling operator owned by Devro LABS. The site's forms send data to FormSubmit, which forwards it to kontakt@vantaframe.pl. According to its own documentation, FormSubmit stores unconfirmed submissions for up to 30 days. The main forms contain a hidden anti-spam field (<code>_honey</code>), and FormSubmit also applies its own anti-spam mechanisms. The legal basis for processing is Article 6(1)(b) GDPR when the contact
+          is aimed at concluding a contract or actions taken prior to it, and in other cases Article 6(1)(f) GDPR.
+          The legitimate interest is handling enquiries and conducting business correspondence.
+        </p>
+        <p>
+          The partner form (the partner programme window) collects a single contact field: an email address or phone
+          number typed in by the user, together with the source of the submission and the date it was sent. The data
+          is used to handle a submission about cooperation or the partner programme and reaches kontakt@vantaframe.pl
+          through FormSubmit. CAPTCHA is turned off in the configuration of this form.
+        </p>
+        <p><strong>4. FRAMEWORK project creator</strong></p>
+        <p>
+          In the FRAMEWORK lead form we process your name, email address, optionally company name and phone number,
+          your project answers, and the submission summary. The submission is sent via FormSubmit AJAX.
+        </p>
+        <p>
+          The checkbox next to the form only confirms that you have read this policy. It is not consent to data
+          processing and is not a legal basis for handling your enquiry.
+        </p>
+        <p>
+          FRAMEWORK saves progress locally in the browser under the localStorage key <code>vf_framework_v1</code>.
+          The saved data includes your project answers, current step, and save time. It does not include your name,
+          company, email, or phone number. The data stays on your device until site data is cleared, the entry is
+          overwritten, or the project is submitted, after which the app clears the saved progress.
+        </p>
+        <p><strong>5. Recommendation in the FRAMEWORK creator</strong></p>
+        <p>
+          The summary and recommendation in the creator are prepared locally in the user's browser, based on rules built
+          into the site's code. The project answers are not sent to external AI services for this purpose. The
+          recommendation is supplementary and non-binding, is not an offer from VANTAFRAME and has no legal effect on the
+          user. Data from the creator form, including name, company, email, phone number and the summary text, reaches
+          VANTAFRAME only after the project is submitted, through the FormSubmit service.
+        </p>
+        <p><strong>6. Business contacts and data obtained from other sources</strong></p>
+        <p>
+          VANTAFRAME may process contact details of individuals representing businesses, potential clients,
+          contractors, and business partners, obtained from publicly available sources such as company websites,
+          public registers, professional profiles, and other publicly available business sources.
+        </p>
+        <p>
+          The scope of data may include, in particular, first and last name, job title or role, the name of the
+          represented entity, business email address, business phone number, and information relating to
+          professional activity.
+        </p>
+        <p>
+          The data may be processed for the purpose of establishing and maintaining business contact, presenting
+          information about VANTAFRAME's activities, conducting direct marketing, identifying potential
+          opportunities for cooperation, and conducting and documenting correspondence.
+        </p>
+        <p>
+          The legal basis for processing may be Article 6(1)(f) GDPR - the controller's legitimate interest in
+          developing its business, establishing business relationships, and conducting direct marketing, having
+          regard to the rights, freedoms, and interests of the data subjects.
+        </p>
+        <p>
+          If the data was not obtained directly from the data subject, its source may include, in particular,
+          publicly available company websites, public registers, professional profiles, and other publicly
+          available business sources.
+        </p>
+        <p>
+          The data subject has the right, at any time, to object to the processing of their data for direct
+          marketing purposes (Article 21 GDPR). After such an objection is raised, the data will no longer be used
+          for that purpose. Objections can be sent to kontakt@vantaframe.pl.
+        </p>
+        <p><strong>7. Cookies and localStorage</strong></p>
+        <p>
+          The site does not implement Google Analytics or marketing cookies without consent. Choosing "Accept" in the
+          cookie banner loads Google Tag Manager (GTM) - a tag management container through which we run Google
+          Analytics 4 (GA4) to collect visit statistics (number of users, pages visited, general traffic source).
+          Choosing "Essential only" blocks GTM and GA4 from loading. The mechanisms in use are:
+        </p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li><code>vf_cookie_consent_v1</code> in localStorage - stores your choice in the cookie banner and the date it was saved.</li>
+          <li><code>vf_framework_v1</code> in localStorage - stores FRAMEWORK creator progress without contact details.</li>
+          <li><code>vf_lang</code> in localStorage - stores the site language you chose.</li>
+          <li><code>vf_inquiry_draft_v1</code> in sessionStorage - holds a draft of the contact panel (name, email, company, message) until the browser tab is closed or the form is sent; it is not sent to VANTAFRAME.</li>
+          <li><code>vf_attribution_v1</code> in sessionStorage - once cookies are accepted, remembers the UTM campaign parameters from the page address for the duration of the visit so they can be attached to the form.</li>
+          <li><code>vf_framework_origin</code> in sessionStorage - a marker that the creator was opened from the /wdrozenia-ai/ pages; removed after the project is submitted.</li>
+          <li><code>vf_partner_dismissed_session</code> in sessionStorage - remembers for the visit that the partner programme window was closed.</li>
+          <li>Google Tag Manager - loaded only after cookies are accepted; the container itself may set its own technical cookies.</li>
+          <li>Google Analytics 4 (via Google Tag Manager) - loaded only after cookies are accepted; it may set its own cookies used to distinguish users and sessions in visit statistics. Their lifetime depends on the Google Analytics configuration.</li>
+        </ul>
+        <p>
+          Blocking cookies or localStorage may prevent the site from remembering settings or creator progress.
+        </p>
+        <p><strong>8. Hosting, files, and external resources</strong></p>
+        <p>
+          The public VANTAFRAME website is hosted on the Vercel platform (Vercel Inc., United States). As the technical infrastructure provider, Vercel may record technical logs (e.g. IP address, time and URL of the request); their scope and retention depend on the service configuration. The mail server for kontakt@vantaframe.pl is provided by Hostinger. The website code does not store leads or form messages in any database.
+        </p>
+        
+        <p>
+          Once cookies are accepted, the site loads Google Tag Manager from <code>googletagmanager.com</code> and Google Analytics 4. No
+          implementation of Google reCAPTCHA or Meta Pixel was found in the site's code. The site contains plain
+          links to external services (including Instagram, LinkedIn, Facebook and Google Maps); clicking one takes the user to the external service.
+        </p>
+        <p><strong>9. Data recipients</strong></p>
+        <p>Depending on the feature used, data may be transferred to or shared with:</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Vercel Inc. (United States) - website hosting and technical infrastructure; transfer of data to the USA based on the European Commission's standard contractual clauses included in the Data Processing Addendum,</li>
+          <li>Hostinger (HOSTINGER INTERNATIONAL LIMITED, 61 Lordou Vironos Street, 17. Lumiel Building, 4th floor, 6023 Larnaca, Cyprus) - the mail server for kontakt@vantaframe.pl,</li>
+          <li>FormSubmit (Devro LABS) - external form-handling operator that forwards submissions to kontakt@vantaframe.pl,</li>
+          <li>Google - once cookies are accepted, Google Tag Manager and Google Analytics 4 (visit statistics),</li>
+          <li>IT, maintenance, and security providers, legal or accounting advisors, if needed,</li>
+          <li>entities authorized under applicable law.</li>
+        </ul>
+        <p><strong>10. Data transfers outside the EEA</strong></p>
+        <p>
+          Some providers may process data in the United States or other countries outside the European Economic
+          Area. Such transfers may only take place based on mechanisms provided for by the GDPR, such as an
+          adequacy decision issued by the European Commission, standard contractual clauses, or other appropriate
+          safeguards. This applies, among others, to Vercel Inc. (United States), the website hosting provider: the transfer takes place based on the European Commission's standard contractual clauses included in the Data Processing Addendum. Information about the safeguards applied can be obtained by writing to kontakt@vantaframe.pl.
+        </p>
+        <p><strong>11. Retention periods</strong></p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>data from forms and correspondence - up to 12 months after the contact ends, unless it leads to a contract,</li>
+          <li>data related to a contract, offer, billing, or legal obligations - for the period required to fulfil them,</li>
+          <li>data needed to establish, pursue, or defend claims - until the relevant limitation periods expire,</li>
+          <li>data processed on the basis of consent - until consent is withdrawn, subject to data needed for other purposes,</li>
+          <li>data in localStorage and sessionStorage - until settings are changed, site data is cleared, or the entry is overwritten or deleted, and for sessionStorage also until the browser tab is closed,</li>
+          <li>Google Analytics 4 cookies - for the period resulting from the Google Analytics configuration and your browser settings,</li>
+          <li>data of potential business contacts - for the period necessary to achieve the purpose for which it was obtained, subject to periodic review of the continued need for processing,</li>
+          <li>data necessary to honour an objection to direct marketing - to the minimum extent needed to ensure the individual does not receive further marketing communications.</li>
+        </ul>
+        <p><strong>12. Your rights</strong></p>
+        <p>Under the terms set out in the GDPR, you have the right to:</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>access your data and receive a copy of it,</li>
+          <li>rectify, erase, or restrict the processing of your data,</li>
+          <li>data portability, where processing is carried out automatically on the basis of consent or a contract,</li>
+          <li>object to processing based on Article 6(1)(f) GDPR,</li>
+          <li>withdraw consent at any time, where processing is based on consent,</li>
+          <li>lodge a complaint with the President of the Personal Data Protection Office (UODO).</li>
+        </ul>
+        <p>
+          Requests can be sent to kontakt@vantaframe.pl or by post to the controller's address. To protect your
+          data, the controller may ask for information needed to confirm the identity of the person making the
+          request.
+        </p>
+        <p><strong>13. Is providing data mandatory?</strong></p>
+        <p>
+          Providing data is voluntary. However, required fields are necessary to submit the form, receive a reply,
+          or prepare a preliminary project summary. Failing to provide the required data may make it impossible to
+          handle your enquiry.
+        </p>
+        <p><strong>14. Security and sensitive data</strong></p>
+        <p>
+          The controller applies technical and organizational measures appropriate to the risk. Please do not
+          include information in the forms that is not needed to handle your enquiry, in particular data about
+          health, opinions, beliefs, origin, biometric data, or information about criminal convictions and offences.
+        </p>
+        <p><strong>15. Changes to this policy</strong></p>
+        <p>
+          This policy may be updated if the way the site operates changes, the scope of data changes, providers
+          change, or the law changes. If analytics or marketing tools are implemented in the future, they will
+          require appropriate notice and, where the law requires it, the user's prior consent.
+        </p>
+  </>
+);
+const PrivacyPolicyContent = ({ lang = "pl" }) =>
+  lang === "en" ? <EnglishPrivacyContent /> : <PolishPrivacyContent />;
+export default PrivacyPolicyContent;

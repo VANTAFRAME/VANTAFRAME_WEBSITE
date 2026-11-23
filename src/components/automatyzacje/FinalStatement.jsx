@@ -2,17 +2,15 @@ import React from "react";
 import { useStore } from "../../lib/useStore";
 import { currentLang } from "../../i18n/store";
 import { languages } from "../../i18n/translations";
-
 const FinalStatement = () => {
   const lang = useStore(currentLang, () => "pl");
   const t = languages[lang].automatyzacjePage.finalStatement;
-
   return (
     <section className="min-h-[100svh] flex flex-col items-center justify-center px-6 text-center bg-brand-black gap-8">
       <h2 className="text-[clamp(2.2rem,7vw,5.5rem)] font-black tracking-tight leading-[1.05] max-w-4xl" data-reveal>
         {t.headline.map((line, i) => (
           <span key={i} className="block">
-            {line}
+            {line}{" "}
           </span>
         ))}
       </h2>
@@ -21,6 +19,8 @@ const FinalStatement = () => {
       </p>
       <a
         href="#contact"
+        data-open-contact-drawer
+        data-cta-location="final"
         className="group inline-flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-white border-b-2 border-white/60 pb-1 hover:border-white transition-colors w-fit"
         data-reveal
       >
@@ -32,5 +32,4 @@ const FinalStatement = () => {
     </section>
   );
 };
-
 export default FinalStatement;

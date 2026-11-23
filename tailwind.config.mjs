@@ -26,4 +26,4 @@ export default {
     'bg-emerald-900'
   ],
   plugins: [],
-}
+}

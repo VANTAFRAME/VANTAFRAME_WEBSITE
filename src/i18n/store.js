@@ -36,4 +36,4 @@ export function toggleLang() {
 export function setLang(lang) {
     currentLang.set(lang);
     persistLang(lang);
-}
+}

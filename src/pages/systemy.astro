@@ -2,7 +2,6 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar";
 import Contact from "../components/Contact";
-import ScrollReveal from "../components/ScrollReveal.astro";
 import Process from "../components/shared/Process";
 import HeroSystems from "../components/systemy/Hero";
 import SituationIndex from "../components/systemy/SituationIndex";
@@ -10,11 +9,11 @@ import Manifesto from "../components/systemy/Manifesto";
 import SystemsShowcase from "../components/systemy/SystemsShowcase";
 import Architecture from "../components/systemy/Architecture";
 import FinalStatement from "../components/systemy/FinalStatement";
-
+import Faq from "../components/systemy/Faq";
+import { languages } from "../i18n/translations";
 const title = "Dedykowane systemy CRM i aplikacje dla firm | VANTAFRAME";
 const description =
   "Budujemy dedykowane systemy, CRM-y, panele klienta i aplikacje webowe dopasowane do procesów, zespołów i modelu działania firmy.";
-
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -28,25 +27,32 @@ const serviceJsonLd = {
   ],
   url: "https://vantaframe.pl/systemy/",
 };
-
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
-    { "@type": "ListItem", position: 2, name: "Dedykowane systemy i CRM", item: "https://vantaframe.pl/systemy/" },
+    { "@type": "ListItem", position: 2, name: "Systemy i aplikacje", item: "https://vantaframe.pl/systemy/" },
   ],
 };
+// FAQPage: the visible FAQ (PL), with the [text](url) link markup reduced to plain text.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: languages.pl.systemyPage.faq.items.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") },
+  })),
+};
 ---
-
 <Layout
   title={title}
   description={description}
   canonicalPath="/systemy"
-  structuredData={[serviceJsonLd, breadcrumbJsonLd]}
+  structuredData={[serviceJsonLd, breadcrumbJsonLd, faqJsonLd]}
 >
   <Navbar client:load pathname="/systemy" />
-
   <main class="bg-brand-black text-white">
     <HeroSystems client:load />
     <SituationIndex client:visible />
@@ -54,10 +60,8 @@ const breadcrumbJsonLd = {
     <SystemsShowcase client:visible />
     <Architecture client:visible />
     <Process client:visible variant="systemy" />
+    <Faq client:visible />
     <FinalStatement client:visible />
-
     <Contact client:load overlapClass="-mt-[96vh] md:-mt-[92vh]" />
   </main>
-
-  <ScrollReveal />
 </Layout>

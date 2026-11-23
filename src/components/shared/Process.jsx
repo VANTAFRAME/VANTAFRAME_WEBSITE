@@ -2,27 +2,24 @@ import React, { useEffect, useRef } from "react";
 import { useStore } from "../../lib/useStore";
 import { currentLang } from "../../i18n/store";
 import { languages } from "../../i18n/translations";
-
 const VARIANT_KEYS = {
   strony: "processStrony",
   systemy: "processSystemy",
   automatyzacje: "processAutomatyzacje",
 };
-
-const Process = ({ variant = "strony" }) => {
+// `content` ({ heading: [l1, l2], steps: [{ n, title, tag, desc }] }) lets a page supply
+// its own steps (used by the AI service pages); without it the translated variant is used.
+const Process = ({ variant = "strony", content = null }) => {
   const lang = useStore(currentLang, () => "pl");
-  const t = languages[lang][VARIANT_KEYS[variant] || VARIANT_KEYS.strony];
+  const t = content || languages[lang][VARIANT_KEYS[variant] || VARIANT_KEYS.strony];
   const { heading, steps } = t;
   const sectionRef = useRef(null);
-
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-
     const stepEls = Array.from(section.querySelectorAll(".process-step"));
     const markers = Array.from(section.querySelectorAll(".process-marker"));
     const tagEl = section.querySelector(".process-tag");
-
     const setActive = (index) => {
       markers.forEach((marker, i) => {
         marker.classList.toggle("text-white", i === index);
@@ -31,7 +28,6 @@ const Process = ({ variant = "strony" }) => {
       const active = stepEls[index];
       if (tagEl && active) tagEl.textContent = active.getAttribute("data-tag") || "";
     };
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -43,19 +39,16 @@ const Process = ({ variant = "strony" }) => {
       },
       { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
     );
-
     stepEls.forEach((step) => observer.observe(step));
     return () => observer.disconnect();
   }, [lang, variant]);
-
   return (
     <section ref={sectionRef} className="process-sticky px-6 md:px-12 max-w-[1700px] mx-auto py-16 md:py-20">
-      <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-12 lg:gap-20">
+      <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] xl:grid-cols-[520px_1fr] gap-12 lg:gap-24 xl:gap-32">
         <div className="lg:sticky lg:top-32 h-fit" data-reveal>
-          <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6 leading-[0.95]">
-            {heading[0]}<br />{heading[1]}
+          <h2 className="text-4xl md:text-5xl xl:text-6xl font-black tracking-tight mb-6 leading-[0.95]">
+            {heading[0]}{" "}<br />{heading[1]}
           </h2>
-
           <div className="flex flex-wrap items-center gap-x-1 gap-y-2 mb-6">
             {steps.map((step, i) => (
               <React.Fragment key={step.n}>
@@ -66,12 +59,10 @@ const Process = ({ variant = "strony" }) => {
               </React.Fragment>
             ))}
           </div>
-
           <div className="border border-white/10 px-4 py-3 w-fit">
             <span className="process-tag font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-300/80">{steps[0].tag}</span>
           </div>
         </div>
-
         <div className="flex flex-col">
           {steps.map((step, i) => (
             <div
@@ -90,5 +81,4 @@ const Process = ({ variant = "strony" }) => {
     </section>
   );
 };
-
 export default Process;

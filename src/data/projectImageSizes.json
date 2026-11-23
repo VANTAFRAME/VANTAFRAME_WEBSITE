@@ -1,0 +1,274 @@
+{
+  "/1_strony/portfolio/1_SGH_desktop.webp": {
+    "width": 1600,
+    "height": 789
+  },
+  "/1_strony/portfolio/1_SGH_mobile.webp": {
+    "width": 431,
+    "height": 932
+  },
+  "/1_strony/portfolio/2_Magdalena_desktop.webp": {
+    "width": 1600,
+    "height": 789
+  },
+  "/1_strony/portfolio/2_Magdalena_mobile.webp": {
+    "width": 431,
+    "height": 932
+  },
+  "/1_strony/portfolio/3_Scala_desktop.webp": {
+    "width": 1600,
+    "height": 785
+  },
+  "/1_strony/portfolio/3_scala_mobile.webp": {
+    "width": 430,
+    "height": 934
+  },
+  "/2_systemy/portfolio/AGH_WGGIIS.webp": {
+    "width": 1600,
+    "height": 868
+  },
+  "/2_systemy/portfolio/AGH_WGGIIS_mobilna.webp": {
+    "width": 390,
+    "height": 840
+  },
+  "/2_systemy/portfolio/jachty.webp": {
+    "width": 1568,
+    "height": 1003
+  },
+  "/2_systemy/systemy_hero/1_dashboard.webp": {
+    "width": 1536,
+    "height": 1024
+  },
+  "/2_systemy/systemy_hero/2_wiadomosci.webp": {
+    "width": 1536,
+    "height": 1024
+  },
+  "/2_systemy/systemy_hero/3_agenci.webp": {
+    "width": 1536,
+    "height": 1024
+  },
+  "/projects/arnika-website.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/projects/aventura-travel.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/projects/browz.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/dhz-fitness.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/din-elpartner.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "/projects/dj-levelup-mobile.webp": {
+    "width": 526,
+    "height": 835
+  },
+  "/projects/dj-levelup.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "/projects/dla-zwierzat.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "/projects/ekspert-kamieniarski.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/elsbud.webp": {
+    "width": 1600,
+    "height": 773
+  },
+  "/projects/knw-atlas.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/knwatlas-mobile.webp": {
+    "width": 780,
+    "height": 1688
+  },
+  "/projects/knwatlas.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/projects/krakowska-gastronomia.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/projects/magdalena-zaplata.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/projects/mz-szkic-mobile.webp": {
+    "width": 800,
+    "height": 500
+  },
+  "/projects/mz-szkic.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/piwa-ziolowe.webp": {
+    "width": 1600,
+    "height": 774
+  },
+  "/projects/poolcenter-mobile.webp": {
+    "width": 609,
+    "height": 922
+  },
+  "/projects/recepta-plus.webp": {
+    "width": 1556,
+    "height": 796
+  },
+  "/projects/sauna-demo.webp": {
+    "width": 1600,
+    "height": 792
+  },
+  "/projects/sgh-vantaframe.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/siudek-jewellery.webp": {
+    "width": 1555,
+    "height": 917
+  },
+  "/projects/solhaus-studio.webp": {
+    "width": 1400,
+    "height": 900
+  },
+  "/projects/spa-landing-demo.webp": {
+    "width": 1600,
+    "height": 780
+  },
+  "/projects/superfemka.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/projects/szkic-tg.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/teatr-scala-mobile.webp": {
+    "width": 576,
+    "height": 1048
+  },
+  "/projects/teatr-scala.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "/projects/test-vantaframe.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "/projects/test2-new.webp": {
+    "width": 1440,
+    "height": 900
+  },
+  "/projects/test2-vantaframe.webp": {
+    "width": 1400,
+    "height": 900
+  },
+  "/projects/tylkowasze.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/projects/uadhd-mobile.webp": {
+    "width": 780,
+    "height": 1688
+  },
+  "/projects/uadhd.webp": {
+    "width": 1400,
+    "height": 900
+  },
+  "/projects/vantasignal.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/projects/vantavision.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/projects/velvet-demo.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/projects/winnica-jakubowa.webp": {
+    "width": 1600,
+    "height": 787
+  },
+  "/projects/zib-sc.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "/projects/zpsychologiem.webp": {
+    "width": 1600,
+    "height": 1000
+  },
+  "/case-studies/sgh-warsaw/full.webp": {
+    "width": 1200,
+    "height": 6713
+  },
+  "/case-studies/sgh-warsaw/detail-1.webp": {
+    "width": 1200,
+    "height": 750
+  },
+  "/case-studies/sgh-warsaw/detail-2.webp": {
+    "width": 1200,
+    "height": 750
+  },
+  "/case-studies/sgh-warsaw/detail-3.webp": {
+    "width": 1200,
+    "height": 750
+  },
+  "/case-studies/magdalena-zaplata/full.webp": {
+    "width": 1200,
+    "height": 8930
+  },
+  "/case-studies/magdalena-zaplata/detail-1.webp": {
+    "width": 1200,
+    "height": 750
+  },
+  "/case-studies/magdalena-zaplata/detail-2.webp": {
+    "width": 1200,
+    "height": 750
+  },
+  "/case-studies/magdalena-zaplata/detail-3.webp": {
+    "width": 1200,
+    "height": 750
+  },
+  "/case-studies/teatr-scala/full.webp": {
+    "width": 1200,
+    "height": 5612
+  },
+  "/case-studies/teatr-scala/detail-1.webp": {
+    "width": 1200,
+    "height": 750
+  },
+  "/case-studies/teatr-scala/detail-2.webp": {
+    "width": 1200,
+    "height": 750
+  },
+  "/case-studies/teatr-scala/detail-3.webp": {
+    "width": 1200,
+    "height": 750
+  },
+  "/team/dawid-jaskiewicz.webp": {
+    "width": 800,
+    "height": 1000
+  },
+  "/team/dawid-jaskiewicz-avatar.webp": {
+    "width": 192,
+    "height": 192
+  },
+  "/team/dawid-jaskiewicz-card.webp": {
+    "width": 240,
+    "height": 300
+  }
+}

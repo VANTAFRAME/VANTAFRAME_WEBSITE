@@ -1,0 +1,18 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar";
+import Contact from "../components/Contact";
+import PrivacyPage from "../components/legal/PrivacyPage";
+---
+<Layout
+  title="Polityka prywatności i cookies | VANTAFRAME"
+  description="Polityka prywatności i cookies serwisu vantaframe.pl: zasady przetwarzania danych osobowych przez VANTAFRAME."
+  canonicalPath="/polityka-prywatnosci/"
+  robots="noindex, follow"
+>
+  <Navbar client:load pathname="/polityka-prywatnosci/" />
+  <main class="bg-brand-black text-white">
+    <PrivacyPage client:load />
+    <Contact client:load overlap={false} footerOnTop={true} />
+  </main>
+</Layout>

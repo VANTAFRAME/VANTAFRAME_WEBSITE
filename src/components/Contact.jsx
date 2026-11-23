@@ -1,31 +1,42 @@
 import React, { useEffect, useRef, useState } from "react";
+import { WIEDZA_PUBLIC } from "../data/wiedzaConfig";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useStore } from "../lib/useStore";
 import { currentLang } from "../i18n/store";
 import { languages } from "../i18n/translations";
-import { togglePrivacy } from "../stores/legalStore";
-
+import { openPrivacyFromLink } from "../stores/legalStore";
+import { pushDataLayer, newEventId } from "../lib/tracking";
+import { captureAttribution } from "../lib/attribution";
+import { sendInquiry, trackInquiry, LOCATIONS } from "../lib/inquiry";
 gsap.registerPlugin(ScrollTrigger);
-
-const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100vh]" }) => {
+// `variant="automatyzacje"` switches the form to the B2B enquiry used on the
+// Google Ads landing page: company field, "what do you want to automate?",
+// automation_* tracking events, and no FRAMEWORK teaser competing with the form.
+const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100vh]", variant = "default", currentPath = "" }) => {
   const lang = useStore(currentLang, () => "pl");
-  const t = languages[lang].contact;
+  const isAutomation = variant === "automatyzacje";
+  const baseContact = languages[lang].contact;
+  const variantContact = isAutomation ? languages[lang].automatyzacjePage.contact : null;
+  const t = variantContact
+    ? { ...baseContact, ...variantContact, form: { ...baseContact.form, ...variantContact.form } }
+    : baseContact;
   const footerT = languages[lang].footer;
   const frameworkT = languages[lang].framework.contactTeaser;
   const currentYear = new Date().getFullYear();
   const sectionRef = useRef(null);
-
-  const [formData, setFormData] = useState({ name: "", email: "", message: "", privacy_ack: false });
+  const [formData, setFormData] = useState({ name: "", email: "", company: "", message: "", privacy_ack: false, _honey: "" });
   const [formStatus, setFormStatus] = useState("idle"); // 'idle' | 'submitting' | 'success' | 'error'
-
+  const submittingRef = useRef(false);
+  const startedRef = useRef(false);
+  useEffect(() => {
+    if (isAutomation) captureAttribution();
+  }, [isAutomation]);
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return undefined;
-
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return undefined;
-
     // The section is already stacked underneath the previous one via a
     // negative top margin (see `overlapClass`); animating it up from a
     // slight offset on top of that static overlap is what produces the
@@ -41,80 +52,85 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
         scrub: 0.6,
       },
     });
-
     return () => {
       tween.scrollTrigger?.kill();
       tween.kill();
     };
   }, []);
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    if (isAutomation && !startedRef.current && name !== "_honey") {
+      startedRef.current = true;
+      trackInquiry.start(LOCATIONS.footer);
+    }
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.privacy_ack) return;
-
+    // Guard against double submits (fast double click / Enter) — a ref, because
+    // state updates are async and the second event can arrive before a re-render.
+    if (!formData.privacy_ack || submittingRef.current) return;
+    // Honeypot: real visitors never see or fill this field. Pretend it worked
+    // so bots get no signal, but send nothing and record no conversion.
+    if (formData._honey) {
+      setFormStatus("success");
+      return;
+    }
+    submittingRef.current = true;
     setFormStatus("submitting");
-
     try {
-      const response = await fetch("https://formsubmit.co/ajax/kontakt@vantaframe.pl", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          _subject: `Nowe zapytanie kontaktowe VANTAFRAME — ${formData.name}`,
+      if (isAutomation) {
+        // Shared pipeline with the hero drawer (see lib/inquiry.js).
+        await sendInquiry({
           name: formData.name,
           email: formData.email,
+          company: formData.company,
           message: formData.message,
-          source: "Formularz Kontaktowy Główny",
-          submittedAt: new Date().toISOString(),
-        }),
-      });
-
-      if (response.ok) {
+          formLocation: LOCATIONS.footer,
+        });
         setFormStatus("success");
-
-        // Google Ads & Analytics tracking registration
-        if (typeof window !== "undefined") {
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({
-            event: "generate_lead",
-            form_name: "contact_form_main",
-            lead_email: formData.email,
-          });
-
-          window.dispatchEvent(
-            new CustomEvent("vf_form_lead_success", {
-              detail: {
-                name: formData.name,
-                email: formData.email,
-                form: "contact_form_main",
-                submittedAt: new Date().toISOString(),
-              },
-            })
-          );
-        }
+        trackInquiry.success(LOCATIONS.footer);
+        window.dispatchEvent(new CustomEvent("vf_form_lead_success", { detail: { form: LOCATIONS.footer, submittedAt: new Date().toISOString() } }));
       } else {
-        setFormStatus("error");
+        const response = await fetch("https://formsubmit.co/ajax/kontakt@vantaframe.pl", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            _subject: `Nowe zapytanie kontaktowe VANTAFRAME — ${formData.name}`,
+            _honey: "",
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            source: "Formularz Kontaktowy Główny",
+            submittedAt: new Date().toISOString(),
+          }),
+        });
+        // The success state (and every conversion event) is only reached after
+        // the relay has really accepted the message.
+        if (!response.ok) throw new Error("Request failed");
+        setFormStatus("success");
+        // Main-site form: `generate_lead` as before, without the visitor's e-mail.
+        pushDataLayer("generate_lead", { form_name: "contact_form_main", event_id: newEventId() });
+        window.dispatchEvent(new CustomEvent("vf_form_lead_success", { detail: { form: "contact_form_main", submittedAt: new Date().toISOString() } }));
       }
     } catch {
       setFormStatus("error");
+      if (isAutomation) trackInquiry.error(LOCATIONS.footer);
+    } finally {
+      submittingRef.current = false;
     }
   };
-
   const resetForm = () => {
-    setFormData({ name: "", email: "", message: "", privacy_ack: false });
+    setFormData({ name: "", email: "", company: "", message: "", privacy_ack: false, _honey: "" });
+    startedRef.current = false;
     setFormStatus("idle");
   };
-
   const sectionClasses = [
     "relative z-30 flex min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-88px)] flex-col bg-white text-black rounded-t-[54px]",
     overlap ? overlapClass : "",
@@ -127,7 +143,6 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
   ]
     .filter(Boolean)
     .join(" ");
-
   return (
     <>
       <section id="contact" ref={sectionRef} className={sectionClasses}>
@@ -135,11 +150,11 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
         <div id="contact-form" className="scroll-mt-24 px-6 md:px-12 pt-20 md:pt-24 pb-4 md:pb-5">
           <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between gap-14 md:gap-16">
             <div className="md:w-1/2">
-              <h3 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8">
+              <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8">
                 {t.heading}
-                <br />
+                {" "}<br />
                 {t.heading2}
-              </h3>
+              </h2>
               <p className="text-xl md:text-2xl text-black/70 mb-8 max-w-md">{t.desc}</p>
               
               <div className="flex flex-col items-start gap-4 mb-8">
@@ -150,7 +165,6 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
                   +48 794 659 528
                 </a>
               </div>
-
               {/* Local SEO / Address block */}
               <div className="pt-6 border-t border-black/10 max-w-md">
                 <div className="flex items-center gap-2 text-xs uppercase font-bold tracking-widest text-black/50 mb-2">
@@ -165,12 +179,12 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
                 <p className="text-sm text-black/75">{t.addressLine2 || "31-436 Kraków, Polska"}</p>
                 <p className="text-[11px] text-black/50 mt-1.5 font-medium">{t.addressScope || "Siedziba w Krakowie • Projekty w całej Polsce i UE"}</p>
               </div>
-
+              {!isAutomation && (
               <div className="mt-8 pt-6 border-t border-black/10 max-w-md">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/40 mb-3">
                   {frameworkT.microlabel}
                 </p>
-                <h4 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">{frameworkT.heading}</h4>
+                <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">{frameworkT.heading}</h3>
                 <p className="text-black/60 mb-5">{frameworkT.desc}</p>
                 <a
                   href="/kreator-projektu/"
@@ -186,8 +200,8 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
                   </svg>
                 </a>
               </div>
+              )}
             </div>
-
             <div className="md:w-1/2 bg-white p-8 md:p-12 rounded-3xl border border-black/10 shadow-2xl shadow-black/5 flex flex-col justify-center min-h-[480px]">
               {formStatus === "success" ? (
                 <div className="flex flex-col items-start gap-4 py-8 animate-fadeIn">
@@ -196,9 +210,9 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h4 className="text-3xl md:text-4xl font-bold tracking-tight text-black">
+                  <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-black">
                     {t.form.successHeading || "Dziękujemy za wiadomość!"}
-                  </h4>
+                  </h3>
                   <p className="text-base md:text-lg text-black/70 leading-relaxed max-w-md">
                     {t.form.successDesc || "Otrzymaliśmy Twoje zapytanie. Odpowiemy zazwyczaj w ciągu 24 godzin."}
                   </p>
@@ -217,9 +231,9 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                   </div>
-                  <h4 className="text-2xl font-bold tracking-tight text-black">
+                  <h3 className="text-2xl font-bold tracking-tight text-black">
                     {t.form.errorHeading || "Wystąpił problem z wysyłką"}
-                  </h4>
+                  </h3>
                   <p className="text-sm text-black/70 leading-relaxed max-w-md">
                     {t.form.errorDesc || "Przepraszamy, nie udało się wysłać formularza. Napisz bezpośrednio na kontakt@vantaframe.pl lub zadzwoń pod +48 794 659 528."}
                   </p>
@@ -269,6 +283,21 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
                       placeholder={t.form.placeholderEmail}
                     />
                   </div>
+                  {isAutomation && (
+                    <div>
+                      <label className="block text-xs uppercase font-bold tracking-widest mb-2 text-black/50">{t.form.company}</label>
+                      <input
+                        type="text"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        autoComplete="organization"
+                        maxLength={160}
+                        className="w-full bg-transparent border-b border-black/20 py-3 focus:outline-none focus:border-black transition-colors"
+                        placeholder={t.form.placeholderCompany}
+                      />
+                    </div>
+                  )}
                   <div>
                     <label className="block text-xs uppercase font-bold tracking-widest mb-2 text-black/50">{t.form.details}</label>
                     <textarea
@@ -282,6 +311,13 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
                       placeholder={t.form.placeholderDetails}
                     />
                   </div>
+                  {/* Honeypot — hidden from people and assistive tech, bots fill it in. */}
+                  <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+                    <label>
+                      Leave this field empty
+                      <input type="text" name="_honey" value={formData._honey} onChange={handleChange} tabIndex={-1} autoComplete="off" />
+                    </label>
+                  </div>
                   <label className="flex items-start gap-3 text-xs text-black/70 leading-relaxed cursor-pointer">
                     <input
                       type="checkbox"
@@ -293,9 +329,9 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
                     />
                     <span>
                       {t.form.privacyAckPrefix}{" "}
-                      <button type="button" onClick={() => togglePrivacy(true)} className="underline underline-offset-2 font-semibold hover:text-black">
+                      <a href="/polityka-prywatnosci/" onClick={openPrivacyFromLink} className="underline underline-offset-2 font-semibold hover:text-black">
                         {t.form.privacyAckLink}
-                      </button>{" "}
+                      </a>{" "}
                       {t.form.privacyAckSuffix}
                     </span>
                   </label>
@@ -325,7 +361,6 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
           </div>
         </div>
       </section>
-
       <div id="site-footer" className={footerClasses}>
         <div className="mx-auto w-full max-w-[1800px] flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="w-full md:w-auto flex flex-col items-center md:items-start">
@@ -334,7 +369,6 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
               &copy; {currentYear} VANTAFRAME. {footerT.copyright}
             </span>
           </div>
-
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-1.5 text-xs text-black/80 bg-black/[0.04] border border-black/10 px-5 py-2.5 rounded-full">
             <div className="flex items-center gap-1.5">
               <span className="font-semibold text-black/90 uppercase tracking-wider text-[11px]">Siedziba</span>
@@ -348,7 +382,7 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
             <span className="hidden sm:inline text-black/30">•</span>
             <div className="flex items-center gap-1.5">
               <span className="font-semibold text-black/90 uppercase tracking-wider text-[11px]">REGON</span>
-              <span className="font-mono text-black/90 font-bold">54524537200000</span>
+              <span className="font-mono text-black/90 font-bold">545245372</span>
             </div>
             <span className="hidden sm:inline text-black/30">•</span>
             <div className="flex items-center gap-1.5">
@@ -356,11 +390,10 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
               <span className="font-mono text-black/90 font-bold">9452332952</span>
             </div>
           </div>
-
           <div className="w-full md:w-auto flex flex-wrap justify-center md:justify-end gap-x-5 gap-y-1 md:gap-y-2 text-xs sm:text-sm text-black/65 font-medium">
-            <button type="button" onClick={() => togglePrivacy(true)} className="py-1.5 md:py-0 hover:text-black transition-colors">
+            <a href="/polityka-prywatnosci/" onClick={openPrivacyFromLink} className="py-1.5 md:py-0 hover:text-black transition-colors">
               {footerT.privacy}
-            </button>
+            </a>
             <button
               type="button"
               onClick={() => window.dispatchEvent(new CustomEvent("open-cookie-settings"))}
@@ -368,11 +401,35 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
             >
               {footerT.cookieSettings}
             </button>
-            <a href="https://www.instagram.com/" target="_blank" rel="nofollow noopener noreferrer" className="py-1.5 md:py-0 hover:text-black transition-colors">
+            {footerT.aiLink && footerT.aiLink.href !== currentPath && (
+              <a href={footerT.aiLink.href} className="py-1.5 md:py-0 hover:text-black transition-colors">
+                {footerT.aiLink.label}
+              </a>
+            )}
+            {footerT.aboutLink && footerT.aboutLink.href !== currentPath && (
+              <a href={footerT.aboutLink.href} className="py-1.5 md:py-0 hover:text-black transition-colors">
+                {footerT.aboutLink.label}
+              </a>
+            )}
+            {WIEDZA_PUBLIC && currentPath !== "/wiedza/" && (
+              <a href="/wiedza/" className="py-1.5 md:py-0 hover:text-black transition-colors">
+                {lang === "en" ? "Knowledge" : "Wiedza"}
+              </a>
+            )}
+            {footerT.vantasignalLink && (
+              <a href={footerT.vantasignalLink.href} target="_blank" rel="noopener" className="py-1.5 md:py-0 hover:text-black transition-colors">
+                {footerT.vantasignalLink.label}
+                <span className="sr-only"> {footerT.vantasignalLink.newTab}</span>
+              </a>
+            )}
+            <a href="https://www.instagram.com/vantaframee/" target="_blank" rel="noopener noreferrer" className="py-1.5 md:py-0 hover:text-black transition-colors">
               Instagram
             </a>
-            <a href="https://www.linkedin.com/" target="_blank" rel="nofollow noopener noreferrer" className="py-1.5 md:py-0 hover:text-black transition-colors">
+            <a href="https://www.linkedin.com/company/vantaframe/" target="_blank" rel="noopener noreferrer" className="py-1.5 md:py-0 hover:text-black transition-colors">
               LinkedIn
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61588309231679" target="_blank" rel="noopener noreferrer" className="py-1.5 md:py-0 hover:text-black transition-colors">
+              Facebook
             </a>
           </div>
         </div>
@@ -380,5 +437,4 @@ const Contact = ({ overlap = true, footerOnTop = false, overlapClass = "-mt-[100
     </>
   );
 };
-
 export default Contact;

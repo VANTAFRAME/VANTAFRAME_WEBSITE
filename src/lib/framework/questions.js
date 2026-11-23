@@ -228,4 +228,4 @@ export const STEPS = [
   },
 ];
 
-export const getStepDef = (stepId) => STEPS.find((step) => step.id === stepId);
+export const getStepDef = (stepId) => STEPS.find((step) => step.id === stepId);

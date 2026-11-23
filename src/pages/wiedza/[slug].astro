@@ -1,0 +1,239 @@
+---
+import { render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar";
+import Contact from "../../components/Contact";
+import ContactDrawer from "../../components/automatyzacje/ContactDrawer";
+import AutomationTracking from "../../components/automatyzacje/AutomationTracking";
+import FaqList from "../../components/shared/FaqList";
+import { getAuthor, authorJsonLd } from "../../data/authors";
+import imageSizes from "../../data/projectImageSizes.json";
+import { getArticles, relatedArticles, readingTime, formatDate, isoDate, wiedzaRobots, ogPath } from "../../lib/wiedza";
+export async function getStaticPaths() {
+  const articles = await getArticles();
+  return articles.map((entry) => ({ params: { slug: entry.id }, props: { entry, others: relatedArticles(articles, entry) } }));
+}
+const { entry, others } = Astro.props;
+const { Content, headings } = await render(entry);
+const d = entry.data;
+const toc = headings.filter((h) => h.depth === 2);
+const minutes = readingTime(entry.body);
+const author = getAuthor(d.author);
+const avatarSize = imageSizes[author.avatar];
+const cardSize = imageSizes[author.card];
+const url = `https://vantaframe.pl/wiedza/${entry.id}/`;
+const og = ogPath(entry.id);
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: d.title,
+  description: d.description,
+  datePublished: isoDate(d.publishedAt),
+  dateModified: isoDate(d.updatedAt ?? d.publishedAt),
+  author: authorJsonLd(author),
+  publisher: { "@id": "https://vantaframe.pl/#organization" },
+  mainEntityOfPage: { "@type": "WebPage", "@id": url },
+  inLanguage: "pl-PL",
+  image: `https://vantaframe.pl${og}`,
+};
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
+    { "@type": "ListItem", position: 2, name: "Wiedza", item: "https://vantaframe.pl/wiedza/" },
+    { "@type": "ListItem", position: 3, name: d.title, item: url },
+  ],
+};
+const faqJsonLd = d.faq?.length
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: d.faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    }
+  : null;
+---
+<Layout
+  title={d.seoTitle}
+  description={d.description}
+  canonicalPath={`/wiedza/${entry.id}/`}
+  robots={wiedzaRobots}
+  ogImage={og}
+  ogType="article"
+  structuredData={[articleJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])]}
+>
+  <Navbar client:load pathname={Astro.url.pathname} />
+  <main class="bg-brand-black text-white">
+    <header class="px-6 pt-32 pb-12 md:px-12 md:pt-40 md:pb-16">
+      <div class="mx-auto max-w-[1100px]">
+        <nav aria-label="Breadcrumb" class="mb-10 font-mono text-[11px] uppercase tracking-widest text-white/40">
+          <a href="/wiedza/" class="transition-colors hover:text-white">Wiedza</a>
+          <span class="mx-2" aria-hidden="true">/</span>
+          <span class="text-white/70">{d.category}</span>
+        </nav>
+        <p class="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">{d.category}</p>
+        <h1 class="max-w-4xl text-[clamp(2.2rem,6vw,4.5rem)] font-black uppercase leading-[1.02] tracking-tight">{d.title}</h1>
+        <p class="mt-8 max-w-3xl text-lg text-white/65 md:text-xl">{d.lead}</p>
+        <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+          <div class="flex items-center gap-3">
+            <img src={author.avatar} alt="" width={avatarSize?.width ?? 192} height={avatarSize?.height ?? 192} class="h-10 w-10 rounded-full border border-white/15 object-cover" />
+            <div class="leading-tight">
+              <a href={author.url} class="font-semibold text-white underline-offset-4 hover:underline">{author.name}</a>
+              <p class="mt-0.5 font-mono text-[11px] uppercase tracking-widest text-white/60">{author.role.pl}</p>
+            </div>
+          </div>
+          <p class="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-widest text-white/45">
+            <time datetime={isoDate(d.publishedAt)}>{formatDate(d.publishedAt)}</time>
+            {d.updatedAt && (<><span aria-hidden="true">·</span><span>Zaktualizowano: <time datetime={isoDate(d.updatedAt)}>{formatDate(d.updatedAt)}</time></span></>)}
+            <span aria-hidden="true">·</span><span>{minutes} min czytania</span>
+          </p>
+        </div>
+      </div>
+    </header>
+    <div class="px-6 pb-20 md:px-12">
+      <div class="mx-auto grid max-w-[1100px] gap-12 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-16">
+        <aside class="lg:order-first">
+          {toc.length > 0 && (
+            <>
+              <details class="border border-white/10 p-4 lg:hidden">
+                <summary class="cursor-pointer font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">Spis treści</summary>
+                <ol class="mt-4 flex flex-col gap-3 border-l border-white/10 pl-4 text-sm leading-snug">
+                  {toc.map((h, i) => <li><a href={`#${h.slug}`} data-toc-link aria-current={i === 0 ? "location" : undefined} class="toc-link">{h.text}</a></li>)}
+                </ol>
+              </details>
+              <nav aria-label="Spis treści" class="sticky top-28 hidden lg:block">
+                <p class="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">SPIS TREŚCI</p>
+                <ol class="flex flex-col gap-3 border-l border-white/10 pl-4 text-sm leading-snug">
+                  {toc.map((h, i) => <li><a href={`#${h.slug}`} data-toc-link aria-current={i === 0 ? "location" : undefined} class="toc-link">{h.text}</a></li>)}
+                </ol>
+              </nav>
+            </>
+          )}
+        </aside>
+        <article class="min-w-0">
+          <section class="mb-12 max-w-[70ch] border border-white/25 p-6 md:p-8" aria-labelledby="w-skrocie">
+            <h2 id="w-skrocie" class="mb-5 font-mono text-xs uppercase tracking-[0.2em] text-white/60">W SKRÓCIE</h2>
+            <ul class="flex flex-col gap-3 text-base leading-relaxed text-white/85 md:text-lg">
+              {d.summary.map((s) => (
+                <li class="flex gap-3"><span class="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300/70" aria-hidden="true"></span>{s}</li>
+              ))}
+            </ul>
+          </section>
+          <div class="vf-prose"><Content /></div>
+        </article>
+      </div>
+    </div>
+    {d.faq && d.faq.length > 0 && <FaqList client:visible label="FAQ" heading="Najczęstsze pytania" items={d.faq} />}
+    <section class="px-6 pt-16 pb-24 md:px-12" aria-label="O autorze">
+      <div class="mx-auto max-w-[1100px] lg:pl-[304px]">
+        <div class="max-w-[70ch]">
+        <div id="o-autorze" class="flex gap-5 border-y border-white/10 py-10 sm:gap-8">
+          <img src={author.card} alt={author.name} width={cardSize?.width ?? 240} height={cardSize?.height ?? 300} class="h-[120px] w-[96px] shrink-0 border border-white/10 object-cover sm:h-[150px] sm:w-[120px]" loading="lazy" />
+          <div class="min-w-0">
+            <p class="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">O AUTORZE</p>
+            <p class="text-xl font-bold tracking-tight">{author.name}</p>
+            <p class="mt-1 font-mono text-[11px] uppercase tracking-widest text-white/60">{author.role.pl}</p>
+            <p class="mt-4 leading-relaxed text-white/70">{author.bio.pl}</p>
+            <a href={author.linkedin} target="_blank" rel="noopener" class="mt-4 inline-block font-mono text-[11px] uppercase tracking-[0.2em] text-white underline decoration-white/35 underline-offset-4 transition-colors hover:decoration-white">
+              LinkedIn ↗<span class="sr-only"> (otwiera się w nowej karcie)</span>
+            </a>
+          </div>
+        </div>
+        {others.length > 0 && (
+          <nav class="mt-12" aria-labelledby="czytaj-dalej">
+            <p class="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">CZYTAJ DALEJ</p>
+            <h2 id="czytaj-dalej" class="mb-6 text-2xl font-bold tracking-tight">Powiązane artykuły</h2>
+            <ol class="border-b border-white/10">
+              {others.map((a) => (
+                <li class="border-t border-white/10">
+                  <a href={`/wiedza/${a.id}/`} class="group grid gap-1 py-5 outline-none transition-colors hover:bg-white/[0.015] focus-visible:bg-white/[0.04] focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-cyan-300/70 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-6">
+                    <span class="min-w-0">
+                      <span class="block font-mono text-[11px] uppercase tracking-widest text-white/45">{a.data.category}</span>
+                      <span class="mt-1 block text-lg font-bold leading-snug tracking-tight transition-transform duration-500 group-hover:translate-x-2 md:text-xl">{a.data.title}</span>
+                    </span>
+                    <span class="hidden text-white/40 transition-transform group-hover:translate-x-1 sm:block" aria-hidden="true">→</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+        <aside class="mt-12 max-w-[70ch]" aria-label="Powiązana usługa">
+            <p class="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">POWIĄZANA USŁUGA</p>
+            <a href={d.relatedService.href} class="group inline-flex items-center gap-3 text-2xl font-black tracking-tight md:text-3xl">
+              {d.relatedService.label}
+              <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+            </a>
+        </aside>
+          <div class="mt-10">
+            <a
+              href="#contact"
+              data-open-contact-drawer
+              data-cta-location="article_cta"
+              class="group inline-flex w-fit items-center gap-3 border-b-2 border-white/60 pb-1 text-sm font-bold uppercase tracking-widest text-white outline-none transition-colors hover:border-white focus-visible:border-cyan-300"
+            >
+              Umów bezpłatną rozmowę
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-7-7l7 7-7 7" /></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <Contact client:load variant="automatyzacje" overlapClass="-mt-10 md:-mt-14" currentPath="/wiedza/" />
+  </main>
+  <ContactDrawer client:load />
+  <AutomationTracking client:idle />
+  <script>
+    // Table of contents: highlights the section being read (desktop list and mobile <details> share the same links).
+    const links = [...document.querySelectorAll<HTMLAnchorElement>("a[data-toc-link]")];
+    const headings = [...document.querySelectorAll<HTMLElement>(".vf-prose h2")];
+    if (links.length && headings.length) {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const OFFSET = 112; // 7rem: clears the fixed menu (same value as scroll-margin-top in .vf-prose)
+      let current = "";
+      const setActive = (id: string) => {
+        if (id === current) return;
+        current = id;
+        links.forEach((a) => {
+          if (a.getAttribute("href") === `#${id}`) a.setAttribute("aria-current", "location");
+          else a.removeAttribute("aria-current");
+        });
+      };
+      // The active section is the last heading that has passed the upper part of the screen; before the first
+      // heading the first item is active, at the very bottom of the page the last one.
+      const update = () => {
+        const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+        let id = headings[0].id;
+        if (bottom) id = headings[headings.length - 1].id;
+        else for (const h of headings) if (h.getBoundingClientRect().top <= window.innerHeight * 0.3) id = h.id;
+        setActive(id);
+      };
+      // The observer fires when a heading crosses the band at 20-30% of the screen height; `update` then decides.
+      const io = new IntersectionObserver(update, { rootMargin: "-20% 0px -70% 0px" });
+      headings.forEach((h) => io.observe(h));
+      let raf = 0;
+      window.addEventListener("scroll", () => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          update();
+        });
+      }, { passive: true });
+      update();
+      links.forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const id = decodeURIComponent((a.getAttribute("href") || "").slice(1));
+          const target = document.getElementById(id);
+          if (!target) return;
+          e.preventDefault();
+          setActive(id);
+          a.closest("details")?.removeAttribute("open");
+          const w = window as any;
+          if (!reduced && w.__vfLenisScrollTo) w.__vfLenisScrollTo(target, { offset: -OFFSET });
+          else window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - OFFSET, behavior: reduced ? "auto" : "smooth" });
+          history.replaceState(null, "", `#${id}`);
+        });
+      });
+    }
+  </script>
+</Layout>

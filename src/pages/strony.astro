@@ -2,18 +2,19 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar";
 import Contact from "../components/Contact";
-import ScrollReveal from "../components/ScrollReveal.astro";
 import HeroWebsites from "../components/strony/Hero";
 import Manifesto from "../components/strony/Manifesto";
 import ServiceIndex from "../components/strony/ServiceIndex";
 import Technology from "../components/strony/Technology";
 import PortfolioShowcase from "../components/strony/PortfolioShowcase";
 import Process from "../components/shared/Process";
-
+import Faq from "../components/strony/Faq";
+import ReferenceQuote from "../components/shared/ReferenceQuote";
+import FinalStatement from "../components/strony/FinalStatement";
+import { languages } from "../i18n/translations";
 const title = "Strony internetowe i sklepy dla firm | VANTAFRAME";
 const description =
   "Projektujemy nowoczesne strony internetowe, sklepy i landing pages dla firm, które chcą budować zaufanie, sprzedawać skuteczniej i wyróżnić się jakością.";
-
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -27,25 +28,32 @@ const serviceJsonLd = {
   ],
   url: "https://vantaframe.pl/strony/",
 };
-
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
-    { "@type": "ListItem", position: 2, name: "Strony internetowe i sklepy", item: "https://vantaframe.pl/strony/" },
+    { "@type": "ListItem", position: 2, name: "Strony i sklepy", item: "https://vantaframe.pl/strony/" },
   ],
 };
+// FAQPage: the visible FAQ (PL), with the [text](url) link markup reduced to plain text.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: languages.pl.stronyPage.faq.items.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") },
+  })),
+};
 ---
-
 <Layout
   title={title}
   description={description}
   canonicalPath="/strony"
-  structuredData={[serviceJsonLd, breadcrumbJsonLd]}
+  structuredData={[serviceJsonLd, breadcrumbJsonLd, faqJsonLd]}
 >
   <Navbar client:load pathname="/strony" />
-
   <main class="bg-brand-black text-white">
     <HeroWebsites client:load />
     <ServiceIndex client:visible />
@@ -53,18 +61,11 @@ const breadcrumbJsonLd = {
     <section id="work">
       <PortfolioShowcase client:visible />
     </section>
+    <ReferenceQuote client:visible variant="short" />
     <Technology client:visible />
     <Process client:visible variant="strony" />
-
-    <!-- FINAL STATEMENT -->
-    <section class="min-h-[100svh] flex items-center justify-center px-6 text-center bg-brand-black">
-      <h2 class="text-[clamp(2.6rem,9vw,7rem)] font-black tracking-tight leading-[0.95]" data-reveal>
-        STRONA INTERNETOWA,<br />KTÓRA SPRZEDA WIĘCEJ.
-      </h2>
-    </section>
-
+    <Faq client:visible />
+    <FinalStatement client:visible />
     <Contact client:load overlapClass="-mt-[96vh] md:-mt-[92vh]" />
   </main>
-
-  <ScrollReveal />
 </Layout>

@@ -25,4 +25,4 @@ User-agent: Applebot-Extended
 Allow: /
 
 # Sitemaps & Machine-Readable Context
-Sitemap: https://vantaframe.pl/sitemap-index.xml
+Sitemap: https://vantaframe.pl/sitemap-index.xml

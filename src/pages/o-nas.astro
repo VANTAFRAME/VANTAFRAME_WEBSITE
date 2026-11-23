@@ -1,0 +1,57 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar";
+import Contact from "../components/Contact";
+import ContactDrawer from "../components/automatyzacje/ContactDrawer";
+import AutomationTracking from "../components/automatyzacje/AutomationTracking";
+import AboutHero from "../components/about/Hero";
+import Strip from "../components/about/Strip";
+import ServiceRows from "../components/about/ServiceRows";
+import ProcessSection from "../components/about/ProcessSection";
+import Principles from "../components/about/Principles";
+import Technologies from "../components/Technologies";
+import Team from "../components/about/Team";
+import Clients from "../components/about/Clients";
+import Facts from "../components/about/Facts";
+const title = "O nas: studio wdrożeń AI i stron z Krakowa | VANTAFRAME";
+const description =
+  "VANTAFRAME to studio technologiczne z Krakowa. Wdrażamy AI w firmach, projektujemy strony i sklepy oraz budujemy systemy. Poznaj nasze podejście.";
+const aboutJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: title,
+  url: "https://vantaframe.pl/o-nas/",
+  inLanguage: "pl-PL",
+  mainEntity: { "@id": "https://vantaframe.pl/#organization" },
+};
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
+    { "@type": "ListItem", position: 2, name: "O nas", item: "https://vantaframe.pl/o-nas/" },
+  ],
+};
+---
+<Layout
+  title={title}
+  description={description}
+  canonicalPath="/o-nas/"
+  structuredData={[aboutJsonLd, breadcrumbJsonLd]}
+>
+  <Navbar client:load pathname="/o-nas/" />
+  <main class="bg-brand-black text-white">
+    <AboutHero client:load />
+    <Strip client:visible />
+    <ServiceRows client:visible />
+    <ProcessSection client:visible />
+    <Principles client:visible />
+    <Technologies client:visible />
+    <Team client:visible />
+    <Clients client:visible />
+    <Facts client:visible />
+    <Contact client:load variant="automatyzacje" overlapClass="-mt-10 md:-mt-14" currentPath="/o-nas/" />
+  </main>
+  <ContactDrawer client:load />
+  <AutomationTracking client:idle />
+</Layout>

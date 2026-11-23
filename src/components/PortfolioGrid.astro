@@ -1,5 +1,7 @@
 ---
 import PortfolioGridClient from "./PortfolioGridClient.jsx";
+import { caseStudies } from "../data/caseStudies";
+// Case-study projects come first, in the order of caseStudies.js; the live address feeds the "Zobacz stronę" action.
+const caseOrder = caseStudies.map((cs) => ({ slug: cs.slug, liveUrl: cs.liveUrl }));
 ---
-
-<PortfolioGridClient client:load />
+<PortfolioGridClient client:load caseOrder={caseOrder} />

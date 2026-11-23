@@ -26,4 +26,4 @@ const SlideSecurity = () => (
   </div>
 );
 
-export default SlideSecurity;
+export default SlideSecurity;

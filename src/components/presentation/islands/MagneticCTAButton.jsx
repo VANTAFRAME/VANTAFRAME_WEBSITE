@@ -89,4 +89,4 @@ const MagneticCTAButton = ({
   );
 };
 
-export default MagneticCTAButton;
+export default MagneticCTAButton;

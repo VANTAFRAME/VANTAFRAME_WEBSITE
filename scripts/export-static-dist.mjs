@@ -16,4 +16,4 @@ rmSync(distDir, { recursive: true, force: true });
 cpSync(tempDir, distDir, { recursive: true });
 rmSync(tempDir, { recursive: true, force: true });
 
-console.log("Static FTP export prepared in dist/");
+console.log("Static FTP export prepared in dist/");

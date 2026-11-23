@@ -212,4 +212,4 @@ export const serviceIconsById = {
     '03': AiBotIcon,
     '04': GrowthMagnifierIcon,
     '05': ShieldPulseIcon,
-};
+};

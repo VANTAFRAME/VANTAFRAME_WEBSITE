@@ -1,35 +1,32 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+import { useStore } from '../lib/useStore';
+import { currentLang } from '../i18n/store';
+import { languages } from '../i18n/translations';
 gsap.registerPlugin(ScrollTrigger);
-
 const VFLogo3D = () => {
+    const lang = useStore(currentLang, () => 'pl');
+    const nodes = languages[lang].about.logoNodes;
     const containerRef = useRef(null);
     const logoWrapperRef = useRef(null);
     const imageRef = useRef(null);
     const svgRef = useRef(null);
-
     // References for animated elements
     const lineWebRef = useRef(null);
     const lineSysRef = useRef(null);
     const lineAutoRef = useRef(null);
-
     const nodeWebRef = useRef(null);
     const nodeSysRef = useRef(null);
     const nodeAutoRef = useRef(null);
-
     const pulseWebRef = useRef(null);
     const pulseSysRef = useRef(null);
     const pulseAutoRef = useRef(null);
-
     const hudGridRef = useRef(null);
-
     useEffect(() => {
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const container = containerRef.current;
         const wrapper = logoWrapperRef.current;
-
         // Mouse Parallax
         let setParallaxX, setParallaxY, setLabelParallaxX, setLabelParallaxY;
         if (!prefersReducedMotion && wrapper) {
@@ -37,12 +34,10 @@ const VFLogo3D = () => {
             setParallaxY = gsap.quickTo(wrapper, 'y', { duration: 0.9, ease: 'power2.out' });
             setLabelParallaxX = gsap.quickTo('.node-label', { duration: 1.2, ease: 'power2.out' });
             setLabelParallaxY = gsap.quickTo('.node-label', { duration: 1.2, ease: 'power2.out' });
-
             const handlePointerMove = (e) => {
                 const rect = container.getBoundingClientRect();
                 const x = ((e.clientX - rect.left) / rect.width - 0.5) * 24;
                 const y = ((e.clientY - rect.top) / rect.height - 0.5) * 24;
-
                 setParallaxX(x);
                 setParallaxY(y);
                 if (setLabelParallaxX && setLabelParallaxY) {
@@ -50,14 +45,11 @@ const VFLogo3D = () => {
                     setLabelParallaxY(y * 1.4);
                 }
             };
-
             window.addEventListener('pointermove', handlePointerMove, { passive: true });
-
             var cleanupParallax = () => {
                 window.removeEventListener('pointermove', handlePointerMove);
             };
         }
-
         const ctx = gsap.context(() => {
             // Setup lines for draw-in effect
             const lines = [lineWebRef.current, lineSysRef.current, lineAutoRef.current].filter(Boolean);
@@ -69,12 +61,10 @@ const VFLogo3D = () => {
                     opacity: 0.85
                 });
             });
-
             // Initial states
             gsap.set(imageRef.current, { opacity: 0, scale: 0.92, filter: 'blur(6px)' });
             gsap.set(hudGridRef.current, { opacity: 0 });
             gsap.set([nodeWebRef.current, nodeSysRef.current, nodeAutoRef.current], { opacity: 0, y: 8 });
-
             // Master Timeline
             const tl = gsap.timeline({
                 scrollTrigger: {
@@ -83,7 +73,6 @@ const VFLogo3D = () => {
                     toggleActions: 'play none none reverse'
                 }
             });
-
             // 1. VF Core Reveal
             tl.to(imageRef.current, {
                 opacity: 1,
@@ -97,7 +86,6 @@ const VFLogo3D = () => {
                 duration: 0.8,
                 ease: 'power2.out'
             }, '-=0.9');
-
             // 2. Node 01 / WEB
             if (lineWebRef.current) {
                 tl.to(lineWebRef.current, {
@@ -112,7 +100,6 @@ const VFLogo3D = () => {
                 duration: 0.5,
                 ease: 'power2.out'
             }, '-=0.2');
-
             // 3. Node 02 / SYSTEMS
             if (lineSysRef.current) {
                 tl.to(lineSysRef.current, {
@@ -127,7 +114,6 @@ const VFLogo3D = () => {
                 duration: 0.5,
                 ease: 'power2.out'
             }, '-=0.2');
-
             // 4. Node 03 / AUTOMATION
             if (lineAutoRef.current) {
                 tl.to(lineAutoRef.current, {
@@ -142,7 +128,6 @@ const VFLogo3D = () => {
                 duration: 0.5,
                 ease: 'power2.out'
             }, '-=0.2');
-
             // 5. Continuous Loop: Signal Pulses & Subtle Float
             if (!prefersReducedMotion) {
                 // Subtle breathing float for the logo
@@ -153,7 +138,6 @@ const VFLogo3D = () => {
                     repeat: -1,
                     yoyo: true
                 });
-
                 // Micro pulse on nodes in loop
                 const pulseNodes = [pulseWebRef.current, pulseSysRef.current, pulseAutoRef.current].filter(Boolean);
                 if (pulseNodes.length > 0) {
@@ -164,13 +148,11 @@ const VFLogo3D = () => {
                 }
             }
         }, containerRef);
-
         return () => {
             if (cleanupParallax) cleanupParallax();
             ctx.revert();
         };
     }, []);
-
     return (
         <div
             ref={containerRef}
@@ -184,6 +166,7 @@ const VFLogo3D = () => {
                 {/* SVG Blueprint & Leader Lines Layer */}
                 <svg
                     ref={svgRef}
+                    aria-hidden="true"
                     viewBox="0 0 600 600"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -198,13 +181,11 @@ const VFLogo3D = () => {
                                 <feMergeNode in="SourceGraphic" />
                             </feMerge>
                         </filter>
-
                         {/* Subtle Dash Pattern */}
                         <pattern id="diagGrid" width="20" height="20" patternUnits="userSpaceOnUse">
                             <circle cx="2" cy="2" r="0.6" fill="rgba(255,255,255,0.08)" />
                         </pattern>
                     </defs>
-
                     {/* HUD Technical Frame & Precision Crosshairs */}
                     <g ref={hudGridRef} className="hud-elements transition-opacity duration-700">
                         {/* Blueprint Radial / Polygonal Guide Lines */}
@@ -223,7 +204,6 @@ const VFLogo3D = () => {
                             stroke="rgba(255,255,255,0.03)"
                             strokeWidth="0.75"
                         />
-
                         {/* Corner Registration Crosshairs (+) */}
                         <g stroke="rgba(255,255,255,0.25)" strokeWidth="1">
                             {/* Top Left */}
@@ -235,13 +215,11 @@ const VFLogo3D = () => {
                             {/* Bottom Right */}
                             <path d="M 560 568 L 560 552 M 552 560 L 568 560" />
                         </g>
-
                         {/* Fine Axis Ticks */}
                         <line x1="300" y1="20" x2="300" y2="35" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
                         <line x1="300" y1="565" x2="300" y2="580" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
                         <line x1="20" y1="300" x2="35" y2="300" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
                         <line x1="565" y1="300" x2="580" y2="300" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-
                         {/* Technical Metadata in SVG */}
                         <text
                             x="48"
@@ -265,11 +243,9 @@ const VFLogo3D = () => {
                             VANTAFRAME ARCHITECTURE
                         </text>
                     </g>
-
                     {/* ============================================================== */}
                     {/* LEADER LINES CONNECTING VF CORE TO THE 3 NODES */}
                     {/* ============================================================== */}
-
                     {/* 01 / WEB — Line from VF upper-left wing to top-left label */}
                     <g>
                         <path
@@ -296,7 +272,6 @@ const VFLogo3D = () => {
                             opacity="0"
                         />
                     </g>
-
                     {/* 02 / SYSTEMS — Line from VF upper-right wing to top-right label */}
                     <g>
                         <path
@@ -323,7 +298,6 @@ const VFLogo3D = () => {
                             opacity="0"
                         />
                     </g>
-
                     {/* 03 / AUTOMATION — Line from VF lower junction to bottom-right label */}
                     <g>
                         <path
@@ -351,7 +325,6 @@ const VFLogo3D = () => {
                         />
                     </g>
                 </svg>
-
                 {/* Central VF Wireframe Image with feather mask */}
                 <div
                     className="relative w-[84%] max-w-[560px] aspect-square flex justify-center items-center z-0"
@@ -360,21 +333,24 @@ const VFLogo3D = () => {
                         WebkitMaskImage: 'radial-gradient(circle at center, black 68%, transparent 97%)'
                     }}
                 >
-                    <img
-                        ref={imageRef}
-                        src="/vf-logo-wireframe.png"
-                        alt="VANTAFRAME Architectural Core"
-                        className="w-full h-full object-contain mix-blend-screen pointer-events-none"
-                        style={{ filter: 'contrast(1.35) brightness(1.05)' }}
-                        loading="eager"
-                        decoding="async"
-                    />
+                    <picture className="contents">
+                        <source srcSet="/vf-logo-wireframe.webp" type="image/webp" />
+                        <img
+                            ref={imageRef}
+                            src="/vf-logo-wireframe.png"
+                            width="1024"
+                            height="1024"
+                            alt="VANTAFRAME Architectural Core"
+                            className="w-full h-full object-contain mix-blend-screen pointer-events-none"
+                            style={{ filter: 'contrast(1.35) brightness(1.05)' }}
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    </picture>
                 </div>
-
                 {/* ============================================================== */}
                 {/* HTML LABELS / HUD CALLOUTS (Positioned in relative percentages) */}
                 {/* ============================================================== */}
-
                 {/* Node 01: 01 / WEB */}
                 <div
                     ref={nodeWebRef}
@@ -383,14 +359,13 @@ const VFLogo3D = () => {
                 >
                     <div className="flex items-center gap-2">
                         <span className="text-[11px] sm:text-xs md:text-[13px] font-mono font-bold tracking-[0.22em] text-white bg-[#000000] px-2.5 py-1 rounded border border-white/20">
-                            01 / WEB
+                            {nodes[0].tag}
                         </span>
                     </div>
                     <span className="text-[8px] sm:text-[9px] md:text-[10px] font-mono tracking-[0.18em] text-white/45 uppercase mt-1 pl-1">
-                        Websites & Commerce
+                        {nodes[0].label}
                     </span>
                 </div>
-
                 {/* Node 02: 02 / SYSTEMS */}
                 <div
                     ref={nodeSysRef}
@@ -399,14 +374,13 @@ const VFLogo3D = () => {
                 >
                     <div className="flex items-center gap-2">
                         <span className="text-[11px] sm:text-xs md:text-[13px] font-mono font-bold tracking-[0.22em] text-white bg-[#000000] px-2.5 py-1 rounded border border-white/20">
-                            02 / SYSTEMS
+                            {nodes[1].tag}
                         </span>
                     </div>
                     <span className="text-[8px] sm:text-[9px] md:text-[10px] font-mono tracking-[0.18em] text-white/45 uppercase mt-1 pr-1">
-                        Systems & Applications
+                        {nodes[1].label}
                     </span>
                 </div>
-
                 {/* Node 03: 03 / AUTOMATION */}
                 <div
                     ref={nodeAutoRef}
@@ -415,16 +389,15 @@ const VFLogo3D = () => {
                 >
                     <div className="flex items-center gap-2">
                         <span className="text-[11px] sm:text-xs md:text-[13px] font-mono font-bold tracking-[0.22em] text-white bg-[#000000] px-2.5 py-1 rounded border border-white/20">
-                            03 / AUTOMATION
+                            {nodes[2].tag}
                         </span>
                     </div>
                     <span className="text-[8px] sm:text-[9px] md:text-[10px] font-mono tracking-[0.18em] text-white/45 uppercase mt-1 pr-1">
-                        Automation & AI
+                        {nodes[2].label}
                     </span>
                 </div>
             </div>
         </div>
     );
 };
-
 export default VFLogo3D;

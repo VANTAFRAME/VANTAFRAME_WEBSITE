@@ -2,12 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import BlueprintCanvas from "./BlueprintCanvas";
 import { STEP_ORDER } from "./blueprintLayout";
-
+import LinkedText from "../LinkedText";
 const IntroScreen = ({ copy, onStart, reducedMotion, contained = false }) => {
   const buttonRef = useRef(null);
   const headingRef = useRef(null);
   const [revealed, setRevealed] = useState(reducedMotion ? STEP_ORDER : []);
-
   useEffect(() => {
     if (reducedMotion) return undefined;
     let index = 0;
@@ -18,7 +17,6 @@ const IntroScreen = ({ copy, onStart, reducedMotion, contained = false }) => {
     }, 220);
     return () => clearInterval(interval);
   }, [reducedMotion]);
-
   useEffect(() => {
     if (reducedMotion || !headingRef.current) return undefined;
     const ctx = gsap.context(() => {
@@ -30,14 +28,11 @@ const IntroScreen = ({ copy, onStart, reducedMotion, contained = false }) => {
     });
     return () => ctx.revert();
   }, [reducedMotion]);
-
   useEffect(() => {
     const button = buttonRef.current;
     if (reducedMotion || !button) return undefined;
-
     const moveX = gsap.quickTo(button, "x", { duration: 0.2, ease: "power2.out" });
     const moveY = gsap.quickTo(button, "y", { duration: 0.2, ease: "power2.out" });
-
     const onMove = (event) => {
       const bounds = button.getBoundingClientRect();
       moveX((event.clientX - bounds.left - bounds.width / 2) * 0.15);
@@ -47,7 +42,6 @@ const IntroScreen = ({ copy, onStart, reducedMotion, contained = false }) => {
       moveX(0);
       moveY(0);
     };
-
     button.addEventListener("pointermove", onMove);
     button.addEventListener("pointerleave", reset);
     return () => {
@@ -55,23 +49,18 @@ const IntroScreen = ({ copy, onStart, reducedMotion, contained = false }) => {
       button.removeEventListener("pointerleave", reset);
     };
   }, [reducedMotion]);
-
   if (contained) {
     return (
       <div className="relative flex h-full flex-col bg-brand-black text-white md:flex-row">
         <div className="absolute inset-0 opacity-25 md:opacity-100 md:relative md:w-[45%] md:shrink-0 md:order-2 md:border-l md:border-white/10">
           <BlueprintCanvas completedStepIds={revealed} currentStepId={null} stepLabels={{}} reducedMotion={reducedMotion} />
         </div>
-
         <div className="relative z-10 flex flex-1 flex-col justify-center px-6 py-8 md:w-[55%] md:order-1 md:px-10">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">{copy.microlabel}</p>
-
           <h1 ref={headingRef} className="mt-4 text-2xl font-extralight leading-[1.15] md:text-3xl">
             {copy.heading}
           </h1>
-
           <p className="mt-4 text-sm text-white/60 md:text-base">{copy.desc}</p>
-
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <button
               ref={buttonRef}
@@ -87,30 +76,29 @@ const IntroScreen = ({ copy, onStart, reducedMotion, contained = false }) => {
             </button>
             <span className="text-xs uppercase tracking-widest text-white/35">{copy.hint}</span>
           </div>
+          {copy.aiHint && (
+            <p className="mt-6 max-w-md text-xs text-white/50 md:text-sm">
+              <LinkedText text={copy.aiHint} />
+            </p>
+          )}
         </div>
       </div>
     );
   }
-
   return (
     <div className="fixed inset-0 z-[80] flex flex-col bg-brand-black text-white md:flex-row">
       <div className="absolute inset-0 opacity-40 md:opacity-100 md:relative md:w-1/2 md:order-2">
         <BlueprintCanvas completedStepIds={revealed} currentStepId={null} stepLabels={{}} reducedMotion={reducedMotion} />
       </div>
-
       <div className="relative z-10 flex flex-1 flex-col justify-center px-6 py-16 md:w-1/2 md:order-1 md:px-16 lg:px-24">
         <a href="/" className="cursor-hover mb-10 inline-flex w-fit text-sm font-bold tracking-[0.05em] text-white/70 hover:text-white" data-cursor-label="HOME">
           ← VANTAFRAME
         </a>
-
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">{copy.microlabel}</p>
-
         <h1 ref={headingRef} className="mt-5 max-w-xl text-4xl font-extralight leading-[1.05] md:text-6xl">
           {copy.heading}
         </h1>
-
         <p className="mt-6 max-w-md text-base text-white/60 md:text-lg">{copy.desc}</p>
-
         <div className="mt-10 flex items-center gap-5">
           <button
             ref={buttonRef}
@@ -126,9 +114,13 @@ const IntroScreen = ({ copy, onStart, reducedMotion, contained = false }) => {
           </button>
           <span className="text-xs uppercase tracking-widest text-white/35">{copy.hint}</span>
         </div>
+        {copy.aiHint && (
+          <p className="mt-8 max-w-md text-sm text-white/50">
+            <LinkedText text={copy.aiHint} />
+          </p>
+        )}
       </div>
     </div>
   );
 };
-
 export default IntroScreen;

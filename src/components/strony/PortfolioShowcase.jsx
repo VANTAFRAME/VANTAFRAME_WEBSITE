@@ -10,4 +10,4 @@ const PortfolioShowcase = () => {
   return <CaseShowcase t={t} />;
 };
 
-export default PortfolioShowcase;
+export default PortfolioShowcase;

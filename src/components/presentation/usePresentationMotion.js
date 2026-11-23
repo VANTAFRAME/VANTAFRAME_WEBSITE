@@ -37,4 +37,4 @@ export const usePresentationMotion = (scopeRef) => {
   return context;
 };
 
-export const getSlideProgressValue = (slide) => readSlideProgress(slide);
+export const getSlideProgressValue = (slide) => readSlideProgress(slide);

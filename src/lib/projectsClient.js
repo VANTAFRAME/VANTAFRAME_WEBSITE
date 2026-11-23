@@ -11,4 +11,4 @@ const withFeaturedFallback = (project, index) =>
   });
 
 export const fallbackProjects = staticProjects.map(withFeaturedFallback);
-export const fallbackFeaturedProjects = fallbackProjects.slice(0, FEATURED_LIMIT);
+export const fallbackFeaturedProjects = fallbackProjects.slice(0, FEATURED_LIMIT);

@@ -202,4 +202,4 @@ const SeoProofGraph = () => {
   );
 };
 
-export default SeoProofGraph;
+export default SeoProofGraph;

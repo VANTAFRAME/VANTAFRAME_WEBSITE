@@ -2,21 +2,19 @@ import React from "react";
 import { useStore } from "../../lib/useStore";
 import { currentLang } from "../../i18n/store";
 import { languages } from "../../i18n/translations";
-
+import LinkedText from "../LinkedText";
 const Architecture = () => {
   const lang = useStore(currentLang, () => "pl");
   const t = languages[lang].systemyPage.architecture;
-
   return (
     <section className="px-6 md:px-12 max-w-[1700px] mx-auto py-24 md:py-32">
       <div className="mb-14 md:mb-16 max-w-2xl" data-reveal>
         <h2 className="text-3xl md:text-6xl font-black tracking-tight leading-[1.05]">
           {t.heading[0]}
-          <br />
+          {" "}<br />
           {t.heading[1]}
         </h2>
       </div>
-
       <div className="border-t border-white/10">
         {t.layers.map((layer) => (
           <div
@@ -38,8 +36,12 @@ const Architecture = () => {
           </div>
         ))}
       </div>
+      {t.note && (
+        <p className="mt-10 max-w-2xl border-l border-white/20 pl-5 text-sm md:text-base text-white/60 leading-relaxed" data-reveal>
+          <LinkedText text={t.note} />
+        </p>
+      )}
     </section>
   );
 };
-
 export default Architecture;

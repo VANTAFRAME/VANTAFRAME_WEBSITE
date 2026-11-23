@@ -1,61 +1,100 @@
 ---
 import "../styles/global.css";
+import ScrollReveal from "../components/ScrollReveal.astro";
+import { authors, authorJsonLd } from "../data/authors";
 import Cursor from "../components/Cursor";
 import CornerBrackets from "../components/CornerBrackets";
 import LegalModals from "../components/LegalModals";
 import CookieBanner from "../components/CookieBanner";
 import PartnerModal from "../components/PartnerModal";
 import LangSync from "../components/LangSync";
-
 const DEFAULT_DESCRIPTION =
-  "VANTAFRAME projektuje strony internetowe, dedykowane systemy, CRM-y i automatyzacje AI dla firm, które chcą sprzedawać, obsługiwać klientów i pracować sprawniej.";
-
+  "VANTAFRAME wdraża AI w firmach: automatyzacje procesów, agenci i asystenci AI, integracje z CRM i ERP oraz automatyzacja dokumentów. Projektujemy też strony, sklepy i dedykowane systemy. Studio z Krakowa.";
 interface Props {
   title: string;
-  canonicalPath?: string;
+  /** Canonical path; `null` omits the canonical link and og:url (used by the 404 page). */
+  canonicalPath?: string | null;
   pageMode?: "default" | "presentation" | "framework";
   showCookieBanner?: boolean;
   description?: string;
+  /** Optional shorter titles/descriptions for social sharing; default to title/description. */
+  ogTitle?: string;
+  ogDescription?: string;
   robots?: string;
+  /** Path of the social image (1200x630 PNG); defaults to /og-image.png. */
+  ogImage?: string;
+  ogType?: string;
   structuredData?: Record<string, unknown>[];
 }
-
 const {
   title,
   canonicalPath = "/",
   pageMode = "default",
   showCookieBanner = true,
   description = DEFAULT_DESCRIPTION,
+  ogTitle,
+  ogDescription,
   robots = "index, follow",
+  ogImage = "/og-image.png",
+  ogType = "website",
   structuredData = [],
 } = Astro.props;
-
 const siteUrl = "https://vantaframe.pl";
 // Normalize to a trailing slash so the canonical/OG URL always matches the
 // directory-style URLs Astro actually serves (/strony/, not /strony) —
 // keeps crawlers from treating the two forms as separate pages.
 const normalizedCanonicalPath =
-  canonicalPath === "/" || canonicalPath.endsWith("/") ? canonicalPath : `${canonicalPath}/`;
-const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
+  canonicalPath === null ? null : canonicalPath === "/" || canonicalPath.endsWith("/") ? canonicalPath : `${canonicalPath}/`;
+const canonicalUrl = normalizedCanonicalPath === null ? null : new URL(normalizedCanonicalPath, siteUrl).toString();
+const socialTitle = ogTitle || title;
+const socialDescription = ogDescription || description;
 ---
-
 <!doctype html>
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
-
-    <!-- Google Tag Manager — only loads once the visitor has accepted
-         cookies in the consent banner (vf_cookie_consent_v1 === "accepted"),
-         so no tag inside the container can run before consent is given. -->
+    {/* "js" class: content hidden for reveal animations ([data-reveal], see global.css) is only hidden when JavaScript runs. */}
+    <script is:inline>document.documentElement.classList.add("js");</script>
+    <!-- Google Tag Manager with Consent Mode v2 (basic mode).
+         1. Consent defaults to "denied" for every Google consent type before
+            anything else runs.
+         2. GTM itself is only loaded once the visitor has accepted cookies in
+            the banner (vf_cookie_consent_v1 === "accepted"); at that moment
+            consent is updated to "granted" *before* gtm.js starts, so tags see
+            the real state from their first evaluation.
+         3. "Only essential" never loads GTM. If a visitor who had accepted
+            switches to "only essential", CookieBanner calls __vfSetConsent(false).
+         Switching to "advanced" mode (GTM always loaded, cookieless pings while
+         denied) is a separate legal decision — see the Ads checklist. -->
     <script is:inline>
       (function () {
         var GTM_ID = "GTM-KVP2NVZ9";
         var CONSENT_KEY = "vf_cookie_consent_v1";
-
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        window.gtag = window.gtag || gtag;
+        gtag("consent", "default", {
+          ad_storage: "denied",
+          ad_user_data: "denied",
+          ad_personalization: "denied",
+          analytics_storage: "denied",
+          functionality_storage: "granted",
+          security_storage: "granted",
+          wait_for_update: 500,
+        });
+        window.__vfSetConsent = function (granted) {
+          var state = granted ? "granted" : "denied";
+          gtag("consent", "update", {
+            ad_storage: state,
+            ad_user_data: state,
+            ad_personalization: state,
+            analytics_storage: state,
+          });
+        };
         window.__vfLoadGTM = function () {
           if (window.__vfGtmLoaded) return;
           window.__vfGtmLoaded = true;
-          window.dataLayer = window.dataLayer || [];
+          window.__vfSetConsent(true);
           window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
           var f = document.getElementsByTagName("script")[0];
           var j = document.createElement("script");
@@ -63,7 +102,6 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
           j.src = "https://www.googletagmanager.com/gtm.js?id=" + GTM_ID + "&l=dataLayer";
           f.parentNode.insertBefore(j, f);
         };
-
         try {
           var stored = JSON.parse(localStorage.getItem(CONSENT_KEY) || "null");
           if (stored && stored.type === "accepted") {
@@ -73,19 +111,17 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
       })();
     </script>
     <!-- End Google Tag Manager -->
-
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#050505" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
-    <link rel="canonical" href={canonicalUrl} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <meta name="generator" content={Astro.generator} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <title>{title}</title>
-
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
@@ -96,6 +132,7 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
       logo: `${siteUrl}/icon-512.png`,
       image: `${siteUrl}/og-image.png`,
       description: DEFAULT_DESCRIPTION,
+      founder: authorJsonLd(authors[0]),
       telephone: "+48794659528",
       email: "kontakt@vantaframe.pl",
       vatID: "PL9452332952",
@@ -122,45 +159,97 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
       openingHoursSpecification: [
         {
           "@type": "OpeningHoursSpecification",
-          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          opens: "09:00",
-          closes: "17:00",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          opens: "08:00",
+          closes: "18:00",
         },
       ],
-      sameAs: [
-        "https://www.linkedin.com/company/vantaframe",
-        "https://www.instagram.com/",
+      knowsAbout: [
+        "Wdrożenia AI w firmach",
+        "Automatyzacja procesów biznesowych",
+        "Agenci AI",
+        "Asystenci AI",
+        "Integracje AI z CRM i ERP",
+        "Automatyzacja dokumentów",
+        "OpenAI",
+        "Anthropic Claude",
+        "Google Gemini",
+        "n8n",
+        "Make",
+        "Google Workspace",
+        "Projektowanie stron internetowych i sklepów",
+        "Dedykowane systemy i aplikacje webowe",
       ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Oferta VANTAFRAME",
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Wdrożenia AI",
+              url: `${siteUrl}/wdrozenia-ai/`,
+              description: "Wdrażamy AI i automatyzacje w procesach firmy: od analizy po uruchomienie i monitoring.",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Strony i sklepy",
+              url: `${siteUrl}/strony/`,
+              description: "Strony i sklepy projektowane wokół Twojej marki, klientów i celów biznesowych.",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Systemy i aplikacje",
+              url: `${siteUrl}/systemy/`,
+              description: "Dedykowane systemy i aplikacje dopasowane do procesów firmy.",
+            },
+          },
+        ],
+      },
+      department: {
+        "@type": "Organization",
+        name: "VANTASIGNAL",
+        url: "https://vantasignal.pl/",
+        description: "Marka VANTAFRAME zajmująca się widocznością firm w wyszukiwarkach i odpowiedziach AI (GEO i SEO).",
+      },
+      sameAs: [
+        "https://www.linkedin.com/company/vantaframe/",
+        "https://www.instagram.com/vantaframee/",
+        "https://www.facebook.com/profile.php?id=61588309231679",
+        "https://www.google.com/maps?cid=2449571422865794638",
+      ],
+      hasMap: "https://www.google.com/maps?cid=2449571422865794638",
     })} />
     {structuredData.map((entry) => (
       <script type="application/ld+json" set:html={JSON.stringify(entry)} />
     ))}
-
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${siteUrl}/og-image.png`} />
+    <meta property="og:type" content={ogType} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    <meta property="og:title" content={socialTitle} />
+    <meta property="og:description" content={socialDescription} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:alt" content="VANTAFRAME — strony, systemy i automatyzacje dla firm" />
+    <meta property="og:image:alt" content="VANTAFRAME — wdrożenia AI, strony i systemy dla firm" />
     <meta property="og:site_name" content="VANTAFRAME" />
     <meta property="og:locale" content="pl_PL" />
-
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalUrl} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={`${siteUrl}/og-image.png`} />
-    <meta property="twitter:image:alt" content="VANTAFRAME — strony, systemy i automatyzacje dla firm" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    {canonicalUrl && <meta property="twitter:url" content={canonicalUrl} />}
+    <meta property="twitter:title" content={socialTitle} />
+    <meta property="twitter:description" content={socialDescription} />
+    <meta property="twitter:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="twitter:image:alt" content="VANTAFRAME — wdrożenia AI, strony i systemy dla firm" />
+    <!-- Outfit is self-hosted (public/fonts/outfit, @font-face in global.css). Only the latin file, which the
+         first view needs, is preloaded; latin-ext (Polish diacritics) is fetched when a page uses those glyphs. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/outfit/outfit-latin.woff2" crossorigin />
   </head>
   <body
     class:list={[
@@ -169,57 +258,43 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
     ]}
     data-page-mode={pageMode}
   >
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVP2NVZ9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
+    <!-- No GTM <noscript> iframe on purpose: without JavaScript there is no way to
+         record cookie consent, so loading it would bypass the consent banner. -->
     <LangSync client:load />
     <Cursor client:media="(hover: hover) and (pointer: fine)" />
     <CornerBrackets client:media="(min-width: 768px)" />
     <LegalModals client:load />
     {showCookieBanner && <CookieBanner client:load />}
-    <PartnerModal client:load pathname={canonicalPath} />
+    <PartnerModal client:load pathname={canonicalPath ?? Astro.url.pathname} />
     <slot />
-
     <script>
       import Lenis from "lenis";
       import gsap from "gsap";
       import { ScrollTrigger } from "gsap/ScrollTrigger";
-
       gsap.registerPlugin(ScrollTrigger);
-
       const LENIS_CONTROLLER_KEY = "__vfLenisController";
-
       const LENIS_DISABLED_MODES = ["presentation", "framework"];
-
       const shouldEnableLenis = () =>
         !LENIS_DISABLED_MODES.includes(document.body.dataset.pageMode || "");
-
       const createLenisController = () => {
         let lenis = null;
         let tickerCallback = null;
-
         const destroy = () => {
           if (tickerCallback) {
             gsap.ticker.remove(tickerCallback);
             tickerCallback = null;
           }
-
           if (lenis) {
             lenis.destroy();
             lenis = null;
           }
-
           delete window.lenis;
         };
-
         const init = () => {
           destroy();
-
           if (!shouldEnableLenis()) {
             return null;
           }
-
           lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -227,17 +302,13 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
             wheelMultiplier: 0.9,
             touchMultiplier: 1.5,
           });
-
           tickerCallback = (time) => {
             lenis?.raf(time * 1000);
           };
-
           gsap.ticker.add(tickerCallback);
           gsap.ticker.lagSmoothing(0);
           lenis.on("scroll", ScrollTrigger.update);
-
           window.lenis = lenis;
-
           // Deliberate, click-triggered scrolls (nav links, logo-to-top)
           // need to be distinguishable from Lenis's OWN internal scrollTo()
           // calls, which it also uses under the hood to animate ordinary
@@ -259,10 +330,8 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
               },
             });
           };
-
           return lenis;
         };
-
         return {
           init,
           destroy,
@@ -271,31 +340,25 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
           },
         };
       };
-
       const ensureLenisController = () => {
         if (window[LENIS_CONTROLLER_KEY]) {
           return window[LENIS_CONTROLLER_KEY];
         }
-
         const controller = createLenisController();
         window[LENIS_CONTROLLER_KEY] = controller;
         return controller;
       };
-
       const initLenis = () => {
         ensureLenisController().init();
       };
-
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", initLenis);
       } else {
         initLenis();
       }
-
       document.addEventListener("astro:page-load", () => {
         initLenis();
       });
-
       // Plain `<a href="#id">` in-page anchors rely on the browser's native
       // hash-jump, which Lenis fights on the very next animation frame
       // (Lenis re-asserts its own tracked scroll position, so the native
@@ -311,7 +374,6 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
         const id = decodeURIComponent(hash.slice(1));
         const target = document.getElementById(id);
         if (!target) return;
-
         event.preventDefault();
         if (window.__vfLenisScrollTo) {
           window.__vfLenisScrollTo(target);
@@ -320,5 +382,6 @@ const canonicalUrl = new URL(normalizedCanonicalPath, siteUrl).toString();
         }
       });
     </script>
+    <ScrollReveal />
   </body>
 </html>

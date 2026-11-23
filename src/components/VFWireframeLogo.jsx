@@ -34,4 +34,4 @@ const VFWireframeLogo = ({
     );
 };
 
-export default VFWireframeLogo;
+export default VFWireframeLogo;

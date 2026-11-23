@@ -258,4 +258,4 @@ const LighthouseMetrics = () => {
   );
 };
 
-export default LighthouseMetrics;
+export default LighthouseMetrics;

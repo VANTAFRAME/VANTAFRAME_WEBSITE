@@ -1,0 +1,34 @@
+# VANTAFRAME
+> VANTAFRAME to studio technologiczne z Krakowa, które wdraża AI w firmach: automatyzacje procesów, agentów i asystentów AI, integracje modeli z CRM i ERP oraz automatyzację dokumentów. Projektuje też strony, sklepy i dedykowane systemy.
+## Informacje o firmie
+- **Podmiot:** VANTAFRAME SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ
+- **Siedziba:** ul. Żułowska 33 lok. 10, 31-436 Kraków, Polska
+- **NIP:** 9452332952 | **REGON:** 545245372 | **KRS:** 0001253958
+- **E-mail:** kontakt@vantaframe.pl
+- **Telefon:** +48 794 659 528
+- **Domena główna:** https://vantaframe.pl/
+## Narzędzia używane we wdrożeniach AI
+- Modele: OpenAI, Anthropic (Claude), Google Gemini
+- Automatyzacja i integracje: n8n, Make, API
+- Narzędzia firmy: Google Workspace (Gmail, Google Drive)
+## Obszary działalności i podstrony
+1. Wdrożenia AI w firmach
+- [Wdrożenia AI w firmach](https://vantaframe.pl/wdrozenia-ai/): Wdrożenia AI w organizacji: analiza procesów, wybór zastosowań, architektura, dane, integracje, ewaluacja, uruchomienie produkcyjne i monitoring.
+  - [Automatyzacja procesów](https://vantaframe.pl/wdrozenia-ai/automatyzacja-procesow/): Automatyzacja powtarzalnych procesów biznesowych: wyzwalacze, przepływy danych, obsługa leadów i ofert, synchronizacja CRM/ERP, obsługa wyjątków. AI tylko tam, gdzie reguły nie wystarczają.
+  - [Agenci AI](https://vantaframe.pl/wdrozenia-ai/agenci-ai/): Agenci AI korzystający z narzędzi i API, realizujący wieloetapowe zadania w granicach uprawnień, z udziałem człowieka przy decyzjach i z monitoringiem wykonania.
+  - [Asystenci AI](https://vantaframe.pl/wdrozenia-ai/asystenci-ai/): Asystenci AI wspierający zespoły w pracy z dokumentacją i wiedzą firmową: wyszukiwanie semantyczne, odpowiedzi ze wskazaniem źródeł, kontrola dostępu. Wspierają człowieka, nie wykonują akcji za niego.
+  - [Integracje AI](https://vantaframe.pl/wdrozenia-ai/integracje-ai/): Włączanie modeli AI do istniejących systemów przez API i webhooki: CRM, ERP, bazy danych, narzędzia wewnętrzne; autoryzacja, bezpieczeństwo, synchronizacja i monitoring integracji.
+  - [Automatyzacja dokumentów](https://vantaframe.pl/wdrozenia-ai/automatyzacja-dokumentow/): Przetwarzanie dokumentów (faktury, formularze, umowy): OCR, ekstrakcja danych, klasyfikacja, walidacja, obsługa wyjątków i przekazanie danych do systemów.
+2. Strony i sklepy
+- [Strony internetowe i sklepy](https://vantaframe.pl/strony/): Projektowanie stron wizerunkowych, serwisów firmowych, landing pages oraz sklepów online. Stos technologiczny: Astro, React, TypeScript, Tailwind CSS, GSAP.
+3. Systemy i aplikacje
+- [Dedykowane systemy i aplikacje](https://vantaframe.pl/systemy/): Projektowanie i rozwój oprogramowania na zamówienie: dedykowane systemy CRM, panele klienta B2B, aplikacje webowe i mobilne, API i integracje.
+## Pozostałe strony
+- [Strona główna](https://vantaframe.pl/): Przegląd oferty, wybrane realizacje, sposób pracy i pytania FAQ.
+- [O nas](https://vantaframe.pl/o-nas/): Kim jest VANTAFRAME, czym się zajmuje, jak pracuje, dla kogo pracowała i dane firmy.
+- [Portfolio i case studies](https://vantaframe.pl/portfolio/): Realizacje dla klientów, m.in. AGH w Krakowie (Start WGGiIS), SGH Warsaw (premiera raportu na Forum Ekonomiczne w Karpaczu), Teatr SCALA, Magdalena Zapłata, Krakowska Gastronomia i inni.
+Na stronie jest też interaktywny kreator projektu, który pomaga przygotować wstępny opis projektu.
+## Powiązana marka
+- [VANTASIGNAL](https://vantasignal.pl/): marka VANTAFRAME zajmująca się widocznością firm w wyszukiwarkach i odpowiedziach AI (GEO i SEO).
+## Rozszerzony kontekst dla modeli językowych
+- [Pełny opis (llms-full.txt)](https://vantaframe.pl/llms-full.txt): Opis firmy, obszarów oferty, narzędzi, wybranych realizacji i danych kontaktowych.

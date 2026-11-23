@@ -40,4 +40,4 @@ export const deriveCategoriesFromScope = (scopeAnswer = []) => {
     if (category) categories.add(category);
   });
   return Array.from(categories);
-};
+};

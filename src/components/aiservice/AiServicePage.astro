@@ -1,0 +1,233 @@
+---
+// Shared template of the six AI/automation service pages. Order on every page: hero → value strip
+// (problem / effect / who for) → use cases → mid-page CTA → plain-language explanation → pinned
+// manifesto → technical layer (partly in native <details>) → process → FAQ → related → contact. The pillar page
+// (/wdrozenia-ai/, `pillar` prop) has its own order, see below. Each page file only names
+// its slug and passes its own animated visual through the "visual" slot; copy lives in
+// src/data/aiServices/<slug>.js (PL is rendered into the HTML, EN is switched on the client
+// like on every other page). Sections are separate islands, like /automatyzacje/.
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../Navbar";
+import Contact from "../Contact";
+import ContactDrawer from "../automatyzacje/ContactDrawer";
+import AutomationTracking from "../automatyzacje/AutomationTracking";
+import ServiceHero from "./ServiceHero";
+import Capabilities from "./Capabilities";
+import HowItWorks from "./HowItWorks";
+import UseCases from "./UseCases";
+import ServiceProcess from "./ServiceProcess";
+import Faq from "./Faq";
+import Related from "./Related";
+import ServiceCta from "./ServiceCta";
+import ServiceManifesto from "./ServiceManifesto";
+import ValueStrip from "./ValueStrip";
+// /wdrozenia-ai/ (pillar) has its own, more visual compositions: the old hub sections (service index,
+// "AI or plain automation", tools diagram) plus scenarios, the deployment loop with its ledger, and data control.
+import ScenarioIndex from "../automatyzacje/ScenarioIndex";
+import AISection from "../automatyzacje/AISection";
+import LoopSchematic from "./wdrozenia/LoopSchematic";
+import ScenarioBlueprint from "./wdrozenia/ScenarioBlueprint";
+import DataControl from "./wdrozenia/DataControl";
+import ToolsStack from "./wdrozenia/ToolsStack";
+// /agenci-ai/ has its own compositions below the hero as well (agent loop, scenarios, permissions).
+import DefinitionCompare from "./agents/DefinitionCompare";
+import LaneSchematic from "./agents/LaneSchematic";
+import AnatomyColumns from "./agents/AnatomyColumns";
+import ScenarioPaths from "./agents/ScenarioPaths";
+import AccessPolicy from "./agents/AccessPolicy";
+import ProcessDeliverables from "./agents/ProcessDeliverables";
+// /automatyzacje/automatyzacja-procesow/ has its own compositions below the hero too (routes, before/after).
+import RouteMap from "./processes/RouteMap";
+import BeforeAfter from "./processes/BeforeAfter";
+import ScenarioActs from "./processes/ScenarioActs";
+import StageSheet from "./processes/StageSheet";
+// /automatyzacje/integracje-ai/ has its own compositions below the hero too (architecture, scenarios).
+import SystemsZones from "./integrations/SystemsZones";
+import ArchitectureWall from "./integrations/ArchitectureWall";
+import ScenarioStrips from "./integrations/ScenarioStrips";
+import DocsIndex from "./integrations/DocsIndex";
+// /automatyzacje/asystenci-ai/ has its own compositions below the hero too (question window, scenarios).
+import CapabilityWords from "./assistants/CapabilityWords";
+import AnswerWindow from "./assistants/AnswerWindow";
+import QuestionScenarios from "./assistants/QuestionScenarios";
+import SpineProcess from "./assistants/SpineProcess";
+// /automatyzacje/automatyzacja-dokumentow/ has its own compositions below the hero too (index, verification view).
+import DocumentIndex from "./documents/DocumentIndex";
+import VerificationView from "./documents/VerificationView";
+import DocumentSheets from "./documents/DocumentSheets";
+import ExpandableProcess from "./documents/ExpandableProcess";
+import { getService } from "../../data/aiServices";
+import { HUB, hubRows } from "../../data/aiServices/hub";
+import { pickData } from "../../data/aiServices/pick";
+const { slug, pillar = false } = Astro.props as { slug: keyof typeof HUB; pillar?: boolean };
+const service = getService(slug);
+const { seo } = service.pl;
+const name = HUB[slug].pl.title;
+const url = `https://vantaframe.pl${service.path}`;
+// Each island gets only its own slice of this service's content, in both languages (see data/aiServices/pick.js).
+const d = (...spec: Array<string | Record<string, string[]>>) => pickData(service, spec);
+const heroSlice = d({ hero: ["eyebrow", "h1", "lead", "cta"] });
+const agents = slug === "agenci-ai";
+const processes = slug === "automatyzacja-procesow";
+const integrations = slug === "integracje-ai";
+const assistants = slug === "asystenci-ai";
+const documents = slug === "automatyzacja-dokumentow";
+const serviceJsonLd = pillar
+  ? {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      serviceType: seo.serviceType || name,
+      name: seo.serviceName || name,
+      description: seo.description,
+      provider: { "@type": "ProfessionalService", "@id": "https://vantaframe.pl/#organization" },
+      areaServed: [
+        { "@type": "City", name: "Kraków" },
+        { "@type": "Country", name: "Polska" },
+      ],
+      url,
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Obszary wdrożeń AI",
+        itemListElement: hubRows("pl").map((row) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: row.title,
+            url: `https://vantaframe.pl${row.href}`,
+            description: row.desc,
+          },
+        })),
+      },
+    }
+  : {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      serviceType: seo.serviceType || name,
+      name,
+      description: seo.description,
+      provider: { "@type": "ProfessionalService", "@id": "https://vantaframe.pl/#organization" },
+      areaServed: [
+        { "@type": "City", name: "Kraków" },
+        { "@type": "Country", name: "Polska" },
+      ],
+      url,
+    };
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: pillar
+    ? [
+        { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
+        { "@type": "ListItem", position: 2, name: "Wdrożenia AI", item: "https://vantaframe.pl/wdrozenia-ai/" },
+      ]
+    : [
+        { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
+        { "@type": "ListItem", position: 2, name: "Wdrożenia AI", item: "https://vantaframe.pl/wdrozenia-ai/" },
+        { "@type": "ListItem", position: 3, name: name, item: url },
+      ],
+};
+// FAQPage: built from the same PL data the visible FAQ is rendered from (text 1:1).
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: service.pl.faq.items.map((item: { q: string; a: string }) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+---
+<Layout
+  title={seo.title}
+  description={seo.description}
+  ogTitle={seo.ogTitle}
+  canonicalPath={service.path}
+  structuredData={[serviceJsonLd, breadcrumbJsonLd, faqJsonLd]}
+>
+  <Navbar client:load pathname={service.path} />
+  <main class="bg-brand-black text-white">
+    <ServiceHero client:load slug={slug} pillar={pillar} heroByLang={{ pl: heroSlice.pl.hero, en: heroSlice.en.hero }}>
+      <slot name="visual" />
+    </ServiceHero>
+    <ValueStrip client:visible slug={slug} data={d("valueStrip")} />
+    {pillar ? (
+      <>
+        <ScenarioIndex client:visible />
+        <ScenarioBlueprint client:visible slug={slug} data={d("useCases")} />
+        <AISection client:visible />
+        <LoopSchematic client:visible slug={slug} data={d("how", "process")} withLedger />
+        <DataControl client:visible slug={slug} data={d("dataControl")} />
+        <ServiceManifesto client:visible slug={slug} data={d("manifesto")} />
+        <ToolsStack client:visible slug={slug} data={d("stack")} />
+      </>
+    ) : agents ? (
+      <>
+        <ScenarioPaths client:visible slug={slug} data={d("useCases")} />
+        <ServiceCta client:visible slug={slug} data={d("cta")} />
+        <DefinitionCompare client:visible slug={slug} data={d("definition")} />
+        <LaneSchematic client:visible slug={slug} data={d("how")} />
+        <ServiceManifesto client:visible slug={slug} data={d("manifesto")} />
+        <AnatomyColumns client:visible slug={slug} data={d("capabilities")} />
+        <AccessPolicy client:visible slug={slug} data={d("access")} />
+        <ProcessDeliverables client:visible slug={slug} data={d("process")} />
+      </>
+    ) : documents ? (
+      <>
+        <DocumentSheets client:visible slug={slug} data={d("useCases")} />
+        <ServiceCta client:visible slug={slug} data={d("cta")} />
+        <VerificationView client:visible slug={slug} data={d("how")} part="view" />
+        <DocumentIndex client:visible slug={slug} data={d("capabilities")} />
+        <ServiceManifesto client:visible slug={slug} data={d("manifesto")} />
+        <VerificationView client:visible slug={slug} data={d("how")} part="limits" />
+        <ExpandableProcess client:visible slug={slug} data={d("process")} />
+      </>
+    ) : assistants ? (
+      <>
+        <QuestionScenarios client:visible slug={slug} data={d("useCases")} />
+        <ServiceCta client:visible slug={slug} data={d("cta")} />
+        <CapabilityWords client:visible slug={slug} data={d("capabilities")} />
+        <AnswerWindow client:load slug={slug} data={d("how")} part="window" />
+        <ServiceManifesto client:visible slug={slug} data={d("manifesto")} />
+        <AnswerWindow client:visible slug={slug} data={d("how")} part="under" />
+        <SpineProcess client:visible slug={slug} data={d("process")} />
+      </>
+    ) : integrations ? (
+      <>
+        <ScenarioStrips client:visible slug={slug} data={d("useCases")} />
+        <ServiceCta client:visible slug={slug} data={d("cta")} />
+        <SystemsZones client:visible slug={slug} data={d("capabilities")} />
+        <ArchitectureWall client:visible slug={slug} data={d("how")} part="schema" />
+        <ServiceManifesto client:visible slug={slug} data={d("manifesto")} />
+        <ArchitectureWall client:visible slug={slug} data={d("how")} part="details" />
+        <DocsIndex client:visible slug={slug} data={d("process")} />
+      </>
+    ) : processes ? (
+      <>
+        <BeforeAfter client:visible slug={slug} data={d("how")} />
+        <ScenarioActs client:visible slug={slug} data={d("useCases")} />
+        <ServiceCta client:visible slug={slug} data={d("cta")} />
+        <RouteMap client:visible slug={slug} data={d("capabilities")} />
+        <ServiceManifesto client:visible slug={slug} data={d("manifesto")} />
+        <StageSheet client:visible slug={slug} data={d("process")} />
+      </>
+    ) : (
+      <>
+        <UseCases client:visible slug={slug} data={d("useCases")} />
+        <ServiceCta client:visible slug={slug} data={d("cta")} />
+        <Capabilities client:visible slug={slug} data={d("capabilities")} />
+        <HowItWorks client:visible slug={slug} data={d("how")} />
+        <ServiceManifesto client:visible slug={slug} data={d("manifesto")} />
+        <ServiceProcess client:visible slug={slug} data={d("process")} />
+      </>
+    )}
+    <Faq client:visible slug={slug} data={d("faq")} />
+    {pillar ? (
+      <ServiceCta client:visible slug={slug} data={d("cta")} location="service_cta" />
+    ) : (
+      <Related client:visible slug={slug} data={d("related")} />
+    )}
+    <Contact client:load variant="automatyzacje" overlapClass="-mt-10 md:-mt-14" currentPath={service.path} />
+  </main>
+  <ContactDrawer client:load />
+  <AutomationTracking client:idle />
+</Layout>

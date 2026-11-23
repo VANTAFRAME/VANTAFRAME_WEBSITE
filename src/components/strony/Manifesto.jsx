@@ -10,4 +10,4 @@ const Manifesto = () => {
   return <ManifestoBase t={t} />;
 };
 
-export default Manifesto;
+export default Manifesto;

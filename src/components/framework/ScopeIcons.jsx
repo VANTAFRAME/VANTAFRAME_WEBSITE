@@ -114,4 +114,4 @@ export const SCOPE_ICONS = {
   seo: SeoIcon,
   care: CareIcon,
   unknown: UnknownIcon,
-};
+};

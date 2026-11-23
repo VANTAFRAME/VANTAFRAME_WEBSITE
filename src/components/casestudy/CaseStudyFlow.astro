@@ -1,0 +1,16 @@
+---
+// Before / after flow for AI case studies (kind: "ai"). No AI entry exists yet — see the commented example in src/data/caseStudies.js.
+const { flow } = Astro.props;
+---
+<section class="px-6 py-16 md:px-12" aria-label="Przed i po wdrożeniu">
+  <div class="mx-auto grid max-w-[1100px] gap-10 md:grid-cols-2">
+    {[["PRZED", flow.before], ["PO", flow.after]].map(([label, items]) => (
+      <div class="border-t border-white/10 pt-6" data-reveal>
+        <p class="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">{label}</p>
+        <ul class="flex flex-col gap-4">
+          {items.map((item) => <li class="text-lg leading-snug text-white/80">{item}</li>)}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>

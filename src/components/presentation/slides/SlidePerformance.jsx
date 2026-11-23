@@ -19,4 +19,4 @@ const SlidePerformance = () => (
   </div>
 );
 
-export default SlidePerformance;
+export default SlidePerformance;

@@ -2,16 +2,14 @@ import React from "react";
 import { useStore } from "../../lib/useStore";
 import { currentLang } from "../../i18n/store";
 import { languages } from "../../i18n/translations";
-
 const FinalStatement = () => {
   const lang = useStore(currentLang, () => "pl");
   const t = languages[lang].systemyPage.finalStatement;
-
   return (
     <section className="min-h-[100svh] flex flex-col items-center justify-center px-6 text-center bg-brand-black gap-8">
       <h2 className="text-[clamp(2.2rem,7vw,5.5rem)] font-black tracking-tight leading-[1.05] max-w-4xl" data-reveal>
         {t.heading[0]}
-        <br />
+        {" "}<br />
         {t.heading[1]}
       </h2>
       <p className="text-base md:text-lg text-white/50 max-w-md" data-reveal>
@@ -30,5 +28,4 @@ const FinalStatement = () => {
     </section>
   );
 };
-
 export default FinalStatement;

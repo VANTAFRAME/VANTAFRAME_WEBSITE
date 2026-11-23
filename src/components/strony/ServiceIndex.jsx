@@ -2,11 +2,10 @@ import React from "react";
 import { useStore } from "../../lib/useStore";
 import { currentLang } from "../../i18n/store";
 import { languages } from "../../i18n/translations";
-
+import imageSizes from "../../data/projectImageSizes.json";
 const ServiceIndex = () => {
   const lang = useStore(currentLang, () => "pl");
   const t = languages[lang].stronyPage.serviceIndex;
-
   return (
     <section className="px-6 md:px-12 max-w-[1700px] mx-auto py-24 md:py-32">
       <div className="border-t border-white/10 divide-y divide-white/10">
@@ -24,15 +23,12 @@ const ServiceIndex = () => {
             >
               {s.n}
             </span>
-
             <span className="relative z-10 font-mono text-xs text-white/35 shrink-0 w-8">{s.n}</span>
-
             <span className="relative z-10 flex-1 min-w-0 max-w-2xl transition-transform duration-500 group-hover:translate-x-3">
               <span className="block text-[10px] font-mono uppercase tracking-[0.25em] text-white/40 mb-2">{s.tag}</span>
               <span className="block text-xl sm:text-2xl md:text-4xl font-bold text-white tracking-tight">{s.title}</span>
               <span className="hidden sm:block text-sm md:text-base text-white/55 mt-2 max-w-md">{s.desc}</span>
             </span>
-
             <span className="relative z-10 hidden lg:flex flex-col w-40 xl:w-48 aspect-[16/10] ml-auto mr-16 xl:mr-24 rounded-lg overflow-hidden border border-white/12 bg-black opacity-0 scale-95 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 shrink-0">
               <span className="flex items-center gap-1 px-2 py-1.5 border-b border-white/10 bg-white/[0.03]">
                 <span className="w-1 h-1 rounded-full bg-white/25"></span>
@@ -40,10 +36,9 @@ const ServiceIndex = () => {
                 <span className="w-1 h-1 rounded-full bg-white/25"></span>
               </span>
               <span className="flex-1 min-h-0">
-                <img src={s.image} alt="" loading="lazy" className="w-full h-full object-cover" />
+                <img src={s.image} alt="" width={imageSizes[s.image]?.width} height={imageSizes[s.image]?.height} loading="lazy" className="w-full h-full object-cover" />
               </span>
             </span>
-
             <span className="relative z-10 hidden md:flex items-center justify-center w-9 h-9 shrink-0 md:ml-auto lg:ml-0 text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-500">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M5 12h14m-7-7l7 7-7 7" />
@@ -55,5 +50,4 @@ const ServiceIndex = () => {
     </section>
   );
 };
-
 export default ServiceIndex;

@@ -51,4 +51,4 @@ const SituationIndex = () => {
   );
 };
 
-export default SituationIndex;
+export default SituationIndex;

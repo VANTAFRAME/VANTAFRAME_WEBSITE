@@ -10,4 +10,4 @@ const SystemsShowcase = () => {
   return <CaseShowcase t={t} />;
 };
 
-export default SystemsShowcase;
+export default SystemsShowcase;

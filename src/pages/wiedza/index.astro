@@ -1,0 +1,102 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar";
+import Contact from "../../components/Contact";
+import ContactDrawer from "../../components/automatyzacje/ContactDrawer";
+import AutomationTracking from "../../components/automatyzacje/AutomationTracking";
+import { getArticles, readingTime, formatDate, isoDate, wiedzaRobots } from "../../lib/wiedza";
+const title = "Wiedza o wdrożeniach AI | VANTAFRAME";
+const description =
+  "Praktyczne artykuły VANTAFRAME o wdrażaniu AI w firmach: od wyboru procesu, przez automatyzację i integracje, po bezpieczeństwo danych.";
+const lead = "Piszemy o tym, co widzimy przy wdrożeniach: jak wybrać proces, kiedy wystarczy automatyzacja i jak zadbać o dane.";
+const articles = await getArticles();
+const categories = [...new Set(articles.map((a) => a.data.category))];
+const showFilter = categories.length >= 2;
+const collectionJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: title,
+  description,
+  url: "https://vantaframe.pl/wiedza/",
+  inLanguage: "pl-PL",
+  isPartOf: { "@id": "https://vantaframe.pl/#organization" },
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: articles.map((a, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `https://vantaframe.pl/wiedza/${a.id}/`,
+      name: a.data.title,
+    })),
+  },
+};
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://vantaframe.pl/" },
+    { "@type": "ListItem", position: 2, name: "Wiedza", item: "https://vantaframe.pl/wiedza/" },
+  ],
+};
+---
+<Layout title={title} description={description} canonicalPath="/wiedza/" robots={wiedzaRobots} structuredData={[collectionJsonLd, breadcrumbJsonLd]}>
+  <Navbar client:load pathname="/wiedza/" />
+  <main class="bg-brand-black text-white">
+    <section class="px-6 pt-36 pb-16 md:px-12 md:pt-44 md:pb-20">
+      <div class="mx-auto max-w-[1100px]">
+        <p class="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">BAZA WIEDZY</p>
+        <h1 class="text-[clamp(3rem,10vw,8rem)] font-black uppercase leading-[0.95] tracking-tight">WIEDZA</h1>
+        <p class="mt-8 max-w-2xl text-lg text-white/60 md:text-xl">{lead}</p>
+      </div>
+    </section>
+    <section class="px-6 pb-14 md:px-12 md:pb-20">
+      <div class="mx-auto max-w-[1100px]">
+        {showFilter && (
+          <div class="mb-10 flex flex-wrap gap-2" role="group" aria-label="Filtr kategorii" data-wiedza-filter>
+            {["Wszystkie", ...categories].map((c, i) => (
+              <button type="button" data-cat={i === 0 ? "" : c} aria-pressed={i === 0 ? "true" : "false"} class="rounded-full border border-white/20 px-4 py-1.5 font-mono text-[11px] uppercase tracking-widest text-white/60 transition-colors hover:text-white aria-pressed:border-white aria-pressed:text-white">
+                {c}
+              </button>
+            ))}
+          </div>
+        )}
+        <ol class="border-b border-white/10">
+          {articles.map((a) => (
+            <li class="border-t border-white/10" data-category={a.data.category}>
+              <a href={`/wiedza/${a.id}/`} class="group cursor-hover grid gap-4 py-8 outline-none transition-colors duration-500 hover:bg-white/[0.015] focus-visible:bg-white/[0.04] focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-cyan-300/70 md:grid-cols-[200px_minmax(0,1fr)_auto] md:gap-10 md:py-10">
+                <span class="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-widest text-white/40">
+                  <time datetime={isoDate(a.data.publishedAt)}>{formatDate(a.data.publishedAt)}</time>
+                  <span class="text-white/55">{a.data.category}</span>
+                </span>
+                <span class="min-w-0 transition-transform duration-500 group-hover:translate-x-3 group-focus-visible:translate-x-3">
+                  <span class="block text-2xl font-black leading-tight tracking-tight md:text-4xl">{a.data.title}</span>
+                  <span class="mt-3 block max-w-2xl truncate text-sm text-white/60 md:text-base">{a.data.lead}</span>
+                  <span class="mt-3 block font-mono text-[11px] uppercase tracking-widest text-white/40">{readingTime(a.body)} min czytania</span>
+                </span>
+                <span class="hidden items-center text-white/40 transition-all duration-500 group-hover:translate-x-1 group-hover:text-white md:flex" aria-hidden="true">
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-7-7l7 7-7 7" /></svg>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+    <Contact client:load variant="automatyzacje" overlapClass="-mt-10 md:-mt-14" currentPath="/wiedza/" />
+  </main>
+  <ContactDrawer client:load />
+  <AutomationTracking client:idle />
+  {showFilter && (
+    <script>
+      const wrap = document.querySelector("[data-wiedza-filter]");
+      wrap?.addEventListener("click", (e) => {
+        const btn = (e.target as HTMLElement).closest("button[data-cat]") as HTMLButtonElement | null;
+        if (!btn) return;
+        wrap.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+        document.querySelectorAll<HTMLElement>("li[data-category]").forEach((li) => {
+          li.hidden = !!btn.dataset.cat && li.dataset.category !== btn.dataset.cat;
+        });
+      });
+    </script>
+  )}
+</Layout>

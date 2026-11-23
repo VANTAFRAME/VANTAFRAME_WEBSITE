@@ -1,0 +1,9 @@
+---
+import AiServicePage from "../../components/aiservice/AiServicePage.astro";
+import VisualAssistants from "../../components/aiservice/VisualAssistants";
+import service from "../../data/aiServices/asystenci-ai";
+import { pickData, VISUAL_SPEC } from "../../data/aiServices/pick";
+---
+<AiServicePage slug="asystenci-ai">
+  <VisualAssistants client:visible slot="visual" data={pickData(service, VISUAL_SPEC)} />
+</AiServicePage>

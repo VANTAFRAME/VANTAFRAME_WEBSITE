@@ -15,13 +15,12 @@ export const TILE_SIZE_PATTERN = [
   "tall",
   "square",
 ];
-
 export const FEATURED_LIMIT = 6;
-
 export const normalizeProject = (project) => ({
   id: Number(project.id),
   title: project.title,
   category: project.category,
+  categoryPl: project.categoryPl || project.category_pl || null,
   image: project.image_url || project.image,
   url: project.url,
   caseStudySlug: project.case_study_slug || project.caseStudySlug || null,
@@ -33,6 +32,6 @@ export const normalizeProject = (project) => ({
       : Number(project.featured_order),
   sortOrder: Number(project.sort_order ?? project.sortOrder ?? 0),
 });
-
 export const pickTileSize = (index) => TILE_SIZE_PATTERN[index % TILE_SIZE_PATTERN.length];
-
+// Category label in the visitor's language (Polish falls back to the English label).
+export const projectCategory = (project, lang) => (lang === "pl" && project.categoryPl) || project.category;

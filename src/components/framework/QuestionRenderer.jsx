@@ -351,4 +351,4 @@ const QuestionRenderer = ({ stepId, t, answers, onAnswer, serviceCategoryLabels 
   }
 };
 
-export default QuestionRenderer;
+export default QuestionRenderer;

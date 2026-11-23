@@ -8,4 +8,4 @@ export const BUDGET_TIERS = [
   { id: "advanced", labelKey: "advanced" },
   { id: "dedicated", labelKey: "dedicated" },
   { id: "needs_recommendation", labelKey: "needsRecommendation" },
-];
+];

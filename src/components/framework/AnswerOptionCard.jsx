@@ -39,4 +39,4 @@ const AnswerOptionCard = ({ label, description, selected, onClick, Icon, cursorL
   </button>
 );
 
-export default AnswerOptionCard;
+export default AnswerOptionCard;

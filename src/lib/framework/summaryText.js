@@ -19,4 +19,4 @@ export const buildSummaryText = ({ t, answers, recommendation, categoryLabel, fe
   }
   lines.push(`${t.summary.sections.nextStep}: ${t.summary.nextStepCopy[recommendation.nextStep] || recommendation.nextStep}`);
   return lines.join("\n");
-};
+};

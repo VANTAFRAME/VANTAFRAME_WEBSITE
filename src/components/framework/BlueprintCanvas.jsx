@@ -140,4 +140,4 @@ const BlueprintCanvas = ({ completedStepIds, currentStepId, stepLabels, compact 
   );
 };
 
-export default BlueprintCanvas;
+export default BlueprintCanvas;

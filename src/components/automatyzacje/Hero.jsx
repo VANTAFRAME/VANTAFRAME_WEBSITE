@@ -4,53 +4,27 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useStore } from "../../lib/useStore";
 import { currentLang } from "../../i18n/store";
 import { languages } from "../../i18n/translations";
-import FrameworkApp from "../framework/FrameworkApp";
-
+import HeroVisual from "./HeroVisual";
 gsap.registerPlugin(ScrollTrigger);
-
 const Arrow = () => (
   <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
     <path d="M5 12h14m-7-7l7 7-7 7" />
   </svg>
 );
-
-// The hero's visual: our own FRAMEWORK project-builder, live and fillable
-// right here — not a mockup of automation, an actual working piece of it.
-// Wrapped in the same minimal device chrome used across the other hero
-// visuals; the wizard itself renders in its `contained` layout (no fixed
-// overlay, no home/close chrome — that only makes sense on its own page).
-const FrameworkPanel = ({ caption }) => (
-  <div className="rounded-xl border border-white/10 bg-black overflow-hidden">
-    <div className="flex items-center gap-3 px-4 py-3 border-b border-white/8 bg-black/40">
-      <span className="w-2 h-2 rounded-full bg-white/15" />
-      <span className="w-2 h-2 rounded-full bg-white/15" />
-      <span className="w-2 h-2 rounded-full bg-white/15" />
-      <span className="ml-2 text-[9px] font-mono text-white/30 tracking-wider truncate">{caption}</span>
-    </div>
-    <div className="h-[620px] md:h-[720px]">
-      <FrameworkApp contained />
-    </div>
-  </div>
-);
-
 const AutomationHero = () => {
   const lang = useStore(currentLang, () => "pl");
   const t = languages[lang].automatyzacjePage.hero;
   const BLOCKS = t.blocks;
-
   const wrapperRef = useRef(null);
   const [reducedMotion, setReducedMotion] = useState(false);
-
   useLayoutEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
-
   // Subtle reveal the first time each text block enters the viewport.
   useEffect(() => {
     const blocks = document.querySelectorAll("#automation-hero .hero-block");
     if (!blocks.length) return undefined;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
-
     const ctx = gsap.context(() => {
       blocks.forEach((block) => {
         gsap.fromTo(
@@ -68,7 +42,6 @@ const AutomationHero = () => {
     });
     return () => ctx.revert();
   }, [lang]);
-
   return (
     <>
       {/* DESKTOP: real scroll, sticky FRAMEWORK panel */}
@@ -93,7 +66,7 @@ const AutomationHero = () => {
                   <Heading className="text-[clamp(1.9rem,2.6vw,2.9rem)] font-black tracking-[-0.02em] leading-[1.12] mb-6">
                     {block.heading.map((line, li) => (
                       <span key={li} className="block">
-                        {line}
+                        {line}{" "}
                       </span>
                     ))}
                   </Heading>
@@ -101,6 +74,8 @@ const AutomationHero = () => {
                   {block.cta && (
                     <a
                       href="#contact"
+                      data-open-contact-drawer
+                      data-cta-location="hero"
                       className="group inline-flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-white border-b-2 border-white/60 pb-1 hover:border-white transition-colors w-fit"
                     >
                       {t.ctaLabel}
@@ -111,28 +86,26 @@ const AutomationHero = () => {
               );
             })}
           </div>
-
           {/* Visual column — sticky FRAMEWORK panel */}
           <div className="relative">
             <div className="sticky top-[10vh]">
-              <div className="ml-auto" style={{ width: "clamp(900px, 68vw, 1500px)" }}>
-                <FrameworkPanel caption={t.caption} />
+              <div className="ml-auto" style={{ width: "clamp(560px, 62vw, 1300px)", maxWidth: "100%" }}>
+                <HeroVisual t={t.visual} />
               </div>
             </div>
           </div>
         </div>
       </section>
-
       {/* MOBILE / REDUCED MOTION: simpler layout, FRAMEWORK panel between blocks */}
       <section className={`relative bg-brand-black px-6 pt-32 pb-20 ${reducedMotion ? "" : "lg:hidden"}`}>
         {BLOCKS.map((block, i) => {
           if (i === 1) {
             return (
               <React.Fragment key="visual">
-                <div className="my-4 h-[620px]">
-                  <FrameworkPanel caption={t.caption} />
+                <div className="my-4">
+                  <HeroVisual t={t.visual} />
                 </div>
-                <BlockContent block={block} ctaLabel={t.ctaLabel} eyebrow={t.eyebrow} />
+                <BlockContent block={block} ctaLabel={t.ctaLabel} eyebrow={null} />
               </React.Fragment>
             );
           }
@@ -142,7 +115,6 @@ const AutomationHero = () => {
     </>
   );
 };
-
 const BlockContent = ({ block, isFirst, ctaLabel, eyebrow }) => (
   <div className="py-8 max-w-lg">
     {eyebrow && (
@@ -152,18 +124,18 @@ const BlockContent = ({ block, isFirst, ctaLabel, eyebrow }) => (
       </div>
     )}
     {isFirst ? (
-      <p className="text-[clamp(2rem,8vw,3rem)] font-black tracking-[-0.02em] leading-[1.1] mb-5">
+      <h1 className="text-[clamp(2rem,8vw,3rem)] font-black tracking-[-0.02em] leading-[1.1] mb-5">
         {block.heading.map((line, li) => (
           <span key={li} className="block">
-            {line}
+            {line}{" "}
           </span>
         ))}
-      </p>
+      </h1>
     ) : (
       <h2 className="text-[clamp(2rem,8vw,3rem)] font-black tracking-[-0.02em] leading-[1.1] mb-5">
         {block.heading.map((line, li) => (
           <span key={li} className="block">
-            {line}
+            {line}{" "}
           </span>
         ))}
       </h2>
@@ -172,6 +144,8 @@ const BlockContent = ({ block, isFirst, ctaLabel, eyebrow }) => (
     {block.cta && (
       <a
         href="#contact"
+        data-open-contact-drawer
+        data-cta-location="hero_mobile"
         className="group inline-flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-white border-b-2 border-white/60 pb-1 w-fit"
       >
         {ctaLabel}
@@ -180,5 +154,4 @@ const BlockContent = ({ block, isFirst, ctaLabel, eyebrow }) => (
     )}
   </div>
 );
-
 export default AutomationHero;

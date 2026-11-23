@@ -1,9 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 gsap.registerPlugin(ScrollTrigger);
-
 // A positioning statement, pinned dead-center: three "we don't start
 // with..." lines cross-fade one at a time as the visitor scrolls, then
 // resolve into the final line and the process steps. The lines/final share
@@ -11,35 +9,33 @@ gsap.registerPlugin(ScrollTrigger);
 // text never shifts vertically between phases — only the fixed-height box
 // plus the steps' margin below it determine the group's height, regardless
 // of which phase is currently showing.
-const Manifesto = ({ t }) => {
+// `strong` raises the contrast of the small step labels (used by the service pages); the
+// default keeps the original look on /strony/ and /systemy/. `height` is the scroll length of the
+// pinned section (the service pages pass a shorter one).
+const Manifesto = ({ t, strong = false, height = "340vh" }) => {
+  const stepColor = strong ? "text-white/65" : "text-white/40";
   const sectionRef = useRef(null);
   const [reducedMotion, setReducedMotion] = useState(false);
-
   useLayoutEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
-
   useEffect(() => {
     const section = sectionRef.current;
     if (!section || reducedMotion) return undefined;
-
     const lines = section.querySelectorAll(".manifesto-line");
     const finalEl = section.querySelector(".manifesto-final");
     const stepsEl = section.querySelector(".manifesto-steps");
-
     const ctx = gsap.context(() => {
       gsap.set(lines, { opacity: 0, y: 16 });
       gsap.set(lines[0], { opacity: 1, y: 0 });
       gsap.set(finalEl, { opacity: 0, y: 20 });
       gsap.set(stepsEl, { opacity: 0, y: 12 });
-
       // Generous holds so each line is actually readable before crossfading —
       // only ~8% of the scroll distance is spent transitioning; the rest is
       // dwell time.
       const tl = gsap.timeline({
         scrollTrigger: { trigger: section, start: "top top", end: "bottom bottom", scrub: 0.6 },
       });
-
       tl.to(lines[0], { opacity: 0, y: -16, duration: 0.08 }, 0.2)
         .fromTo(lines[1], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.08 }, 0.2)
         .to(lines[1], { opacity: 0, y: -16, duration: 0.08 }, 0.46)
@@ -48,10 +44,8 @@ const Manifesto = ({ t }) => {
         .to(finalEl, { opacity: 1, y: 0, duration: 0.12 }, 0.8)
         .to(stepsEl, { opacity: 1, y: 0, duration: 0.12 }, 0.9);
     }, section);
-
     return () => ctx.revert();
   }, [t, reducedMotion]);
-
   if (reducedMotion) {
     return (
       <section className="px-6 md:px-12 max-w-[1700px] mx-auto py-24 md:py-32 text-center">
@@ -65,14 +59,14 @@ const Manifesto = ({ t }) => {
         <h2 className="text-[clamp(2rem,7vw,5.5rem)] font-black tracking-tight leading-[1.05]">
           {t.final.map((line, i) => (
             <span key={i} className="block">
-              {line}
+              {line}{" "}
             </span>
           ))}
         </h2>
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-10 md:mt-14">
           {t.steps.map((step, i) => (
             <React.Fragment key={step}>
-              <span className="font-mono text-xs md:text-sm uppercase tracking-widest text-white/40">{step}</span>
+              <span className={`font-mono text-xs md:text-sm uppercase tracking-widest ${stepColor}`}>{step}</span>
               {i < t.steps.length - 1 && <span className="text-white/15 text-xs">—</span>}
             </React.Fragment>
           ))}
@@ -80,9 +74,8 @@ const Manifesto = ({ t }) => {
       </section>
     );
   }
-
   return (
-    <section ref={sectionRef} className="relative" style={{ height: "340vh" }}>
+    <section ref={sectionRef} className="relative" style={{ height }}>
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center px-6 text-center overflow-hidden">
         {/* Fixed-height stage: lines and final both live here, absolutely
             stacked, so this box's height never changes with the phase. */}
@@ -104,16 +97,15 @@ const Manifesto = ({ t }) => {
           <h2 className="manifesto-final absolute inset-0 flex flex-col items-center justify-center text-[clamp(2rem,7vw,5.5rem)] font-black tracking-tight leading-[1.05]">
             {t.final.map((line, i) => (
               <span key={i} className="block">
-                {line}
+                {line}{" "}
               </span>
             ))}
           </h2>
         </div>
-
         <div className="manifesto-steps flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-10 md:mt-14 shrink-0">
           {t.steps.map((step, i) => (
             <React.Fragment key={step}>
-              <span className="font-mono text-xs md:text-sm uppercase tracking-widest text-white/40">{step}</span>
+              <span className={`font-mono text-xs md:text-sm uppercase tracking-widest ${stepColor}`}>{step}</span>
               {i < t.steps.length - 1 && <span className="text-white/15 text-xs">—</span>}
             </React.Fragment>
           ))}
@@ -122,5 +114,4 @@ const Manifesto = ({ t }) => {
     </section>
   );
 };
-
 export default Manifesto;

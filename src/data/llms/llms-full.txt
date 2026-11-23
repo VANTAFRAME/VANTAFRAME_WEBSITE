@@ -1,0 +1,70 @@
+# VANTAFRAME — pełny opis firmy dla modeli AI
+## 1. O firmie VANTAFRAME
+VANTAFRAME to studio technologiczne z Krakowa, które wdraża AI w firmach: automatyzacje procesów, agentów i asystentów AI, integracje modeli z CRM i ERP oraz automatyzację dokumentów. Projektuje też strony, sklepy i dedykowane systemy.
+Podmiot: VANTAFRAME SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ, ul. Żułowska 33 lok. 10, 31-436 Kraków.
+Obszary oferty, w tej kolejności:
+1. **Wdrożenia AI w firmach** (automatyzacja procesów, agenci AI, asystenci AI, integracje AI, automatyzacja dokumentów).
+2. **Strony i sklepy** internetowe.
+3. **Systemy i aplikacje** na zamówienie (CRM, aplikacje webowe i mobilne, API i integracje).
+Dane rejestrowe:
+- KRS: 0001253958
+- NIP: 9452332952
+- REGON: 545245372
+- Adres e-mail: kontakt@vantaframe.pl
+- Telefon kontaktowy: +48 794 659 528
+- Strona internetowa: https://vantaframe.pl/
+---
+## 2. Narzędzia i technologie
+### Narzędzia we wdrożeniach AI
+- **Modele:** OpenAI, Anthropic (Claude), Google Gemini.
+- **Automatyzacja i integracje:** n8n, Make oraz integracje przez API.
+- **Narzędzia firmy:** Google Workspace (Gmail, Google Drive).
+- Przy każdym wdrożeniu VANTAFRAME dba o bezpieczeństwo danych i monitoring.
+### Interfejsy i strony
+- **Frontend:** Astro, React, TypeScript.
+- **Styl i animacje:** Tailwind CSS, GSAP, Figma (projekt).
+---
+## 3. Oferowane usługi
+### 3.1. Wdrożenia AI w firmach (https://vantaframe.pl/wdrozenia-ai/)
+Wdrażanie AI i automatyzacji w procesach firmy: od analizy po uruchomienie i monitoring.
+**Podstrony tego obszaru:**
+- Automatyzacja procesów: https://vantaframe.pl/wdrozenia-ai/automatyzacja-procesow/ — Automatyzacja powtarzalnych procesów biznesowych: wyzwalacze, przepływy danych, obsługa leadów i ofert, synchronizacja CRM/ERP, obsługa wyjątków. AI tylko tam, gdzie reguły nie wystarczają.
+- Agenci AI: https://vantaframe.pl/wdrozenia-ai/agenci-ai/ — Agenci AI korzystający z narzędzi i API, realizujący wieloetapowe zadania w granicach uprawnień, z udziałem człowieka przy decyzjach i z monitoringiem wykonania.
+- Asystenci AI: https://vantaframe.pl/wdrozenia-ai/asystenci-ai/ — Asystenci AI wspierający zespoły w pracy z dokumentacją i wiedzą firmową: wyszukiwanie semantyczne, odpowiedzi ze wskazaniem źródeł, kontrola dostępu. Wspierają człowieka, nie wykonują akcji za niego.
+- Integracje AI: https://vantaframe.pl/wdrozenia-ai/integracje-ai/ — Włączanie modeli AI do istniejących systemów przez API i webhooki: CRM, ERP, bazy danych, narzędzia wewnętrzne; autoryzacja, bezpieczeństwo, synchronizacja i monitoring integracji.
+- Automatyzacja dokumentów: https://vantaframe.pl/wdrozenia-ai/automatyzacja-dokumentow/ — Przetwarzanie dokumentów (faktury, formularze, umowy): OCR, ekstrakcja danych, klasyfikacja, walidacja, obsługa wyjątków i przekazanie danych do systemów.
+### 3.2. Strony i sklepy (https://vantaframe.pl/strony/)
+- **Strony firmowe:** serwisy wizerunkowe budujące zaufanie klientów i partnerów.
+- **Sklepy internetowe:** ścieżki zakupowe, płatności online (m.in. BLIK) i integracje z systemami firmy.
+- **Landing pages:** strony docelowe pod kampanie i premiery produktów.
+### 3.3. Systemy i aplikacje (https://vantaframe.pl/systemy/)
+- **Dedykowany CRM:** zarządzanie relacjami z klientami, lejkami sprzedaży i historią kontaktów, dopasowane do procesów danej firmy.
+- **Panele klienta:** dostęp dla kontrahentów do statusów zamówień, faktur, plików i harmonogramów.
+- **Systemy dla firm:** jedno środowisko zamiast rozproszonych arkuszy i narzędzi, które nie pasują do procesu.
+- **Aplikacje webowe i mobilne** oraz API i integracje.
+### 3.4. FRAMEWORK — kreator projektu
+Interaktywny kreator VANTAFRAME, w którym klient opisuje potrzeby projektowe krok po kroku i przygotowuje wstępny opis projektu.
+### 3.5. O nas (https://vantaframe.pl/o-nas/)
+Strona o firmie: obszary działalności, sposób pracy, dla kogo VANTAFRAME pracowała oraz dane firmy.
+---
+## 4. Powiązana marka: VANTASIGNAL
+VANTASIGNAL (https://vantasignal.pl/) to marka VANTAFRAME zajmująca się widocznością firm w wyszukiwarkach i odpowiedziach AI (GEO i SEO).
+---
+## 5. Wybrane realizacje (https://vantaframe.pl/portfolio/)
+1. **Start WGGiIS — Akademia Górniczo-Hutnicza w Krakowie (AGH):**
+   - Zakres: dedykowana aplikacja webowa, asystent studenta dla Wydziału Geodezji Górniczej i Inżynierii Środowiska AGH.
+   - Opis: planer zajęć, komunikaty, checklisty i szybki dostęp do systemów uczelnianych w jednym panelu.
+2. **Szkoła Główna Handlowa w Warszawie (SGH Warsaw) i Forum Ekonomiczne:**
+   - Zakres: landing page premiery raportu ekonomicznego SGH oraz rejestracji na Forum Ekonomiczne w Karpaczu.
+3. **Magdalena Zapłata — Klinika Medycyny Estetycznej:**
+   - Zakres: strona wizerunkowa zbudowana wokół marki osobistej, z myślą o rezerwacji wizyt.
+4. **Teatr SCALA:**
+   - Zakres: strona w ciemnej, złotej identyfikacji wizualnej dla hoteli, restauracji i organizatorów konferencji.
+5. **Inne realizacje:** Piwa Ziołowe (e-commerce), TylkoWasze (e-commerce, spersonalizowane prezenty), MARENO Jubiler, Aventura Travel, Krakowska Gastronomia, Elsbud.
+---
+## 6. Dane kontaktowe i lokalizacja
+- **Siedziba:** VANTAFRAME Sp. z o.o., ul. Żułowska 33 lok. 10, 31-436 Kraków, Polska
+- **Zasięg działania:** Kraków, województwo małopolskie, cała Polska oraz klienci z UE.
+- **Formularz kontaktowy online:** https://vantaframe.pl/#contact
+- **E-mail:** kontakt@vantaframe.pl
+- **Telefon:** +48 794 659 528

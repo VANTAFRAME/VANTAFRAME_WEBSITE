@@ -5,17 +5,19 @@ import { OFFER_CATEGORY_TO_SERVICE_ID } from "../../lib/framework/offerCategorie
 import { buildSummaryText } from "../../lib/framework/summaryText";
 import LeadForm from "./LeadForm";
 import "./summaryPrint.css";
-
 const REQUIRED_KEYS = ["projectId", "recommendedSolution", "recommendedScope", "requiredMaterials", "assumptions", "openQuestions", "nextStep"];
+// The AI-enriched recommendation needs a server endpoint (/api/project-recommendation) that does
+// not exist on static hosting. It is therefore OFF unless the site is built with
+// PUBLIC_AI_RECOMMENDATION=true on a host that runs that endpoint. When it is off, no request is
+// made and visitors get the local, rule-based recommendation that is always rendered first.
+const AI_RECOMMENDATION_ENABLED = import.meta.env.PUBLIC_AI_RECOMMENDATION === "true";
 const isValidRecommendation = (data) => data && REQUIRED_KEYS.every((key) => key in data);
-
 const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, contained = false }) => {
   const cardRef = useRef(null);
   const leadFormRef = useRef(null);
   const [copied, setCopied] = useState(false);
   const [recommendation, setRecommendation] = useState(() => buildLocalRecommendation(answers));
   const [source, setSource] = useState("local");
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -26,11 +28,10 @@ const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, c
     });
     return () => ctx.revert();
   }, []);
-
   useEffect(() => {
+    if (!AI_RECOMMENDATION_ENABLED) return undefined;
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000);
-
     fetch("/api/project-recommendation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -48,18 +49,15 @@ const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, c
         // AI unavailable/timeout — the local recommendation already rendered, nothing to do.
       })
       .finally(() => clearTimeout(timeout));
-
     return () => {
       clearTimeout(timeout);
       controller.abort();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   const categoryLabel = (category) => serviceCategoryLabels[OFFER_CATEGORY_TO_SERVICE_ID[category]] || category;
   const featureLabel = (id) => t.steps.functional.options[id]?.label || id;
   const materialLabel = (id) => t.steps.materials.options[id]?.label || id;
-
   const audienceLine = useMemo(() => {
     const parts = [];
     if (answers.audienceType) parts.push(t.steps.audience.fields.audienceType.options[answers.audienceType]?.label);
@@ -67,7 +65,6 @@ const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, c
     if (answers.industry) parts.push(answers.industry);
     return parts.filter(Boolean).join(" · ") || "—";
   }, [answers, t]);
-
   const visualLine = useMemo(() => {
     const axisLabels = Object.entries(answers.axes || {})
       .filter(([, value]) => value !== undefined && value !== 50)
@@ -80,10 +77,8 @@ const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, c
     if (answers.animationLevel) axisLabels.push(t.steps.visual.animationOptions[answers.animationLevel]?.label);
     return axisLabels.length ? axisLabels.join(" · ") : "—";
   }, [answers, t]);
-
   const integrationIds = ["apiIntegrations", "crmAutomation", "erpIntegration", "shipping"];
   const integrations = (answers.functional || []).filter((id) => integrationIds.includes(id));
-
   const handleCopy = async () => {
     const text = buildSummaryText({ t, answers, recommendation, categoryLabel, featureLabel, materialLabel });
     try {
@@ -95,11 +90,9 @@ const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, c
       // the user still has PRINT and SEND as fallbacks.
     }
   };
-
   const scrollToLeadForm = () => {
     leadFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-
   const Section = ({ label, children }) =>
     children ? (
       <div className="border-t border-black/8 py-5 first:border-t-0 first:pt-0">
@@ -107,7 +100,6 @@ const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, c
         <div className="mt-2 text-sm md:text-base text-black/85">{children}</div>
       </div>
     ) : null;
-
   return (
     <div className={contained ? "h-full overflow-y-auto bg-brand-black" : "min-h-screen bg-brand-black"}>
       <div
@@ -134,9 +126,7 @@ const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, c
               {source === "ai" ? t.summary.aiBadge.ai : t.summary.aiBadge.local}
             </span>
           </div>
-
           <h1 className={contained ? "mt-6 text-2xl font-semibold tracking-tight" : "mt-6 text-4xl md:text-6xl font-semibold tracking-tight"}>{t.summary.heading}</h1>
-
           <div className="mt-10">
             <Section label={t.summary.sections.projectType}>
               {answers.start ? t.steps.start.options[answers.start]?.label : "—"}
@@ -221,9 +211,7 @@ const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, c
               {t.summary.nextStepCopy[recommendation.nextStep] || recommendation.nextStep}
             </Section>
           </div>
-
           <p className="mt-10 text-xs text-black/45 leading-relaxed">{t.summary.disclaimer}</p>
-
           <div className="mt-8 flex flex-wrap gap-3 print:hidden">
             <button type="button" onClick={onEdit} className="cursor-hover rounded-full border border-black/20 px-5 py-3 text-xs font-bold uppercase tracking-widest hover:bg-black/5 transition-colors" data-cursor-label="EDIT">
               {t.summary.actions.edit}
@@ -239,7 +227,6 @@ const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, c
             </button>
           </div>
         </div>
-
         <div ref={leadFormRef} className={contained ? "border-t border-black/10 px-5 py-6 print:hidden" : "border-t border-black/10 px-6 py-10 md:px-14 md:py-14 print:hidden"}>
           <LeadForm
             t={t}
@@ -250,7 +237,6 @@ const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, c
           />
         </div>
       </div>
-
       <div className="text-center pb-10 print:hidden">
         <button type="button" onClick={onRestart} className="cursor-hover text-xs uppercase tracking-widest text-white/40 hover:text-white/70 transition-colors" data-cursor-label="RESTART">
           {t.actions.restart}
@@ -259,5 +245,4 @@ const SummaryScreen = ({ t, answers, serviceCategoryLabels, onEdit, onRestart, c
     </div>
   );
 };
-
 export default SummaryScreen;

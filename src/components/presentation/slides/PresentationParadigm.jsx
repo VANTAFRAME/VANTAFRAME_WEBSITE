@@ -387,4 +387,4 @@ const PresentationParadigm = () => {
   );
 };
 
-export default PresentationParadigm;
+export default PresentationParadigm;

@@ -1,34 +1,32 @@
-import React, { useState } from "react";
-import { togglePrivacy } from "../../stores/legalStore";
+import React, { useRef, useState } from "react";
+import { openPrivacyFromLink } from "../../stores/legalStore";
 import { trackEvent } from "../../lib/framework/track";
-import { buildLocalRecommendation } from "../../lib/framework/engine";
 import { buildSummaryText } from "../../lib/framework/summaryText";
 import { clearFrameworkState } from "../../lib/framework/storage";
-
 const FIELD_STATE = { IDLE: "idle", SENDING: "sending", SUCCESS: "success", ERROR: "error" };
-
 const LeadForm = ({ t, answers, recommendation, textHelpers, onRestart }) => {
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [privacyAck, setPrivacyAck] = useState(false);
-  const [aiConsent, setAiConsent] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState(FIELD_STATE.IDLE);
   const [mailFallbackHref, setMailFallbackHref] = useState(null);
-
+  // A ref (not state): a fast double click / Enter can fire a second submit before React
+  // has re-rendered the disabled button, which used to send the project — and record the
+  // conversion events — twice.
+  const submittingRef = useRef(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (honeypot) return; // silent drop — bot filled the hidden field
-
+    if (submittingRef.current) return;
+    submittingRef.current = true;
     setStatus(FIELD_STATE.SENDING);
-
-    // Consent controls whether the AI-enriched summary is what gets sent — without it,
-    // we always fall back to the deterministic local recommendation.
-    const usedRecommendation = aiConsent ? recommendation : buildLocalRecommendation(answers);
+    // The recommendation shown on the summary screen (the local, rule-based one on static
+    // hosting) is the one that is sent, so the project id in the email matches the screen.
+    const usedRecommendation = recommendation;
     const summaryForEmail = buildSummaryText({ t, answers, recommendation: usedRecommendation, ...textHelpers });
-
     try {
       const response = await fetch("https://formsubmit.co/ajax/kontakt@vantaframe.pl", {
         method: "POST",
@@ -46,15 +44,25 @@ const LeadForm = ({ t, answers, recommendation, textHelpers, onRestart }) => {
           message: summaryForEmail,
         }),
       });
-
       if (!response.ok) throw new Error("Request failed");
-
       setStatus(FIELD_STATE.SUCCESS);
       // Project is submitted — nothing left to resume. Clear saved progress so a
       // later visit to /kreator-projektu starts clean instead of reopening this one.
       clearFrameworkState();
       trackEvent("framework_lead_submit");
       trackEvent("framework_complete");
+      // Visitors who opened FRAMEWORK from /automatyzacje get one extra event so
+      // that campaign can see the completion. It is a separate name on purpose:
+      // map only ONE of framework_complete / automation_framework_complete to a
+      // Google Ads conversion, never both.
+      try {
+        if (window.sessionStorage.getItem("vf_framework_origin") === "automatyzacje") {
+          trackEvent("automation_framework_complete", { origin_page: "automatyzacje" });
+          window.sessionStorage.removeItem("vf_framework_origin");
+        }
+      } catch {
+        /* sessionStorage unavailable — origin simply isn't attributed */
+      }
     } catch {
       // FormSubmit is a third-party dependency and can be temporarily unavailable —
       // give the user a one-click way to send everything manually so the filled-out
@@ -67,9 +75,9 @@ const LeadForm = ({ t, answers, recommendation, textHelpers, onRestart }) => {
       )}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
       setMailFallbackHref(mailtoUrl);
       setStatus(FIELD_STATE.ERROR);
+      submittingRef.current = false; // allow a retry after a failure
     }
   };
-
   if (status === FIELD_STATE.SUCCESS) {
     return (
       <div className="text-center py-10">
@@ -85,14 +93,12 @@ const LeadForm = ({ t, answers, recommendation, textHelpers, onRestart }) => {
       </div>
     );
   }
-
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <div>
         <h3 className="text-2xl font-semibold text-black">{t.leadForm.heading}</h3>
         <p className="mt-2 text-sm text-black/60">{t.leadForm.desc}</p>
       </div>
-
       <input
         type="text"
         value={honeypot}
@@ -103,7 +109,6 @@ const LeadForm = ({ t, answers, recommendation, textHelpers, onRestart }) => {
         className="absolute -left-[9999px] h-0 w-0 opacity-0"
         aria-hidden="true"
       />
-
       <div className="grid gap-6 md:grid-cols-2">
         <div>
           <label htmlFor="framework-lead-name" className="block text-xs uppercase font-bold tracking-widest mb-2 text-black/50">{t.leadForm.name}</label>
@@ -152,23 +157,16 @@ const LeadForm = ({ t, answers, recommendation, textHelpers, onRestart }) => {
           />
         </div>
       </div>
-
       <label className="flex items-start gap-3 text-xs text-black/70 leading-relaxed">
         <input type="checkbox" required checked={privacyAck} onChange={(event) => setPrivacyAck(event.target.checked)} className="mt-0.5 accent-black" />
         <span>
           {t.leadForm.privacyPrefix}{" "}
-          <button type="button" onClick={() => togglePrivacy(true)} className="underline underline-offset-2 font-semibold hover:text-black">
+          <a href="/polityka-prywatnosci/" onClick={openPrivacyFromLink} className="underline underline-offset-2 font-semibold hover:text-black">
             {t.leadForm.privacyLinkText}
-          </button>{" "}
+          </a>{" "}
           {t.leadForm.privacySuffix}
         </span>
       </label>
-
-      <label className="flex items-start gap-3 text-xs text-black/70 leading-relaxed">
-        <input type="checkbox" checked={aiConsent} onChange={(event) => setAiConsent(event.target.checked)} className="mt-0.5 accent-black" />
-        <span>{t.leadForm.aiConsentLabel}</span>
-      </label>
-
       {status === FIELD_STATE.ERROR && (
         <div className="rounded-lg border border-red-200 bg-red-50 p-4">
           <p className="text-sm text-red-600">{t.leadForm.error}</p>
@@ -183,7 +181,6 @@ const LeadForm = ({ t, answers, recommendation, textHelpers, onRestart }) => {
           )}
         </div>
       )}
-
       <button
         type="submit"
         disabled={status === FIELD_STATE.SENDING || !privacyAck}
@@ -195,5 +192,4 @@ const LeadForm = ({ t, answers, recommendation, textHelpers, onRestart }) => {
     </form>
   );
 };
-
 export default LeadForm;

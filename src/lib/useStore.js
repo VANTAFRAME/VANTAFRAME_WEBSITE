@@ -33,4 +33,4 @@ export function useStore(store, getServerSnapshot) {
   }, []);
 
   return value;
-}
+}
